@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:namaz_app/presentation/screen/intro_screen.dart';
+import 'package:namaz_app/presentation/screen/sign_up_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: IntroScreen(),
+      home: SignUpScreen(),
     );
   }
 }
