@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
+import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/presentation/animation/fade_in_animation.dart';
 import 'package:namaz_app/presentation/widget/background_shapes.dart';
 import 'package:namaz_app/presentation/widget/my_button.dart';
@@ -9,7 +10,7 @@ import 'package:namaz_app/presentation/widget/progress_button.dart';
 
 class SignUpScreen extends StatelessWidget {
   TextEditingController usernameController = new TextEditingController();
-    ButtonState buttonState = ButtonState.idle;
+  ButtonState buttonState = ButtonState.idle;
 
   @override
   Widget build(BuildContext context) {
@@ -44,25 +45,20 @@ class SignUpScreen extends StatelessWidget {
                             controller: usernameController,
                             obscureText: false,
                             icon: Icons.person,
-                            text: "نام کاربری...",
+                            text: "${Strings.signUpUsername}",
                             textFieldColor: IColors.lightBrown),
                         SizedBox(height: 16),
                         MyTextFiled(
                             controller: usernameController,
                             obscureText: false,
                             icon: Icons.person,
-                            text: "رمز عبور...",
+                            text: "${Strings.signPassword}",
                             textFieldColor: IColors.lightBrown),
                         SizedBox(height: 16),
                         MyButton(
                           buttonState: buttonState,
-                          text: "ثبت نام",
-                          
-                          onTap: () {
-
-                          },
-
-
+                          text: "${Strings.signUp}",
+                          onTap: () {},
                         ),
                       ],
                     ),
