@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             // ChatListTab(),
 
             // TitleTab(),
-            Container(child: Text("first")),
+            Container(child: Text("اولین دومین")),
             Container(child: Text("sec")),
           ]),
         ],
@@ -41,9 +41,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ? MotionTabBar(
               labels: [
                 Strings.homeFavorite,
-
                 Strings.home,
-                // Strings.bottomNavListofConversations,
               ],
               initialSelectedTab: Strings.home,
 

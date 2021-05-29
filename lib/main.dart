@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:namaz_app/constants/assets.dart';
+import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/presentation/router/app_router.dart';
 import 'package:namaz_app/presentation/screen/intro_screen.dart';
 import 'package:namaz_app/presentation/screen/sign_up_screen.dart';
@@ -17,6 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        fontFamily: Assets.basicFont,
       ),
       onGenerateRoute: _appRouter.onGeneratedRoute,
     );
