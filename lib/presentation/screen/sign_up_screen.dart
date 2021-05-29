@@ -3,10 +3,14 @@ import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/presentation/animation/fade_in_animation.dart';
 import 'package:namaz_app/presentation/widget/background_shapes.dart';
+import 'package:namaz_app/presentation/widget/my_button.dart';
 import 'package:namaz_app/presentation/widget/my_text_field.dart';
+import 'package:namaz_app/presentation/widget/progress_button.dart';
 
 class SignUpScreen extends StatelessWidget {
   TextEditingController usernameController = new TextEditingController();
+    ButtonState buttonState = ButtonState.idle;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,30 +54,15 @@ class SignUpScreen extends StatelessWidget {
                             text: "رمز عبور...",
                             textFieldColor: IColors.lightBrown),
                         SizedBox(height: 16),
-                        Container(
-                          width: double.infinity,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: IColors.brown,
-                          ),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              onTap: () {
-                                print("xxx");
-                              },
-                              child: Center(
-                                child: Text(
-                                  "ثبت نام",
-                                  style: TextStyle(
-                                      fontFamily: Assets.basicFont,
-                                      color: IColors.white85,
-                                      fontSize: 14),
-                                ),
-                              ),
-                            ),
-                          ),
+                        MyButton(
+                          buttonState: buttonState,
+                          text: "ثبت نام",
+                          
+                          onTap: () {
+
+                          },
+
+
                         ),
                       ],
                     ),
