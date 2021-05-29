@@ -1,0 +1,17 @@
+import 'package:flutter/material.dart';
+import 'package:namaz_app/presentation/screen/intro_screen.dart';
+import 'package:namaz_app/presentation/screen/sign_up_screen.dart';
+
+class AppRoute {
+  Route onGeneratedRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case '/':
+        return MaterialPageRoute(builder: (_) => IntroScreen());
+      case '/sign_up':
+        return MaterialPageRoute(builder: (_) => SignUpScreen());
+
+      default:
+        return MaterialPageRoute(builder: (_) => IntroScreen());
+    }
+  }
+}
