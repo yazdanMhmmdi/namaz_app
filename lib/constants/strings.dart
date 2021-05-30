@@ -11,6 +11,5 @@ class Strings {
   static final String home = "خانه";
   static final String homeFavorite = "مورد علاقه";
   static final String homeMore = "بیشتر";
-
-
+  static final String narratives = "آیات و روایات";
 }
