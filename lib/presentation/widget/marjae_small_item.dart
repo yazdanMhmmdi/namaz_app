@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:namaz_app/constants/colors.dart';
 
-class MarjaeItem extends StatelessWidget {
+class MarjaeSmallItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
-import 'package:namaz_app/presentation/widget/marjae_item.dart';
+import 'package:namaz_app/presentation/widget/marjae_small_item.dart';
 import 'package:namaz_app/presentation/widget/narratives_item.dart';
 
 class HomeTab extends StatelessWidget {
@@ -104,9 +104,9 @@ class HomeTab extends StatelessWidget {
                   physics: BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   children: [
-                    MarjaeItem(),
-                    MarjaeItem(),
-                    MarjaeItem(),
+                    MarjaeSmallItem(),
+                    MarjaeSmallItem(),
+                    MarjaeSmallItem(),
                   ],
                 ),
               ),
@@ -196,9 +196,9 @@ class HomeTab extends StatelessWidget {
                   physics: BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   children: [
-                    MarjaeItem(),
-                    MarjaeItem(),
-                    MarjaeItem(),
+                    MarjaeSmallItem(),
+                    MarjaeSmallItem(),
+                    MarjaeSmallItem(),
                   ],
                 ),
               ),
