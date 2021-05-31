@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         fontFamily: Assets.basicFont,
+        canvasColor: Colors.transparent,
       ),
       onGenerateRoute: _appRouter.onGeneratedRoute,
     );
