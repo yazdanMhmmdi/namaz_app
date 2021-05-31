@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/presentation/widget/ahkam_item.dart';
 import 'package:namaz_app/presentation/widget/marjae_large_item.dart';
 import 'package:namaz_app/presentation/widget/shohada_item.dart';
 import 'package:namaz_app/presentation/widget/videos_item.dart';
 
-class ShohadaScreen extends StatelessWidget {
+class AhkamScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +23,7 @@ class ShohadaScreen extends StatelessWidget {
                 ),
                 Center(
                   child: Text(
-                    "${Strings.shohadaBozorgan}",
+                    "این یک متن موقتی است",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -34,13 +36,13 @@ class ShohadaScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Align(
                     alignment: Alignment.topRight,
-                    child: Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.end,
-                      textDirection: TextDirection.rtl,
+                    child: ListView(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
                       children: [
-                        ShohadaItem(),
-                        ShohadaItem(),
-                        ShohadaItem(),
+                        AhkamItem(),
+                        AhkamItem(),
+                        AhkamItem(),
                       ],
                     ),
                   ),
