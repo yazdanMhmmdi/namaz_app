@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
         fontFamily: Assets.basicFont,
         canvasColor: Colors.transparent,
       ),
+      debugShowCheckedModeBanner: false,
       onGenerateRoute: _appRouter.onGeneratedRoute,
     );
   }

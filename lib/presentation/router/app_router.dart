@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:namaz_app/presentation/screen/ahkam_screen.dart';
 import 'package:namaz_app/presentation/screen/ahkam_show_screen.dart';
+import 'package:namaz_app/presentation/screen/favorite_screen.dart';
 import 'package:namaz_app/presentation/screen/home_screen.dart';
 import 'package:namaz_app/presentation/screen/intro_screen.dart';
 import 'package:namaz_app/presentation/screen/marjae_screen.dart';
@@ -15,7 +16,7 @@ class AppRouter {
   Route onGeneratedRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => NarrativesShowScreen());
+        return MaterialPageRoute(builder: (_) => HomeScreen());
       case '/sign_up':
         return MaterialPageRoute(builder: (_) => SignUpScreen());
 
