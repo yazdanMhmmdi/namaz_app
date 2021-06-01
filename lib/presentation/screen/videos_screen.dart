@@ -35,9 +35,9 @@ class VideosScreen extends StatelessWidget {
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     children: [
-                      VideosItem(),
-                      VideosItem(),
-                      VideosItem(),
+                      VideosItem(deleteSlidable: false,),
+                      VideosItem(deleteSlidable: false,),
+                      VideosItem(deleteSlidable: false,),
                     ],
                   ),
                 )

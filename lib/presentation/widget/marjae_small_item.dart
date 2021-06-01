@@ -18,25 +18,45 @@ class MarjaeSmallItem extends StatelessWidget {
                   offset: Offset(4, 6),
                   color: IColors.purpleCrimson25)
             ]),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.end,
+        child: Stack(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                bottom: 8,
-              ),
+            Align(
+              alignment: Alignment.topRight,
               child: Container(
-                width: 88,
-                child: Text(
-                  "ایس آیت الله خامنه ای",
-                  overflow: TextOverflow.ellipsis,
-                  textDirection: TextDirection.rtl,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: IColors.white85,
-                  ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.red,
                 ),
+                child: Padding(
+                  padding: const EdgeInsets.all(6.0),
+                  child: Icon(Icons.delete, color: Colors.white, size: 20,),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: 8,
+                    ),
+                    child: Container(
+                      width: 88,
+                      child: Text(
+                        "ایس آیت الله خامنه ای",
+                        overflow: TextOverflow.ellipsis,
+                        textDirection: TextDirection.rtl,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: IColors.white85,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

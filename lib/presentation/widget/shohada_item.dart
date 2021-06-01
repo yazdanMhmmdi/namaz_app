@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:namaz_app/constants/colors.dart';
 
 class ShohadaItem extends StatelessWidget {
+  bool delete = false;
+  ShohadaItem({@required this.delete});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -21,6 +23,19 @@ class ShohadaItem extends StatelessWidget {
             ]),
         child: Stack(
           children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.red,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Icon(Icons.delete),
+                ),
+              ),
+            ),
             Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
