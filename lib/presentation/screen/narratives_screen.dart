@@ -34,14 +34,21 @@ class NarrativesScreen extends StatelessWidget {
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     children: [
-                      NarrativesItem(),
-                      NarrativesItem(),
-                      NarrativesItem(),
-                      NarrativesItem(),
-                      NarrativesItem(),
-                      NarrativesItem(),
-                      NarrativesItem(),
-                      NarrativesItem()
+                      NarrativesItem(
+                        deleteSlidable: false,
+                      ),
+                      NarrativesItem(
+                        deleteSlidable: false,
+                      ),
+                      NarrativesItem(
+                        deleteSlidable: false,
+                      ),
+                      NarrativesItem(
+                        deleteSlidable: false,
+                      ),
+                      NarrativesItem(
+                        deleteSlidable: false,
+                      ),
                     ],
                   ),
                 )

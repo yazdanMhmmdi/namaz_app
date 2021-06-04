@@ -104,9 +104,9 @@ class HomeTab extends StatelessWidget {
                   physics: BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   children: [
-                    MarjaeSmallItem(),
-                    MarjaeSmallItem(),
-                    MarjaeSmallItem(),
+                    MarjaeSmallItem(delete: false,),
+                    MarjaeSmallItem(delete: false,),
+                    MarjaeSmallItem(delete: false,),
                   ],
                 ),
               ),
@@ -142,9 +142,9 @@ class HomeTab extends StatelessWidget {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 children: [
-                  NarrativesItem(),
-                  NarrativesItem(),
-                  NarrativesItem(),
+                  NarrativesItem(deleteSlidable: false,),
+                  NarrativesItem(deleteSlidable: false,),
+                  NarrativesItem(deleteSlidable: false,),
                 ],
               ),
               GestureDetector(
@@ -196,9 +196,9 @@ class HomeTab extends StatelessWidget {
                   physics: BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   children: [
-                    MarjaeSmallItem(),
-                    MarjaeSmallItem(),
-                    MarjaeSmallItem(),
+                    MarjaeSmallItem(delete: false,),
+                    MarjaeSmallItem(delete: false,),
+                    MarjaeSmallItem(delete: false,),
                   ],
                 ),
               ),

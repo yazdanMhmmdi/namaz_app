@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:namaz_app/constants/colors.dart';
 
 class MarjaeSmallItem extends StatelessWidget {
+  bool delete;
+  MarjaeSmallItem({@required this.delete});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,7 +22,7 @@ class MarjaeSmallItem extends StatelessWidget {
             ]),
         child: Stack(
           children: [
-            Align(
+            delete ? Align(
               alignment: Alignment.topRight,
               child: Container(
                 decoration: BoxDecoration(
@@ -32,7 +34,7 @@ class MarjaeSmallItem extends StatelessWidget {
                   child: Icon(Icons.delete, color: Colors.white, size: 20,),
                 ),
               ),
-            ),
+            ) : Container(),
             Align(
               alignment: Alignment.bottomCenter,
               child: Row(

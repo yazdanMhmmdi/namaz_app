@@ -40,9 +40,15 @@ class AhkamScreen extends StatelessWidget {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       children: [
-                        AhkamItem(),
-                        AhkamItem(),
-                        AhkamItem(),
+                        AhkamItem(
+                          deleteSlidable: false,
+                        ),
+                        AhkamItem(
+                          deleteSlidable: false,
+                        ),
+                        AhkamItem(
+                          deleteSlidable: false,
+                        ),
                       ],
                     ),
                   ),

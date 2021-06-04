@@ -130,9 +130,9 @@ class FavoriteTab extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 children: [
-                  MarjaeSmallItem(),
-                  MarjaeSmallItem(),
-                  MarjaeSmallItem(),
+                    MarjaeSmallItem(delete: true,),
+                    MarjaeSmallItem(delete: true,),
+                    MarjaeSmallItem(delete: true,),
                 ],
               ),
             ),
