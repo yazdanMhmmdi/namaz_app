@@ -19,4 +19,10 @@ class MarjaeSuccess extends MarjaeState {
   List<Object> get props => [this.marjaeModel];
 }
 
-class MarjaeFailure extends MarjaeState {}
+class MarjaeFailure extends MarjaeState {
+  String errrorMessage;
+  MarjaeFailure({this.errrorMessage});
+  @override
+  // TODO: implement props
+  List<Object> get props => [this.errrorMessage];
+}

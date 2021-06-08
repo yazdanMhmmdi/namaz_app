@@ -7,6 +7,7 @@ import 'package:namaz_app/logic/bloc/marjae_bloc.dart';
 import 'package:namaz_app/networking/api_provider.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/marjae_large_item.dart';
+import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 import 'package:namaz_app/presentation/widget/videos_item.dart';
 
 class MarjaeScreen extends StatelessWidget {
@@ -63,7 +64,9 @@ class MarjaeScreen extends StatelessWidget {
                 ),
               );
             } else if (state is MarjaeFailure) {
-              return Container();
+              return ServerFailureFlare(
+                errrorMessage: state.errrorMessage,
+              );
             }
           },
         ),

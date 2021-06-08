@@ -18,11 +18,15 @@ class MarjaeBloc extends Bloc<MarjaeEvent, MarjaeState> {
   ) async* {
     if (event is GetMarjaeList) {
       yield MarjaeLoading();
-      _model = await _repository.getMarjaeItems();
-      if (_model.error == "0") {
-        yield MarjaeSuccess(marjaeModel: _model);
-      } else {
-        yield MarjaeFailure();
+      try {
+        _model = await _repository.getMarjaeItems();
+        if (_model.error == "0") {
+          yield MarjaeSuccess(marjaeModel: _model);
+        } else {
+          yield MarjaeFailure(errrorMessage: "${_model.errorMessage}");
+        }
+      } catch (error) {
+        yield MarjaeFailure(errrorMessage: error.toString());
       }
     }
   }

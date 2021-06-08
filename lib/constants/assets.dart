@@ -6,5 +6,8 @@ class Assets {
   static final String smallShamse = "assets/images/small_shamse.png";
   static final String largeShamse = "assets/images/large_shams.png";
   static final String quran = "assets/images/quran.png";
+  static final String noNetworkFlare = "assets/flare/no_network.flr";
+  static final String cosmos = "assets/flare/cosmos.flr";
+
   static final String basicFont = "IranSans";
 }
