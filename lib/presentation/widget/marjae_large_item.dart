@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:namaz_app/constants/colors.dart';
 
 class MarjaeLargeItem extends StatelessWidget {
+  String largePicture;
+  String title;
+  MarjaeLargeItem({@required this.largePicture, @required this.title});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -10,6 +13,10 @@ class MarjaeLargeItem extends StatelessWidget {
         width: 150,
         height: 170,
         decoration: BoxDecoration(
+            image: DecorationImage(
+                image: NetworkImage(largePicture),
+                colorFilter: ColorFilter.mode(
+                    IColors.purpleCrimson65, BlendMode.srcOver)),
             borderRadius: BorderRadius.circular(20),
             color: IColors.brown,
             boxShadow: [
@@ -26,7 +33,7 @@ class MarjaeLargeItem extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 16, left: 8, right: 8),
                   child: Text(
-                    "این یک متن بسیار ساده است.سشییشیسشیشسیس",
+                    "${title}",
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: IColors.white85,

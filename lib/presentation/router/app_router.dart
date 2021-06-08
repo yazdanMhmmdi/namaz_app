@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:namaz_app/logic/bloc/marjae_bloc.dart';
 import 'package:namaz_app/presentation/screen/ahkam_screen.dart';
 import 'package:namaz_app/presentation/screen/ahkam_show_screen.dart';
 import 'package:namaz_app/presentation/screen/favorite_screen.dart';
@@ -19,6 +21,11 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => HomeScreen());
       case '/sign_up':
         return MaterialPageRoute(builder: (_) => SignUpScreen());
+      case '/marjae':
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                create: (context) => MarjaeBloc()..add(GetMarjaeList()),
+                child: MarjaeScreen()));
 
       default:
         return MaterialPageRoute(builder: (_) => IntroScreen());

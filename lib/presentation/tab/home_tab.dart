@@ -5,6 +5,7 @@ import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/logic/bloc/home_bloc.dart';
 import 'package:namaz_app/networking/api_provider.dart';
+import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/marjae_small_item.dart';
 import 'package:namaz_app/presentation/widget/narratives_item.dart';
 
@@ -124,7 +125,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () => Navigator.pushNamed(context, '/marjae'),
                         child: Text(
                           "${Strings.homeMore}",
                           style: TextStyle(
@@ -301,13 +302,12 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
           ),
         );
       } else if (state is HomeLoading) {
-        return SpinKitThreeBounce(
-          size: 25,
-          color: IColors.purpleCrimson,
-        );
+        return LoadingBar();
       } else {
         return Container();
       }
     });
   }
 }
+
+
