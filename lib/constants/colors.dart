@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class IColors {
   static final Color purpleCrimson = Color(0xff934156);
+  static final Color purpleCrimson65 = Color(0xff934156).withOpacity(0.65);
   static final Color purpleCrimson25 = Color(0xff934156).withOpacity(0.25);
   static final Color brown = Color(0xffCA735E);
   static final Color lightBrown = Color(0xffF3EDE7);

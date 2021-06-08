@@ -5,7 +5,6 @@ class Assets {
   static final String bottomRightShape = "assets/images/bottom_right_shape.png";
   static final String smallShamse = "assets/images/small_shamse.png";
   static final String largeShamse = "assets/images/large_shams.png";
+  static final String quran = "assets/images/quran.png";
   static final String basicFont = "IranSans";
-  
-
 }

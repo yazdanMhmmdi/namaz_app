@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/presentation/widget/my_slide_action.dart';
 
 class NarrativesItem extends StatelessWidget {
   bool deleteSlidable = false;
-  NarrativesItem({@required this.deleteSlidable});
-  
+  String title, subTitle;
+  String thumbPicture;
+  NarrativesItem(
+      {@required this.deleteSlidable,
+      @required this.title,
+      @required this.subTitle});
+
   @override
   Widget build(BuildContext context) {
     return Slidable(
@@ -44,7 +50,7 @@ class NarrativesItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "امام کاظم (ع):",
+                          "${title}",
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -53,7 +59,7 @@ class NarrativesItem extends StatelessWidget {
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                        Text("سشییش سیشی شیشسی شس یشسیسشی شس امام کاظم (ع):",
+                        Text("${subTitle}",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 3,
                             style: TextStyle(
@@ -73,6 +79,9 @@ class NarrativesItem extends StatelessWidget {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: IColors.brown,
+                      image: DecorationImage(
+                        image: AssetImage(Assets.quran),
+                      ),
                       boxShadow: [
                         BoxShadow(
                           offset: Offset(4, 6),
@@ -80,6 +89,17 @@ class NarrativesItem extends StatelessWidget {
                           color: IColors.purpleCrimson25,
                         )
                       ]),
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  width: 94,
+                  height: 94,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: IColors.purpleCrimson65,
+                  ),
                 ),
               ),
             ],

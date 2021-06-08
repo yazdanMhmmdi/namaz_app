@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motion_tab_bar/MotionTabBarView.dart';
 import 'package:motion_tab_bar/MotionTabController.dart';
 import 'package:motion_tab_bar/motiontabbar.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/logic/bloc/home_bloc.dart';
 import 'package:namaz_app/presentation/tab/favorite_tab.dart';
 import 'package:namaz_app/presentation/tab/home_tab.dart';
 
@@ -35,7 +37,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
             // TitleTab(),
             FavoriteTab(),
-            HomeTab(),
+            BlocProvider(
+              create: (context) => HomeBloc(),
+              child: HomeTab(),
+            ),
           ]),
         ],
       ),
