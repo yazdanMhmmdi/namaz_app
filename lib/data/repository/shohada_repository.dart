@@ -7,7 +7,7 @@ class ShohadaRepository {
 
   Future<ShohadaModel> getShohadaItems(String page) async {
     final response = await _apiProvider
-        .get('client_get_shohadaBozorgan_api.php?page=x${page}');
+        .get('client_get_shohadaBozorgan_api.php?page=${page}');
     return ShohadaModel.fromJson(response);
   }
 }

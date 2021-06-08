@@ -253,7 +253,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () => Navigator.pushNamed(context, '/shohada'),
                         child: Text(
                           "${Strings.homeMore}",
                           style: TextStyle(
@@ -309,5 +309,3 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
     });
   }
 }
-
-

@@ -4,6 +4,9 @@ import 'package:namaz_app/constants/colors.dart';
 class ShohadaItem extends StatelessWidget {
   // bool delete = false;
   // ShohadaItem({@required this.delete});
+  String title;
+  String largePicture;
+  ShohadaItem({@required this.title, @required this.largePicture});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -12,6 +15,11 @@ class ShohadaItem extends StatelessWidget {
         width: 150,
         height: 170,
         decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(largePicture),
+              colorFilter:
+                  ColorFilter.mode(IColors.purpleCrimson65, BlendMode.srcOver),
+            ),
             borderRadius: BorderRadius.circular(20),
             color: IColors.brown,
             boxShadow: [
@@ -23,13 +31,12 @@ class ShohadaItem extends StatelessWidget {
             ]),
         child: Stack(
           children: [
-            
             Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 16, left: 8, right: 8),
                   child: Text(
-                    "این یک متن بسیار ساده است.سشییشیسشیشسیس",
+                    "${title}",
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: IColors.white85,
