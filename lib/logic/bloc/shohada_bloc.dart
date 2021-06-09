@@ -29,6 +29,7 @@ class ShohadaBloc extends Bloc<ShohadaEvent, ShohadaState> {
             yield ShohadaSuccess(shohadaModel: _model);
           }
         } else if (page <= totalPage) {
+          ShohadaLazyLoading(shohadaModel: _model);
           ShohadaModel _tempModel =
               await _repository.getShohadaItems(page.toString());
           _tempModel.shohadaBozorgan.forEach((element) {

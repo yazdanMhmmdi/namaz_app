@@ -18,7 +18,7 @@ class ShohadaScreen extends StatefulWidget {
 class _ShohadaScreenState extends State<ShohadaScreen> {
   ShohadaBloc _shohadaBloc;
   ScrollController _controller = ScrollController();
-
+  bool lazyLoading = true;
   @override
   void initState() {
     _shohadaBloc = BlocProvider.of<ShohadaBloc>(context);
@@ -34,65 +34,82 @@ class _ShohadaScreenState extends State<ShohadaScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: IColors.lightBrown,
-      body: SafeArea(
-        child: BlocBuilder<ShohadaBloc, ShohadaState>(
-          builder: (context, state) {
-            if (state is ShohadaLoading) {
-              return LoadingBar();
-            } else if (state is ShohadaSuccess) {
-              List<Widget> list = new List<Widget>();
-              for (int i = 0;
-                  i < state.shohadaModel.shohadaBozorgan.length;
-                  i++) {
-                list.add(ShohadaItem(
-                  title: state.shohadaModel.shohadaBozorgan[i].name,
-                  largePicture: ApiProvider.IMAGE_PROVIDER +
-                      state.shohadaModel.shohadaBozorgan[i].pictureSizeLarge,
-                ));
+    return BlocListener<ShohadaBloc, ShohadaState>(
+      listener: (context, state) {
+        if (state is ShohadaLazyLoading) {
+          lazyLoading = true;
+        } else if (state is ShohadaSuccess) {
+          lazyLoading = false;
+        }
+      },
+      child: Scaffold(
+        backgroundColor: IColors.lightBrown,
+        body: SafeArea(
+          child: BlocBuilder<ShohadaBloc, ShohadaState>(
+            builder: (context, state) {
+              if (state is ShohadaLoading) {
+                return LoadingBar();
+              } else if (state is ShohadaSuccess) {
+                return shohadaUI(state);
+              } else if (state is ShohadaLazyLoading) {
+                return shohadaUI(state);
+              } else if (state is ShohadaFailure) {
+                return ServerFailureFlare();
+              } else if (state is ShohadaInitial) {
+                return Container();
               }
-              return SingleChildScrollView(
-                controller: _controller,
-                child: Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Center(
-                        child: Text(
-                          "${Strings.shohadaBozorgan}",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: IColors.black70,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 16),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Align(
-                          alignment: Alignment.topRight,
-                          child: Wrap(
-                            crossAxisAlignment: WrapCrossAlignment.end,
-                            textDirection: TextDirection.rtl,
-                            children: list,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget shohadaUI(var state) {
+    List<Widget> list = new List<Widget>();
+    for (int i = 0; i < state.shohadaModel.shohadaBozorgan.length; i++) {
+      list.add(ShohadaItem(
+        title: state.shohadaModel.shohadaBozorgan[i].name,
+        largePicture: ApiProvider.IMAGE_PROVIDER +
+            state.shohadaModel.shohadaBozorgan[i].pictureSizeLarge,
+      ));
+    }
+    return SingleChildScrollView(
+      controller: _controller,
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 16,
+            ),
+            Center(
+              child: Text(
+                "${Strings.shohadaBozorgan}",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: IColors.black70,
                 ),
-              );
-            } else if (state is ShohadaFailure) {
-              return ServerFailureFlare();
-            } else if (state is ShohadaInitial) {
-              return Container();
-            }
-          },
+              ),
+            ),
+            SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.end,
+                  textDirection: TextDirection.rtl,
+                  children: list,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: lazyLoading ? LoadingBar() : Container(),
+            ),
+          ],
         ),
       ),
     );

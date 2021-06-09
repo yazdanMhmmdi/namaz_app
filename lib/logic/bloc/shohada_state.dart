@@ -11,6 +11,11 @@ class ShohadaInitial extends ShohadaState {}
 
 class ShohadaLoading extends ShohadaState {}
 
+class ShohadaLazyLoading extends ShohadaState {
+  ShohadaModel shohadaModel;
+  ShohadaLazyLoading({this.shohadaModel});
+}
+
 class ShohadaSuccess extends ShohadaState {
   ShohadaModel shohadaModel;
 
