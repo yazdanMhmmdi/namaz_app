@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/logic/bloc/marjae_bloc.dart';
+import 'package:namaz_app/logic/bloc/narratives_bloc.dart';
 import 'package:namaz_app/logic/bloc/shohada_bloc.dart';
 import 'package:namaz_app/presentation/screen/ahkam_screen.dart';
 import 'package:namaz_app/presentation/screen/ahkam_show_screen.dart';
@@ -32,6 +33,12 @@ class AppRouter {
             builder: (_) => BlocProvider(
                 create: (context) => ShohadaBloc()..add(GetShohadaList()),
                 child: ShohadaScreen()));
+
+      case '/narratives':
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                create: (context) => NarrativesBloc()..add(GetNarrativesList()),
+                child: NarrativesScreen()));
       default:
         return MaterialPageRoute(builder: (_) => IntroScreen());
     }

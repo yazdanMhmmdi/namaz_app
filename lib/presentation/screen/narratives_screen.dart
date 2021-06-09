@@ -1,60 +1,113 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/logic/bloc/narratives_bloc.dart';
+import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/narratives_item.dart';
+import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 
-class NarrativesScreen extends StatelessWidget {
+class NarrativesScreen extends StatefulWidget {
+  @override
+  _NarrativesScreenState createState() => _NarrativesScreenState();
+}
+
+class _NarrativesScreenState extends State<NarrativesScreen> {
+  NarrativesBloc _narrativesBloc;
+  ScrollController _controller = ScrollController();
+  bool lazyLoading = true;
+  @override
+  void initState() {
+    _narrativesBloc = BlocProvider.of<NarrativesBloc>(context);
+    _narrativesBloc.add(GetNarrativesList());
+    _controller.addListener(() {
+      if (_controller.position.pixels == _controller.position.maxScrollExtent) {
+        print('end of page');
+        _narrativesBloc.add(GetNarrativesList());
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: IColors.lightBrown,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Directionality(
-            textDirection: TextDirection.rtl,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 16,
-                ),
-                Center(
-                  child: Text(
-                    "${Strings.narratives}",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: IColors.black70,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: ListView(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    children: [
-                      NarrativesItem(
-                        deleteSlidable: false,
-                      ),
-                      NarrativesItem(
-                        deleteSlidable: false,
-                      ),
-                      NarrativesItem(
-                        deleteSlidable: false,
-                      ),
-                      NarrativesItem(
-                        deleteSlidable: false,
-                      ),
-                      NarrativesItem(
-                        deleteSlidable: false,
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+    return BlocListener<NarrativesBloc, NarrativesState>(
+      listener: (context, state) {
+        if (state is NarrativesLazyLoading) {
+          lazyLoading = true;
+        } else if (state is NarrativesSuccess) {
+          lazyLoading = false;
+        }
+      },
+      child: Scaffold(
+        backgroundColor: IColors.lightBrown,
+        body: SafeArea(
+          child: BlocBuilder<NarrativesBloc, NarrativesState>(
+            builder: (context, state) {
+              if (state is NarrativesInitial) {
+                return Container();
+              } else if (state is NarrativesLoading) {
+                return LoadingBar();
+              } else if (state is NarrativesLazyLoading) {
+                return narrativesUI(state);
+              } else if (state is NarrativesSuccess) {
+                return narrativesUI(state);
+              } else if (state is NarrativesFailure) {
+                return ServerFailureFlare();
+              }
+            },
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget narrativesUI(var state) {
+    return SingleChildScrollView(
+      controller: _controller,
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 16,
+            ),
+            Center(
+              child: Text(
+                "${Strings.narratives}",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: IColors.black70,
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: state.narrativesModel.narratives.length,
+                itemBuilder: (context, index) {
+                  return NarrativesItem(
+                    deleteSlidable: false,
+                    title: state
+                        .narrativesModel.narratives[index].quoteeTranslation,
+                    subTitle: state
+                        .narrativesModel.narratives[index].quoteTranslation,
+                  );
+                },
+              ),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            lazyLoading ? LoadingBar() : Container(),
+            SizedBox(
+              height: 8,
+            ),
+          ],
         ),
       ),
     );
