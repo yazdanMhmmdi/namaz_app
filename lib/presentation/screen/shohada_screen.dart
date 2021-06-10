@@ -82,20 +82,29 @@ class _ShohadaScreenState extends State<ShohadaScreen> {
         textDirection: TextDirection.rtl,
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.only(top: 16, right: 16, bottom: 16),
-                  child: BackButtonWidget(onTap: () {}),
-                ),
-                MyToolBarText(),
-                Container(
-                  width: 25,
-                  height: 25,
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.only(top: 16, right: 16, left: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  BackButtonWidget(onTap: () => Navigator.pop(context)),
+                  Text(
+                    "${Strings.shohadaBozorgan}",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: IColors.black70,
+                    ),
+                  ),
+                  Container(
+                    width: 25,
+                    height: 25,
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 16,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),

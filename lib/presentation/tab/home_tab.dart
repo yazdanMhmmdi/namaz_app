@@ -184,18 +184,6 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                           color: IColors.black70,
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () =>
-                            Navigator.pushNamed(context, '/narratives'),
-                        child: Text(
-                          "${Strings.homeMore}",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: IColors.brown,
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                   SizedBox(height: 8),
@@ -226,7 +214,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                     },
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () => Navigator.pushNamed(context, '/narratives'),
                     child: Center(
                       child: Text(
                         "${Strings.homeMore}",

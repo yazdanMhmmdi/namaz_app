@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/logic/bloc/narratives_bloc.dart';
+import 'package:namaz_app/presentation/widget/back_button_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/narratives_item.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
@@ -69,17 +70,25 @@ class _NarrativesScreenState extends State<NarrativesScreen> {
         textDirection: TextDirection.rtl,
         child: Column(
           children: [
-            SizedBox(
-              height: 16,
-            ),
-            Center(
-              child: Text(
-                "${Strings.narratives}",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: IColors.black70,
-                ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16, right: 16, left: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  BackButtonWidget(onTap: () => Navigator.pop(context)),
+                  Text(
+                    "${Strings.narratives}",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: IColors.black70,
+                    ),
+                  ),
+                  Container(
+                    width: 25,
+                    height: 25,
+                  ),
+                ],
               ),
             ),
             SizedBox(height: 16),

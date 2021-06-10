@@ -5,6 +5,7 @@ import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/data/model/marjae_model.dart';
 import 'package:namaz_app/logic/bloc/marjae_bloc.dart';
 import 'package:namaz_app/networking/api_provider.dart';
+import 'package:namaz_app/presentation/widget/back_button_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/marjae_large_item.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
@@ -35,17 +36,27 @@ class MarjaeScreen extends StatelessWidget {
                   textDirection: TextDirection.rtl,
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Center(
-                        child: Text(
-                          "${Strings.marjae}",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: IColors.black70,
-                          ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(top: 16, right: 16, left: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            BackButtonWidget(
+                                onTap: () => Navigator.pop(context)),
+                            Text(
+                              "${Strings.marjae}",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: IColors.black70,
+                              ),
+                            ),
+                            Container(
+                              width: 25,
+                              height: 25,
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(height: 16),
