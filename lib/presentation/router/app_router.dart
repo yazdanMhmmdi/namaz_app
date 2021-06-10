@@ -37,7 +37,7 @@ class AppRouter {
       case '/narratives':
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
-                create: (context) => NarrativesBloc()..add(GetNarrativesList()),
+                create: (context) => NarrativesBloc(),
                 child: NarrativesScreen()));
       default:
         return MaterialPageRoute(builder: (_) => IntroScreen());
