@@ -27,4 +27,11 @@ class NarrativesLazyLoading extends NarrativesState {
   List<Object> get props => [this.narrativesModel];
 }
 
+class NarrativesListCompleted extends NarrativesState {
+  NarrativesModel narrativesModel;
+  NarrativesListCompleted({this.narrativesModel});
+  @override
+  List<Object> get props => [this.narrativesModel];
+}
+
 class NarrativesFailure extends NarrativesState {}

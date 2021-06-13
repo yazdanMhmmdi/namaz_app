@@ -53,6 +53,9 @@ class _NarrativesScreenState extends State<NarrativesScreen> {
                 return narrativesUI(state);
               } else if (state is NarrativesSuccess) {
                 return narrativesUI(state);
+              } else if (state is NarrativesListCompleted) {
+                lazyLoading = false;
+                return narrativesUI(state);
               } else if (state is NarrativesFailure) {
                 return ServerFailureFlare();
               }

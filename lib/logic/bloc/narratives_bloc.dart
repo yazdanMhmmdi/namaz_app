@@ -39,6 +39,8 @@ class NarrativesBloc extends Bloc<NarrativesEvent, NarrativesState> {
           });
           page++;
           yield NarrativesSuccess(narrativesModel: _model);
+        } else if (page > totalPage) {
+          yield NarrativesListCompleted(narrativesModel: _model);
         }
       } catch (err) {
         yield NarrativesFailure();
