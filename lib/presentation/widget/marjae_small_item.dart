@@ -5,10 +5,13 @@ class MarjaeSmallItem extends StatelessWidget {
   bool delete;
   String title;
   String thumbPicture;
-  MarjaeSmallItem(
-      {@required this.delete,
-      @required this.title,
-      @required this.thumbPicture});
+  Function onTap;
+  MarjaeSmallItem({
+    @required this.delete,
+    @required this.title,
+    @required this.thumbPicture,
+    @required this.onTap,
+  });
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -57,30 +60,37 @@ class MarjaeSmallItem extends StatelessWidget {
                         ),
                       )
                     : Container(),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          bottom: 8,
-                        ),
-                        child: Container(
-                          width: 88,
-                          child: Text(
-                            "${title}",
-                            overflow: TextOverflow.ellipsis,
-                            textDirection: TextDirection.rtl,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: IColors.white85,
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    splashColor: Colors.white10,
+                    onTap: onTap,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              bottom: 8,
+                            ),
+                            child: Container(
+                              width: 88,
+                              child: Text(
+                                "${title}",
+                                overflow: TextOverflow.ellipsis,
+                                textDirection: TextDirection.rtl,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: IColors.white85,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ],

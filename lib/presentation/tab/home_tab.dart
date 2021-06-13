@@ -154,6 +154,12 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
                               return MarjaeSmallItem(
+                                onTap: () => Navigator.pushNamed(
+                                    context, '/ahkam',
+                                    arguments: <String, String>{
+                                      'marjae_id':
+                                          state.homeModel.marjae[index].id,
+                                    }),
                                 title: state.homeModel.marjae[index].name,
                                 thumbPicture: ApiProvider.IMAGE_PROVIDER +
                                     state.homeModel.marjae[index]
