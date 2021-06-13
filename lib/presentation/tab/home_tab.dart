@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
@@ -8,6 +9,7 @@ import 'package:namaz_app/networking/api_provider.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/marjae_small_item.dart';
 import 'package:namaz_app/presentation/widget/narratives_item.dart';
+import 'package:namaz_app/presentation/widget/video_item.dart';
 
 class HomeTab extends StatefulWidget {
   @override
@@ -53,55 +55,8 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                       if (state is HomeLoading) {
                         return Container();
                       } else if (state is HomeSuccess) {
-                        return Container(
-                          width: double.infinity,
-                          height: 142,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  colorFilter: ColorFilter.mode(
-                                      IColors.purpleCrimson65,
-                                      BlendMode.srcOver),
-                                  fit: BoxFit.cover,
-                                  alignment: Alignment.topCenter,
-                                  image: NetworkImage(
-                                    ApiProvider.IMAGE_PROVIDER +
-                                        state.homeModel.video.thumbnail,
-                                  )),
-                              color: IColors.brown,
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                  offset: Offset(4, 6),
-                                  blurRadius: 10,
-                                  color: IColors.purpleCrimson25,
-                                )
-                              ]),
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                bottom: 16,
-                                left: 16,
-                                child: Container(
-                                  width: 26,
-                                  height: 26,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            blurRadius: 6,
-                                            offset: Offset(0, 6),
-                                            color: IColors.black25)
-                                      ]),
-                                  child: Icon(
-                                    Icons.play_arrow_rounded,
-                                    color: IColors.purpleCrimson,
-                                    size: 25,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                        return VideoItem(
+                          state: state,
                         );
                       } else if (state is HomeFailure) {
                         return Container();
