@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:namaz_app/logic/bloc/ahkam_bloc.dart';
 import 'package:namaz_app/logic/bloc/marjae_bloc.dart';
 import 'package:namaz_app/logic/bloc/narratives_bloc.dart';
 import 'package:namaz_app/logic/bloc/shohada_bloc.dart';
@@ -41,7 +42,10 @@ class AppRouter {
                 child: NarrativesScreen()));
       case '/ahkam':
         final Map<String, String> args = settings.arguments;
-        return MaterialPageRoute(builder: (_) => AhkamScreen(args: args,));
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                create: (context) => AhkamBloc(),
+                child: AhkamScreen(args: args)));
       default:
         return MaterialPageRoute(builder: (_) => IntroScreen());
     }

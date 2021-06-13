@@ -6,7 +6,8 @@ import 'package:namaz_app/presentation/widget/my_slide_action.dart';
 
 class AhkamItem extends StatelessWidget {
   bool deleteSlidable = false;
-  AhkamItem({@required this.deleteSlidable});
+  String title,id;
+  AhkamItem({@required this.deleteSlidable, @required this.title, @required this.id});
   @override
   Widget build(BuildContext context) {
     return Slidable(
@@ -45,7 +46,7 @@ class AhkamItem extends StatelessWidget {
                           height: 30,
                           child: Center(
                             child: Text(
-                              "13",
+                              "${id}",
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: 14,
@@ -61,7 +62,7 @@ class AhkamItem extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 8, right: 8),
                     child: Text(
-                      'این یک متن موقتی است!!! این یک متن موقتی است!!! این یک متن موقتی است!!!',
+                      '${title}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
