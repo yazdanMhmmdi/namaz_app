@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/logic/bloc/ahkam_bloc.dart';
+import 'package:namaz_app/logic/bloc/ahkam_details_bloc.dart';
 import 'package:namaz_app/logic/bloc/marjae_bloc.dart';
 import 'package:namaz_app/logic/bloc/narratives_bloc.dart';
 import 'package:namaz_app/logic/bloc/shohada_bloc.dart';
@@ -49,7 +50,9 @@ class AppRouter {
       case '/ahkam_show':
         final Map<String, String> args = settings.arguments;
         return MaterialPageRoute(
-            builder: (_) => AhkamShowScreen(args: args));
+            builder: (_) => BlocProvider(
+                create: (context) => AhkamDetailsBloc(),
+                child: AhkamShowScreen(args: args)));
       default:
         return MaterialPageRoute(builder: (_) => IntroScreen());
     }
