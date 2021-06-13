@@ -46,6 +46,10 @@ class AppRouter {
             builder: (_) => BlocProvider(
                 create: (context) => AhkamBloc(),
                 child: AhkamScreen(args: args)));
+      case '/ahkam_show':
+        final Map<String, String> args = settings.arguments;
+        return MaterialPageRoute(
+            builder: (_) => AhkamShowScreen(args: args));
       default:
         return MaterialPageRoute(builder: (_) => IntroScreen());
     }

@@ -13,7 +13,6 @@ import 'package:namaz_app/presentation/widget/videos_item.dart';
 
 class AhkamScreen extends StatefulWidget {
   Map<String, String> args;
-
   AhkamScreen({this.args});
 
   @override
@@ -108,6 +107,10 @@ class _AhkamScreenState extends State<AhkamScreen> {
                       title: state.ahkamModel.ahkam[index].title,
                       id: state.ahkamModel.ahkam[index].id,
                       deleteSlidable: false,
+                      onTap: () => Navigator.pushNamed(context, '/ahkam_show',
+                          arguments: <String, String>{
+                            'ahkam_id': state.ahkamModel.ahkam[index].id,
+                          }),
                     );
                   },
                 ),

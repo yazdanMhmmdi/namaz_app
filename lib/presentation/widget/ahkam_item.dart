@@ -6,8 +6,13 @@ import 'package:namaz_app/presentation/widget/my_slide_action.dart';
 
 class AhkamItem extends StatelessWidget {
   bool deleteSlidable = false;
-  String title,id;
-  AhkamItem({@required this.deleteSlidable, @required this.title, @required this.id});
+  String title, id;
+  Function onTap;
+  AhkamItem(
+      {@required this.deleteSlidable,
+      @required this.title,
+      @required this.id,
+      @required this.onTap});
   @override
   Widget build(BuildContext context) {
     return Slidable(
@@ -30,50 +35,58 @@ class AhkamItem extends StatelessWidget {
           height: 46,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20), color: Colors.white),
-          child: Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Align(
-                    alignment: Alignment.centerRight,
-                    child: Stack(
-                      children: [
-                        Image.asset(Assets.smallShamse),
-                        Container(
-                          width: 30,
-                          height: 30,
-                          child: Center(
-                            child: Text(
-                              "${id}",
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                color: IColors.brown,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: onTap,
+              splashColor: IColors.purpleCrimson25,
+              borderRadius: BorderRadius.circular(20),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Align(
+                        alignment: Alignment.centerRight,
+                        child: Stack(
+                          children: [
+                            Image.asset(Assets.smallShamse),
+                            Container(
+                              width: 30,
+                              height: 30,
+                              child: Center(
+                                child: Text(
+                                  "${id}",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                    color: IColors.brown,
+                                  ),
+                                ),
                               ),
                             ),
+                          ],
+                        )),
+                    Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8, right: 8),
+                        child: Text(
+                          '${title}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: IColors.black70,
+                            fontWeight: FontWeight.normal,
                           ),
                         ),
-                      ],
-                    )),
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8, right: 8),
-                    child: Text(
-                      '${title}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: IColors.black70,
-                        fontWeight: FontWeight.normal,
                       ),
-                    ),
-                  ),
-                )
-              ],
+                    )
+                  ],
+                ),
+              ),
             ),
           ),
         ),

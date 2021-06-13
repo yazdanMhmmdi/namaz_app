@@ -5,13 +5,21 @@ import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 
 class AhkamShowScreen extends StatefulWidget {
+  Map<String, String> args;
+  AhkamShowScreen({this.args});
   @override
   _AhkamShowScreenState createState() => _AhkamShowScreenState();
 }
 
 class _AhkamShowScreenState extends State<AhkamShowScreen> {
+  Map<String, String> arguments;
+  String ahkam_id;
+
   @override
   void initState() {
+    arguments = widget.args;
+    _getArguments();
+    print(ahkam_id);
     super.initState();
   }
 
@@ -90,5 +98,9 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                 }),
           ],
         ));
+  }
+
+  void _getArguments() {
+    ahkam_id = arguments['ahkam_id'];
   }
 }
