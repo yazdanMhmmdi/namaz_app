@@ -8,8 +8,16 @@ import 'package:namaz_app/presentation/widget/shohada_item.dart';
 import 'package:namaz_app/presentation/widget/videos_item.dart';
 
 class AhkamScreen extends StatelessWidget {
+  Map<String, String> arguments;
+  Map<String, String> args;
+  String marjae_id;
+
+  AhkamScreen({this.args});
   @override
   Widget build(BuildContext context) {
+    arguments = args;
+    _getArguments();
+    print(marjae_id);
     return Scaffold(
       backgroundColor: IColors.lightBrown,
       body: SafeArea(
@@ -59,5 +67,9 @@ class AhkamScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _getArguments() {
+    marjae_id = arguments['marjae_id'];
   }
 }

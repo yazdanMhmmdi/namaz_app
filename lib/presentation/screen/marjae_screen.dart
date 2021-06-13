@@ -27,6 +27,7 @@ class MarjaeScreen extends StatelessWidget {
               List<Widget> list = new List<Widget>();
               for (int i = 0; i < state.marjaeModel.data.length; i++) {
                 list.add(MarjaeLargeItem(
+                    marjae_id: state.marjaeModel.data[i].id,
                     title: state.marjaeModel.data[i].name,
                     largePicture: ApiProvider.IMAGE_PROVIDER +
                         state.marjaeModel.data[i].pictureSizeLarge));

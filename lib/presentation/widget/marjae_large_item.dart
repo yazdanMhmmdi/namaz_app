@@ -4,7 +4,11 @@ import 'package:namaz_app/constants/colors.dart';
 class MarjaeLargeItem extends StatelessWidget {
   String largePicture;
   String title;
-  MarjaeLargeItem({@required this.largePicture, @required this.title});
+  String marjae_id;
+  MarjaeLargeItem(
+      {@required this.largePicture,
+      @required this.title,
+      @required this.marjae_id});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,22 +30,37 @@ class MarjaeLargeItem extends StatelessWidget {
                 color: IColors.purpleCrimson25,
               )
             ]),
-        child: Stack(
-          children: [
-            Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 16, left: 8, right: 8),
-                  child: Text(
-                    "${title}",
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: IColors.white85,
-                      fontSize: 14,
-                    ),
-                  ),
-                )),
-          ],
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            splashColor: Colors.white10,
+            borderRadius: BorderRadius.circular(20),
+            onTap: () {
+              print("Hello");
+              Navigator.pushNamed(context, '/ahkam',
+                  arguments: <String, String>{
+                    'marjae_id': "${marjae_id}",
+                  });
+            },
+            child: Stack(
+              children: [
+                Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.only(bottom: 16, left: 8, right: 8),
+                      child: Text(
+                        "${title}",
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: IColors.white85,
+                          fontSize: 14,
+                        ),
+                      ),
+                    )),
+              ],
+            ),
+          ),
         ),
       ),
     );
