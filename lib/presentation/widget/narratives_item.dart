@@ -8,10 +8,13 @@ class NarrativesItem extends StatelessWidget {
   bool deleteSlidable = false;
   String title, subTitle;
   String thumbPicture;
-  NarrativesItem(
-      {@required this.deleteSlidable,
-      @required this.title,
-      @required this.subTitle});
+  String id;
+  NarrativesItem({
+    @required this.deleteSlidable,
+    @required this.title,
+    @required this.subTitle,
+    @required this.id,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,30 +46,42 @@ class NarrativesItem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.white,
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 8, top: 16, right: 69, bottom: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "${title}",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: IColors.black70,
-                            fontWeight: FontWeight.w700,
-                          ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(20),
+                      splashColor: IColors.black15,
+                      onTap: () => Navigator.pushNamed(
+                          context, '/narratives_show',
+                          arguments: <String, String>{
+                            "narratives_id": id,
+                          }),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 8, top: 16, right: 69, bottom: 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${title}",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: IColors.black70,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text("${subTitle}",
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 3,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: IColors.black45,
+                                )),
+                          ],
                         ),
-                        Text("${subTitle}",
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 3,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: IColors.black45,
-                            )),
-                      ],
+                      ),
                     ),
                   ),
                 ),

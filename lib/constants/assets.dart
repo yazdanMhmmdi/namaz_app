@@ -8,6 +8,7 @@ class Assets {
   static final String quran = "assets/images/quran.png";
   static final String noNetworkFlare = "assets/flare/no_network.flr";
   static final String cosmos = "assets/flare/cosmos.flr";
+  static final String prayerO = "assets/images/prayer_o.png";
 
   static final String basicFont = "IranSans";
 }

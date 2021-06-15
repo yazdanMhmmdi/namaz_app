@@ -3,8 +3,16 @@ import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 
 class NarrativesShowScreen extends StatelessWidget {
+  Map<String, String> args;
+  Map<String, String> arguments;
+  String narratives_id;
+
+  NarrativesShowScreen({this.args});
   @override
   Widget build(BuildContext context) {
+    arguments = args;
+    _getArguments();
+    print(narratives_id);
     return Scaffold(
         backgroundColor: IColors.purpleCrimson,
         body: Stack(
@@ -150,5 +158,9 @@ class NarrativesShowScreen extends StatelessWidget {
                 }),
           ],
         ));
+  }
+
+  void _getArguments() {
+    narratives_id = arguments['narratives_id'];
   }
 }

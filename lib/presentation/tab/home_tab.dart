@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/logic/bloc/home_bloc.dart';
@@ -39,14 +40,6 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "${Strings.homeVideos}",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: IColors.black70,
-                    ),
-                  ),
                   SizedBox(
                     height: 8,
                   ),
@@ -55,8 +48,77 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                       if (state is HomeLoading) {
                         return Container();
                       } else if (state is HomeSuccess) {
-                        return VideoItem(
-                          state: state,
+                        return Container(
+                          height: 132,
+                          child: Stack(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(right: 70, bottom: 9),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 90,
+                                    decoration: BoxDecoration(
+                                      color: IColors.purpleCrimson,
+                                      borderRadius: BorderRadius.circular(30),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          offset: Offset(4, 6),
+                                          color: IColors.purpleCrimson25,
+                                          blurRadius: 10,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Center(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 70),
+                                            child: Text(
+                                              "${Strings.homeVideos}",
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700,
+                                                color: IColors.white85,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Container(
+                                  child: Image.asset(Assets.prayerO),
+                                ),
+                              ),
+                              Positioned(
+                                left: 16,
+                                bottom: 0,
+                                top: 0,
+                                child: Container(
+                                  width: 26,
+                                  height: 26,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.play_arrow_rounded,
+                                    color: IColors.purpleCrimson,
+                                    size: 25,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         );
                       } else if (state is HomeFailure) {
                         return Container();
@@ -66,7 +128,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                     },
                   ),
                   SizedBox(
-                    height: 16,
+                    height: 8,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -164,6 +226,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                                   .quoteeTranslation,
                               subTitle: state
                                   .homeModel.narratives[index].quoteTranslation,
+                              id: state.homeModel.narratives[index].id,
                             );
                           },
                         );
