@@ -71,6 +71,10 @@ class _ShohadaScreenState extends State<ShohadaScreen> {
     List<Widget> list = new List<Widget>();
     for (int i = 0; i < state.shohadaModel.shohadaBozorgan.length; i++) {
       list.add(ShohadaItem(
+        onTap: () => Navigator.pushNamed(context, '/shohada_details',
+            arguments: <String, String>{
+              "shohada_id": state.shohadaModel.shohadaBozorgan[i].id,
+            }),
         title: state.shohadaModel.shohadaBozorgan[i].name,
         largePicture: ApiProvider.IMAGE_PROVIDER +
             state.shohadaModel.shohadaBozorgan[i].pictureSizeLarge,
