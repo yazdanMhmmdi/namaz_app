@@ -4,6 +4,7 @@ import 'package:namaz_app/logic/bloc/ahkam_bloc.dart';
 import 'package:namaz_app/logic/bloc/ahkam_details_bloc.dart';
 import 'package:namaz_app/logic/bloc/marjae_bloc.dart';
 import 'package:namaz_app/logic/bloc/narratives_bloc.dart';
+import 'package:namaz_app/logic/bloc/narratives_details_bloc.dart';
 import 'package:namaz_app/logic/bloc/shohada_bloc.dart';
 import 'package:namaz_app/presentation/screen/ahkam_screen.dart';
 import 'package:namaz_app/presentation/screen/ahkam_show_screen.dart';
@@ -57,7 +58,9 @@ class AppRouter {
       case '/narratives_show':
         final Map<String, String> args = settings.arguments;
         return MaterialPageRoute(
-            builder: (_) => NarrativesShowScreen(args: args));
+            builder: (_) => BlocProvider(
+                create: (context) => NarrativesDetailsBloc(),
+                child: NarrativesShowScreen(args: args)));
       default:
         return MaterialPageRoute(builder: (_) => IntroScreen());
     }
