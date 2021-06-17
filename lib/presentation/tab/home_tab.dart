@@ -292,6 +292,12 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                             itemCount: state.homeModel.shohadaBozorgan.length,
                             itemBuilder: (context, index) {
                               return MarjaeSmallItem(
+                                onTap: () => Navigator.pushNamed(
+                                    context, '/shohada_details',
+                                    arguments: <String, String>{
+                                      "shohada_id": state
+                                          .homeModel.shohadaBozorgan[index].id,
+                                    }),
                                 delete: false,
                                 title:
                                     state.homeModel.shohadaBozorgan[index].name,

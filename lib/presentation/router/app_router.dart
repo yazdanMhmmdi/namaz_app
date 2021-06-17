@@ -61,6 +61,13 @@ class AppRouter {
             builder: (_) => BlocProvider(
                 create: (context) => NarrativesDetailsBloc(),
                 child: NarrativesShowScreen(args: args)));
+      case '/shohada_details':
+        final Map<String, String> args = settings.arguments;
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                create: (context) => NarrativesDetailsBloc(),
+                child: ShohadaShowScreen(args: args)));
+
       default:
         return MaterialPageRoute(builder: (_) => IntroScreen());
     }

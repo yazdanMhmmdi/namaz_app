@@ -3,13 +3,21 @@ import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 
 class ShohadaShowScreen extends StatefulWidget {
+  Map<String, String> args;
+  ShohadaShowScreen({this.args});
   @override
   _ShohadaShowScreenState createState() => _ShohadaShowScreenState();
 }
 
 class _ShohadaShowScreenState extends State<ShohadaShowScreen> {
+  Map<String, String> arguments;
+  String shohada_id;
+
   @override
   Widget build(BuildContext context) {
+    arguments = widget.args;
+    _getArguments();
+    print("Shohada_id=${shohada_id}");
     return Scaffold(
         backgroundColor: IColors.purpleCrimson,
         body: Stack(
@@ -92,5 +100,9 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen> {
                 }),
           ],
         ));
+  }
+
+  void _getArguments() {
+    shohada_id = arguments['shohada_id'];
   }
 }
