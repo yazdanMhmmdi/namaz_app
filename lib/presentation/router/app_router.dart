@@ -7,6 +7,7 @@ import 'package:namaz_app/logic/bloc/narratives_bloc.dart';
 import 'package:namaz_app/logic/bloc/narratives_details_bloc.dart';
 import 'package:namaz_app/logic/bloc/shohada_bloc.dart';
 import 'package:namaz_app/logic/bloc/shohada_details_bloc.dart';
+import 'package:namaz_app/logic/bloc/video_bloc.dart';
 import 'package:namaz_app/presentation/screen/ahkam_screen.dart';
 import 'package:namaz_app/presentation/screen/ahkam_show_screen.dart';
 import 'package:namaz_app/presentation/screen/favorite_screen.dart';
@@ -70,7 +71,9 @@ class AppRouter {
                 child: ShohadaShowScreen(args: args)));
       case '/videos':
         final Map<String, String> args = settings.arguments;
-        return MaterialPageRoute(builder: (_) => VideosScreen());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                create: (cotnext) => VideoBloc(), child: VideosScreen()));
 
       default:
         return MaterialPageRoute(builder: (_) => IntroScreen());

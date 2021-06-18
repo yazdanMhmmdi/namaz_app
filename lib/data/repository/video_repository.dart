@@ -1,7 +1,7 @@
 import 'package:namaz_app/data/model/video_model.dart';
 import 'package:namaz_app/networking/api_provider.dart';
 
-class NarrativesRepository {
+class VideoRepository {
   ApiProvider _apiProvider = new ApiProvider();
 
   Future<VideoModel> getVideoItems(String page) async {

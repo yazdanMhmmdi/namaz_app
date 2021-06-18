@@ -5,7 +5,9 @@ import 'package:namaz_app/presentation/widget/my_slide_action.dart';
 
 class VideosItem extends StatelessWidget {
   bool deleteSlidable = false;
-  VideosItem({@required this.deleteSlidable});
+  String title;
+  String thumbnail;
+  VideosItem({@required this.deleteSlidable, @required this.title,@required this.thumbnail});
   @override
   Widget build(BuildContext context) {
     return Slidable(
@@ -68,7 +70,7 @@ class VideosItem extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 102),
                       child: Container(
                         child: Text(
-                          "آموزش وضو گرفتن",
+                          "${title}",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 14,
