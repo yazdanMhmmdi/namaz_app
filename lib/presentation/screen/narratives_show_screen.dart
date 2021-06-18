@@ -11,11 +11,15 @@ class NarrativesShowScreen extends StatelessWidget {
   Map<String, String> arguments;
   String narratives_id;
   NarrativesDetailsBloc _narrativesDetailsBloc;
+  final maxBorderRadius = 50.0;
+  var borderRadius;
   NarrativesShowScreen({this.args});
   @override
   Widget build(BuildContext context) {
     arguments = args;
     _getArguments();
+    borderRadius = maxBorderRadius;
+
     _narrativesDetailsBloc = BlocProvider.of<NarrativesDetailsBloc>(context);
     _narrativesDetailsBloc
         .add(GetNarrativesDetails(narratives_id: narratives_id));
@@ -29,7 +33,9 @@ class NarrativesShowScreen extends StatelessWidget {
               if (state is NarrativesDetailsInitial) {
                 return Container();
               } else if (state is NarrativesDetailsLoading) {
-                return LoadingBar(color: IColors.lightBrown,);
+                return LoadingBar(
+                  color: IColors.lightBrown,
+                );
               } else if (state is NarrativesDetailsSuccess) {
                 return Stack(
                   children: [
@@ -44,23 +50,34 @@ class NarrativesShowScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    DraggableScrollableSheet(
-                        initialChildSize: 0.7,
-                        minChildSize: 0.7,
-                        builder: (context, scroll) {
-                          return ClipRRect(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(40),
-                                topRight: Radius.circular(40)),
-                            child: Container(
-                              color: Colors.white,
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 30, right: 16, left: 16, bottom: 16),
+                    NotificationListener<DraggableScrollableNotification>(
+                      onNotification: (notification) {
+                        borderRadius = notification.maxExtent <=
+                                (notification.extent + 0.08)
+                            ? 0.0
+                            : maxBorderRadius;
+                      },
+                      child: DraggableScrollableSheet(
+                          initialChildSize: 0.7,
+                          minChildSize: 0.7,
+                          builder: (context, scroll) {
+                            return ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(
+                                      double.parse(borderRadius.toString())),
+                                  topRight: Radius.circular(
+                                      double.parse(borderRadius.toString()))),
+                              child: Container(
+                                color: Colors.white,
                                 child: Directionality(
                                   textDirection: TextDirection.rtl,
                                   child: ListView(
                                     controller: scroll,
+                                    padding: const EdgeInsets.only(
+                                        top: 30,
+                                        right: 16,
+                                        left: 16,
+                                        bottom: 16),
                                     children: [
                                       Row(
                                         children: [
@@ -70,7 +87,8 @@ class NarrativesShowScreen extends StatelessWidget {
                                                 width: 50,
                                                 height: 50,
                                                 child: Center(
-                                                  child: Text('${state.narrativesDetailsModel.data.id}',
+                                                  child: Text(
+                                                      '${state.narrativesDetailsModel.data.id}',
                                                       style: TextStyle(
                                                           fontSize: 14,
                                                           color: IColors.brown,
@@ -78,7 +96,11 @@ class NarrativesShowScreen extends StatelessWidget {
                                                               FontWeight.w700)),
                                                 ),
                                               ),
-                                              Image.asset(Assets.largeShamse, width: 50, height: 50,),
+                                              Image.asset(
+                                                Assets.largeShamse,
+                                                width: 50,
+                                                height: 50,
+                                              ),
                                             ],
                                           ),
                                           SizedBox(
@@ -176,9 +198,9 @@ class NarrativesShowScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                            ),
-                          );
-                        }),
+                            );
+                          }),
+                    ),
                   ],
                 );
               } else if (state is NarrativesDetailsFailure) {

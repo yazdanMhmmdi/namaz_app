@@ -17,10 +17,14 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen> {
   Map<String, String> arguments;
   String shohada_id;
   ShohadaDetailsBloc _shohadaDetailsBloc;
+  final maxBorderRadius = 50.0;
+  var borderRadius;
   @override
   void initState() {
     arguments = widget.args;
     _getArguments();
+    borderRadius = maxBorderRadius;
+
     print("Shohada_id=${shohada_id}");
     _shohadaDetailsBloc = BlocProvider.of<ShohadaDetailsBloc>(context);
     _shohadaDetailsBloc.add(GetShohadaDetails(shohada_id: shohada_id));
@@ -52,23 +56,34 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen> {
                         ],
                       ),
                     ),
-                    DraggableScrollableSheet(
-                        initialChildSize: 0.7,
-                        minChildSize: 0.7,
-                        builder: (context, scroll) {
-                          return ClipRRect(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(40),
-                                topRight: Radius.circular(40)),
-                            child: Container(
-                              color: Colors.white,
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 30, right: 16, left: 16, bottom: 16),
+                    NotificationListener<DraggableScrollableNotification>(
+                      onNotification: (notification) {
+                        borderRadius = notification.maxExtent <=
+                                (notification.extent + 0.08)
+                            ? 0.0
+                            : maxBorderRadius;
+                      },
+                      child: DraggableScrollableSheet(
+                          initialChildSize: 0.7,
+                          minChildSize: 0.7,
+                          builder: (context, scroll) {
+                            return ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(
+                                      double.parse(borderRadius.toString())),
+                                  topRight: Radius.circular(
+                                      double.parse(borderRadius.toString()))),
+                              child: Container(
+                                color: Colors.white,
                                 child: Directionality(
                                   textDirection: TextDirection.rtl,
                                   child: ListView(
                                     controller: scroll,
+                                    padding: const EdgeInsets.only(
+                                        top: 30,
+                                        right: 16,
+                                        left: 16,
+                                        bottom: 16),
                                     children: [
                                       Row(
                                         children: [
@@ -118,9 +133,9 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen> {
                                   ),
                                 ),
                               ),
-                            ),
-                          );
-                        }),
+                            );
+                          }),
+                    ),
                   ],
                 );
               } else if (state is ShohadaDetailsFailure) {
