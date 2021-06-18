@@ -71,24 +71,33 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                                         ),
                                       ],
                                     ),
-                                    child: Row(
-                                      children: [
-                                        Center(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 70),
-                                            child: Text(
-                                              "${Strings.homeVideos}",
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w700,
-                                                color: IColors.white85,
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        borderRadius: BorderRadius.circular(30),
+                                        splashColor: Colors.white10,
+                                        onTap: () => Navigator.pushNamed(context, '/videos'),
+                                        child: Row(
+                                          children: [
+                                            Center(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 70),
+                                                child: Text(
+                                                  "${Strings.homeVideos}",
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: IColors.white85,
+                                                  ),
+                                                ),
                                               ),
                                             ),
-                                          ),
+                                          ],
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ),
                                 ),

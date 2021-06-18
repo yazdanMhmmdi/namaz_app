@@ -68,6 +68,9 @@ class AppRouter {
             builder: (_) => BlocProvider(
                 create: (context) => ShohadaDetailsBloc(),
                 child: ShohadaShowScreen(args: args)));
+      case '/videos':
+        final Map<String, String> args = settings.arguments;
+        return MaterialPageRoute(builder: (_) => VideosScreen());
 
       default:
         return MaterialPageRoute(builder: (_) => IntroScreen());
