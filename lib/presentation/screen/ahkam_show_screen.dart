@@ -46,6 +46,32 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
               } else if (state is AhkamDetailsSuccess) {
                 return Stack(
                   children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 22, vertical: 22),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            onPressed: () => Navigator.pop(context),
+                            icon: Icon(Icons.favorite_border,
+                                size: 30, color: IColors.white85),
+                          ),
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            onPressed: () => Navigator.pop(context),
+                            icon: Icon(
+                              Icons.arrow_back,
+                              textDirection: TextDirection.rtl,
+                              color: IColors.white85,
+                              size: 30,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     NotificationListener<DraggableScrollableNotification>(
                       onNotification: (notification) {
                         borderRadius = notification.maxExtent <=

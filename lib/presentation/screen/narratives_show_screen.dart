@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/logic/bloc/narratives_details_bloc.dart';
+import 'package:namaz_app/presentation/widget/back_button_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 
@@ -44,9 +45,24 @@ class NarrativesShowScreen extends StatelessWidget {
                           horizontal: 22, vertical: 22),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(Icons.favorite_border,
-                              size: 30, color: Colors.white)
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            onPressed: () => Navigator.pop(context),
+                            icon: Icon(Icons.favorite_border,
+                                size: 30, color: IColors.white85),
+                          ),
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            onPressed: () => Navigator.pop(context),
+                            icon: Icon(
+                              Icons.arrow_back,
+                              textDirection: TextDirection.rtl,
+                              color: IColors.white85,
+                              size: 30,
+                            ),
+                          ),
                         ],
                       ),
                     ),

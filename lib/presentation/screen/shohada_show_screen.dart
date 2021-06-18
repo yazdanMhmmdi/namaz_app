@@ -50,9 +50,24 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen> {
                           horizontal: 22, vertical: 22),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(Icons.favorite_border,
-                              size: 30, color: Colors.white)
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            onPressed: () => Navigator.pop(context),
+                            icon: Icon(Icons.favorite_border,
+                                size: 30, color: IColors.white85),
+                          ),
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            onPressed: () => Navigator.pop(context),
+                            icon: Icon(
+                              Icons.arrow_back,
+                              textDirection: TextDirection.rtl,
+                              color: IColors.white85,
+                              size: 30,
+                            ),
+                          ),
                         ],
                       ),
                     ),
