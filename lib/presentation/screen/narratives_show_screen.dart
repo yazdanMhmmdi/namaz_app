@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/assets.dart';
@@ -7,17 +8,34 @@ import 'package:namaz_app/presentation/widget/back_button_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 
-class NarrativesShowScreen extends StatelessWidget {
+class NarrativesShowScreen extends StatefulWidget {
   Map<String, String> args;
-  Map<String, String> arguments;
-  String narratives_id;
-  NarrativesDetailsBloc _narrativesDetailsBloc;
-  final maxBorderRadius = 50.0;
-  var borderRadius;
+
   NarrativesShowScreen({this.args});
+
   @override
-  Widget build(BuildContext context) {
-    arguments = args;
+  _NarrativesShowScreenState createState() => _NarrativesShowScreenState();
+}
+
+class _NarrativesShowScreenState extends State<NarrativesShowScreen>
+    with SingleTickerProviderStateMixin {
+  Map<String, String> arguments;
+
+  String narratives_id;
+
+  NarrativesDetailsBloc _narrativesDetailsBloc;
+
+  final maxBorderRadius = 50.0;
+
+  var borderRadius;
+
+  AnimationController _animationController;
+
+  Icon iconState =
+      Icon(Icons.favorite_border, size: 30, color: IColors.white85);
+  @override
+  void initState() {
+    arguments = widget.args;
     _getArguments();
     borderRadius = maxBorderRadius;
 
@@ -26,6 +44,11 @@ class NarrativesShowScreen extends StatelessWidget {
         .add(GetNarrativesDetails(narratives_id: narratives_id));
 
     print(narratives_id);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: IColors.purpleCrimson,
         body: SafeArea(
@@ -47,11 +70,21 @@ class NarrativesShowScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          IconButton(
-                            padding: EdgeInsets.zero,
-                            onPressed: () => Navigator.pop(context),
-                            icon: Icon(Icons.favorite_border,
-                                size: 30, color: IColors.white85),
+                          ElasticIn(
+                            manualTrigger: true,
+                            animate: true,
+                            controller: (controller) {
+                              _animationController = controller;
+                            },
+                            child: IconButton(
+                              padding: EdgeInsets.zero,
+                              onPressed: () {
+                                _animationController.reset();
+                                _animationController.forward();
+                                likeIconState();
+                              },
+                              icon: iconState,
+                            ),
                           ),
                           IconButton(
                             padding: EdgeInsets.zero,
@@ -229,5 +262,25 @@ class NarrativesShowScreen extends StatelessWidget {
 
   void _getArguments() {
     narratives_id = arguments['narratives_id'];
+  }
+
+  void likeIconState() {
+    if (iconState.icon == Icons.favorite_border) {
+      setState(() {
+        iconState = Icon(Icons.favorite, size: 30, color: IColors.white85);
+      });
+    } else {
+      setState(() {
+        iconState =
+            Icon(Icons.favorite_border, size: 30, color: IColors.white85);
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+
+    super.dispose();
   }
 }

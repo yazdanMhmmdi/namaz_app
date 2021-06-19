@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/assets.dart';
@@ -21,6 +22,10 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
   AhkamDetailsBloc _ahkamDetailsBloc;
   final maxBorderRadius = 50.0;
   var borderRadius;
+  AnimationController _animationController;
+
+  Icon iconState =
+      Icon(Icons.favorite_border, size: 30, color: IColors.white85);
   @override
   void initState() {
     arguments = widget.args;
@@ -53,11 +58,21 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          IconButton(
-                            padding: EdgeInsets.zero,
-                            onPressed: () => Navigator.pop(context),
-                            icon: Icon(Icons.favorite_border,
-                                size: 30, color: IColors.white85),
+                          ElasticIn(
+                            manualTrigger: true,
+                            animate: true,
+                            controller: (controller) {
+                              _animationController = controller;
+                            },
+                            child: IconButton(
+                              padding: EdgeInsets.zero,
+                              onPressed: () {
+                                _animationController.reset();
+                                _animationController.forward();
+                                likeIconState();
+                              },
+                              icon: iconState,
+                            ),
                           ),
                           IconButton(
                             padding: EdgeInsets.zero,
@@ -167,5 +182,24 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
 
   void _getArguments() {
     ahkam_id = arguments['ahkam_id'];
+  }
+
+  void likeIconState() {
+    if (iconState.icon == Icons.favorite_border) {
+      setState(() {
+        iconState = Icon(Icons.favorite, size: 30, color: IColors.white85);
+      });
+    } else {
+      setState(() {
+        iconState =
+            Icon(Icons.favorite_border, size: 30, color: IColors.white85);
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 }

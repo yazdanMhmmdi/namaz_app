@@ -7,6 +7,7 @@ class Assets {
   static final String largeShamse = "assets/images/large_shams.png";
   static final String quran = "assets/images/quran.png";
   static final String noNetworkFlare = "assets/flare/no_network.flr";
+    static final String likeFlare = "assets/flare/like.flr";
   static final String cosmos = "assets/flare/cosmos.flr";
   static final String prayerO = "assets/images/prayer_o.png";
 
