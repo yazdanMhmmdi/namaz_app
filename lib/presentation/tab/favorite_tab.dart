@@ -4,7 +4,10 @@ import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/presentation/widget/ahkam_item.dart';
 import 'package:namaz_app/presentation/widget/marjae_small_item.dart';
 import 'package:namaz_app/presentation/widget/narratives_item.dart';
+import 'package:namaz_app/presentation/widget/title_selector.dart';
 import 'package:namaz_app/presentation/widget/videos_item.dart';
+
+int tabNumber = 1;
 
 class FavoriteTab extends StatelessWidget {
   @override
@@ -17,6 +20,15 @@ class FavoriteTab extends StatelessWidget {
           children: [
             SizedBox(
               height: 16,
+            ),
+            TitleSelector(
+              titles: [
+                "ویدئو ها",
+                "مراجع تقلید",
+                "آیات و روایات",
+                "شهدا و بزرگان",
+              ],
+              firstTab: 1,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -130,9 +142,15 @@ class FavoriteTab extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 children: [
-                    MarjaeSmallItem(delete: true,),
-                    MarjaeSmallItem(delete: true,),
-                    MarjaeSmallItem(delete: true,),
+                  MarjaeSmallItem(
+                    delete: true,
+                  ),
+                  MarjaeSmallItem(
+                    delete: true,
+                  ),
+                  MarjaeSmallItem(
+                    delete: true,
+                  ),
                 ],
               ),
             ),
