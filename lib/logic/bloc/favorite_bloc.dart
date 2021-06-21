@@ -5,8 +5,10 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:namaz_app/data/model/favorite_model.dart';
 import 'package:namaz_app/data/repository/favorite_repository.dart';
+import 'package:namaz_app/presentation/tab/favorite_tab.dart';
 import 'package:namaz_app/presentation/widget/ahkam_item.dart';
 import 'package:namaz_app/presentation/widget/favorite_video_widget.dart';
+import 'package:namaz_app/presentation/widget/global_widget.dart';
 import 'package:namaz_app/presentation/widget/marjae_large_item.dart';
 import 'package:namaz_app/presentation/widget/marjae_small_item.dart';
 import 'package:namaz_app/presentation/widget/narratives_item.dart';
@@ -79,7 +81,11 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
                 onTap: () => Navigator.pushNamed(context, '/ahkam_show',
                     arguments: <String, String>{
                       "ahkam_id": _model.ahkam[index].ahkamId,
-                    }),
+                      "prevScreen": "favorite",
+                    }).then((value) {
+                  this.add(GetFavoriteItems(user_id: GlobalWidget.user_id));
+                  GlobalWidget.tabNumber = 2;
+                }),
                 title: _model.ahkam[index].title,
                 deleteSlidable: true,
               );
@@ -122,7 +128,8 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
         for (int i = 0; i < _model.shohadaBozorgan.length; i++) {
           list.add(Builder(builder: (context) {
             return ShohadaItem(
-              onTap: () => Navigator.pushNamed(context, '/shohada_details',
+              onTap: () => Navigator.popAndPushNamed(
+                  context, '/shohada_details',
                   arguments: <String, String>{
                     "shohada_id": _model.shohadaBozorgan[i].shohadaBozorganId,
                   }),

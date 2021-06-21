@@ -27,14 +27,16 @@ class Data {
   String marjaeId;
   String title;
   String titleText;
+  String liked;
 
-  Data({this.id, this.marjaeId, this.title, this.titleText});
+  Data({this.id, this.marjaeId, this.title, this.titleText, this.liked});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     marjaeId = json['marjae_id'];
     title = json['title'];
     titleText = json['title_text'];
+    liked = json['liked'];
   }
 
   Map<String, dynamic> toJson() {
@@ -43,6 +45,7 @@ class Data {
     data['marjae_id'] = this.marjaeId;
     data['title'] = this.title;
     data['title_text'] = this.titleText;
+    data['liked'] = this.liked;
     return data;
   }
 }

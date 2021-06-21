@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/logic/bloc/favorite_bloc.dart';
 import 'package:namaz_app/presentation/tab/favorite_tab.dart';
 import 'package:namaz_app/presentation/widget/favorite_video_widget.dart';
+import 'package:namaz_app/presentation/widget/global_widget.dart';
 
 class TitleSelector extends StatefulWidget {
   List<String> titles = new List<String>();
@@ -120,7 +121,7 @@ class _TitleSelectorState extends State<TitleSelector> {
 
   void onTapping(int index) {
     setState(() {
-      tabNumber = index + 1;
+      GlobalWidget.tabNumber = index + 1;
       _currentIndex = index;
       print('cu : $_currentIndex and indx: $index temp = $temp');
       int c = index;
@@ -155,9 +156,9 @@ class _TitleSelectorState extends State<TitleSelector> {
       _favoriteBloc.add(GetVideosFavorite());
     } else if (blocIndex == 2) {
       _favoriteBloc.add(GetAhkamFavorite());
-    }else if (blocIndex == 3) {
+    } else if (blocIndex == 3) {
       _favoriteBloc.add(GetNarrativesFavorite());
-    }else if (blocIndex == 4) {
+    } else if (blocIndex == 4) {
       _favoriteBloc.add(GetShohadaFavorite());
     }
   }

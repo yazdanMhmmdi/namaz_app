@@ -19,7 +19,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   MotionTabController _bottomNavController;
   bool bottomInternetStatus = true, bottomFailureStatus = true;
-
   @override
   void initState() {
     _bottomNavController =
@@ -44,8 +43,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             // ChatListTab(),
 
             // TitleTab(),
-            BlocProvider(
-                create: (context) => FavoriteBloc(), child: FavoriteTab()),
+            BlocProvider(create: (context)=> FavoriteBloc(), child: FavoriteTab()),
             BlocProvider(
               create: (context) => HomeBloc(),
               child: HomeTab(),

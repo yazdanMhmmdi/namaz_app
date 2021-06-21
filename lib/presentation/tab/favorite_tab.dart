@@ -4,6 +4,7 @@ import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/logic/bloc/favorite_bloc.dart';
 import 'package:namaz_app/presentation/widget/ahkam_item.dart';
+import 'package:namaz_app/presentation/widget/global_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/marjae_small_item.dart';
 import 'package:namaz_app/presentation/widget/narratives_item.dart';
@@ -11,19 +12,18 @@ import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 import 'package:namaz_app/presentation/widget/title_selector.dart';
 import 'package:namaz_app/presentation/widget/videos_item.dart';
 
-int tabNumber = 1;
 
 class FavoriteTab extends StatefulWidget {
   @override
   _FavoriteTabState createState() => _FavoriteTabState();
 }
 
-class _FavoriteTabState extends State<FavoriteTab> {
+class _FavoriteTabState extends State<FavoriteTab> with WidgetsBindingObserver {
   FavoriteBloc _favoriteBloc;
   @override
   void initState() {
     _favoriteBloc = BlocProvider.of<FavoriteBloc>(context);
-    _favoriteBloc.add(GetFavoriteItems(user_id: "1"));
+    _favoriteBloc.add(GetFavoriteItems(user_id: GlobalWidget.user_id));
     super.initState();
   }
 
@@ -54,7 +54,7 @@ class _FavoriteTabState extends State<FavoriteTab> {
                         "آیات و روایات",
                         "شهدا و بزرگان",
                       ],
-                      firstTab: 1,
+                      firstTab: GlobalWidget.tabNumber,
                     ),
                   ),
                   SizedBox(
