@@ -29,7 +29,7 @@ class MarjaeScreen extends StatelessWidget {
                 list.add(MarjaeLargeItem(
                     marjae_id: state.marjaeModel.data[i].id,
                     title: state.marjaeModel.data[i].name,
-                    largePicture: ApiProvider.IMAGE_PROVIDER +
+                    largePicture: 
                         state.marjaeModel.data[i].pictureSizeLarge));
               }
               return SingleChildScrollView(

@@ -76,7 +76,8 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                                       child: InkWell(
                                         borderRadius: BorderRadius.circular(30),
                                         splashColor: Colors.white10,
-                                        onTap: () => Navigator.pushNamed(context, '/videos'),
+                                        onTap: () => Navigator.pushNamed(
+                                            context, '/videos'),
                                         child: Row(
                                           children: [
                                             Center(
@@ -187,9 +188,8 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                                           state.homeModel.marjae[index].id,
                                     }),
                                 title: state.homeModel.marjae[index].name,
-                                thumbPicture: ApiProvider.IMAGE_PROVIDER +
-                                    state.homeModel.marjae[index]
-                                        .pictureSizeSmall,
+                                thumbPicture: state
+                                    .homeModel.marjae[index].pictureSizeSmall,
                                 delete: false,
                               );
                             },
@@ -310,9 +310,8 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                                 delete: false,
                                 title:
                                     state.homeModel.shohadaBozorgan[index].name,
-                                thumbPicture: 
-                                    state.homeModel.shohadaBozorgan[index]
-                                        .pictureSizeSmall,
+                                thumbPicture: state.homeModel
+                                    .shohadaBozorgan[index].pictureSizeSmall,
                               );
                             },
                           ),

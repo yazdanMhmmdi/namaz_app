@@ -76,7 +76,7 @@ class _ShohadaScreenState extends State<ShohadaScreen> {
               "shohada_id": state.shohadaModel.shohadaBozorgan[i].id,
             }),
         title: state.shohadaModel.shohadaBozorgan[i].name,
-        largePicture: ApiProvider.IMAGE_PROVIDER +
+        largePicture: 
             state.shohadaModel.shohadaBozorgan[i].pictureSizeLarge,
       ));
     }
