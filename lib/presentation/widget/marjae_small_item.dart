@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:namaz_app/constants/colors.dart';
+import 'package:namaz_app/networking/api_provider.dart';
 
 class MarjaeSmallItem extends StatelessWidget {
   bool delete;
@@ -24,7 +25,9 @@ class MarjaeSmallItem extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: IColors.brown,
-                image: DecorationImage(image: NetworkImage(thumbPicture)),
+                image: DecorationImage(
+                    image: NetworkImage(
+                        ApiProvider.IMAGE_PROVIDER + thumbPicture)),
                 boxShadow: [
                   BoxShadow(
                       blurRadius: 10,

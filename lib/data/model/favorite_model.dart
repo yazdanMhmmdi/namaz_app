@@ -68,13 +68,15 @@ class Ahkam {
   String id;
   String ahkamId;
   String userId;
+  String title;
 
-  Ahkam({this.id, this.ahkamId, this.userId});
+  Ahkam({this.id, this.ahkamId, this.userId, this.title});
 
   Ahkam.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     ahkamId = json['ahkam_id'];
     userId = json['user_id'];
+    title = json['title'];
   }
 
   Map<String, dynamic> toJson() {
@@ -82,6 +84,7 @@ class Ahkam {
     data['id'] = this.id;
     data['ahkam_id'] = this.ahkamId;
     data['user_id'] = this.userId;
+    data['title'] = this.title;
     return data;
   }
 }
@@ -90,13 +93,22 @@ class Narratives {
   String id;
   String narrativesId;
   String userId;
+  String quoteeTranslation;
+  String quoteTranslation;
 
-  Narratives({this.id, this.narrativesId, this.userId});
+  Narratives(
+      {this.id,
+      this.narrativesId,
+      this.userId,
+      this.quoteeTranslation,
+      this.quoteTranslation});
 
   Narratives.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     narrativesId = json['narratives_id'];
     userId = json['user_id'];
+    quoteeTranslation = json['quoteeTranslation'];
+    quoteTranslation = json['quoteTranslation'];
   }
 
   Map<String, dynamic> toJson() {
@@ -104,6 +116,8 @@ class Narratives {
     data['id'] = this.id;
     data['narratives_id'] = this.narrativesId;
     data['user_id'] = this.userId;
+    data['quoteeTranslation'] = this.quoteeTranslation;
+    data['quoteTranslation'] = this.quoteTranslation;
     return data;
   }
 }
@@ -112,13 +126,22 @@ class ShohadaBozorgan {
   String id;
   String shohadaBozorganId;
   String userId;
+  String pictureSizeLarge;
+  String name;
 
-  ShohadaBozorgan({this.id, this.shohadaBozorganId, this.userId});
+  ShohadaBozorgan(
+      {this.id,
+      this.shohadaBozorganId,
+      this.userId,
+      this.pictureSizeLarge,
+      this.name});
 
   ShohadaBozorgan.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     shohadaBozorganId = json['shohada_bozorgan_id'];
     userId = json['user_id'];
+    pictureSizeLarge = json['picture_size_large'];
+    name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -126,6 +149,8 @@ class ShohadaBozorgan {
     data['id'] = this.id;
     data['shohada_bozorgan_id'] = this.shohadaBozorganId;
     data['user_id'] = this.userId;
+    data['picture_size_large'] = this.pictureSizeLarge;
+    data['name'] = this.name;
     return data;
   }
 }
@@ -134,13 +159,17 @@ class Video {
   String id;
   String userId;
   String videoId;
+  String thumbnail;
+  String title;
 
-  Video({this.id, this.userId, this.videoId});
+  Video({this.id, this.userId, this.videoId, this.thumbnail, this.title});
 
   Video.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['user_id'];
     videoId = json['video_id'];
+    thumbnail = json['thumbnail'];
+    title = json['title'];
   }
 
   Map<String, dynamic> toJson() {
@@ -148,6 +177,8 @@ class Video {
     data['id'] = this.id;
     data['user_id'] = this.userId;
     data['video_id'] = this.videoId;
+    data['thumbnail'] = this.thumbnail;
+    data['title'] = this.title;
     return data;
   }
 }

@@ -1,165 +1,79 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/logic/bloc/favorite_bloc.dart';
 import 'package:namaz_app/presentation/widget/ahkam_item.dart';
+import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/marjae_small_item.dart';
 import 'package:namaz_app/presentation/widget/narratives_item.dart';
+import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 import 'package:namaz_app/presentation/widget/title_selector.dart';
 import 'package:namaz_app/presentation/widget/videos_item.dart';
 
 int tabNumber = 1;
 
-class FavoriteTab extends StatelessWidget {
+class FavoriteTab extends StatefulWidget {
+  @override
+  _FavoriteTabState createState() => _FavoriteTabState();
+}
+
+class _FavoriteTabState extends State<FavoriteTab> {
+  FavoriteBloc _favoriteBloc;
+  @override
+  void initState() {
+    _favoriteBloc = BlocProvider.of<FavoriteBloc>(context);
+    _favoriteBloc.add(GetFavoriteItems(user_id: "1"));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 16,
-            ),
-            TitleSelector(
-              titles: [
-                "ویدئو ها",
-                "مراجع تقلید",
-                "آیات و روایات",
-                "شهدا و بزرگان",
-              ],
-              firstTab: 1,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                "${Strings.homeVideos}",
-                style: TextStyle(
-                  color: IColors.black70,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            ListView(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              children: [
-                VideosItem(
-                  deleteSlidable: false,
-                ),
-                VideosItem(
-                  deleteSlidable: true,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                "${Strings.homeMaraje}",
-                style: TextStyle(
-                  color: IColors.black70,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            ListView(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              children: [
-                AhkamItem(
-                  deleteSlidable: false,
-                ),
-                AhkamItem(
-                  deleteSlidable: true,
-                )
-              ],
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                "${Strings.homeNarratives}",
-                style: TextStyle(
-                  color: IColors.black70,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            ListView(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              children: [
-                NarrativesItem(
-                  deleteSlidable: false,
-                ),
-                NarrativesItem(
-                  deleteSlidable: true,
-                )
-              ],
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                "${Strings.homeMaraje}",
-                style: TextStyle(
-                  color: IColors.black70,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Container(
-              height: 128,
-              child: ListView(
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                padding: EdgeInsets.symmetric(horizontal: 16),
+    return BlocBuilder<FavoriteBloc, FavoriteState>(
+      builder: (context, state) {
+        if (state is FavoriteInitial) {
+          return Container();
+        } else if (state is FavoriteLoading) {
+          return LoadingBar();
+        } else if (state is FavoriteSuccess) {
+          return SingleChildScrollView(
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  MarjaeSmallItem(
-                    delete: true,
+                  SizedBox(
+                    height: 16,
                   ),
-                  MarjaeSmallItem(
-                    delete: true,
+                  BlocProvider.value(
+                    value: _favoriteBloc,
+                    child: TitleSelector(
+                      titles: [
+                        "ویدئو ها",
+                        " احکام مراجع",
+                        "آیات و روایات",
+                        "شهدا و بزرگان",
+                      ],
+                      firstTab: 1,
+                    ),
                   ),
-                  MarjaeSmallItem(
-                    delete: true,
+                  SizedBox(
+                    height: 8,
+                  ),
+                  state.tab,
+                  SizedBox(
+                    height: 32,
                   ),
                 ],
               ),
             ),
-            SizedBox(
-              height: 32,
-            ),
-          ],
-        ),
-      ),
+          );
+        } else if (state is FavoriteIsEmpty) {
+          return Container();
+        } else if (state is FavoriteFailure) {
+          return ServerFailureFlare();
+        }
+      },
     );
   }
 }

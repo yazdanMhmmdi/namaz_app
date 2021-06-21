@@ -310,7 +310,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                                 delete: false,
                                 title:
                                     state.homeModel.shohadaBozorgan[index].name,
-                                thumbPicture: ApiProvider.IMAGE_PROVIDER +
+                                thumbPicture: 
                                     state.homeModel.shohadaBozorgan[index]
                                         .pictureSizeSmall,
                               );

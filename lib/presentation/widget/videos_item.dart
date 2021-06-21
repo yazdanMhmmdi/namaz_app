@@ -7,7 +7,13 @@ class VideosItem extends StatelessWidget {
   bool deleteSlidable = false;
   String title;
   String thumbnail;
-  VideosItem({@required this.deleteSlidable, @required this.title,@required this.thumbnail});
+  Function onTap;
+  VideosItem({
+    @required this.deleteSlidable,
+    @required this.title,
+    @required this.thumbnail,
+    @required this.onTap,
+  });
   @override
   Widget build(BuildContext context) {
     return Slidable(
@@ -38,52 +44,60 @@ class VideosItem extends StatelessWidget {
                   color: IColors.purpleCrimson25,
                 )
               ]),
-          child: Stack(
-            children: [
-              Container(
-                width: 94,
-                height: 94,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: IColors.purpleCrimson,
-                ),
-                child: Center(
-                  child: Container(
-                    width: 26,
-                    height: 26,
-                    decoration: BoxDecoration(
-                      color: Colors.white54,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Icons.play_arrow_rounded,
-                      color: IColors.purpleCrimson,
-                      size: 25,
-                    ),
-                  ),
-                ),
-              ),
-              Row(
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(20),
+              splashColor: IColors.black15,
+              onTap: onTap,
+              child: Stack(
                 children: [
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 102),
+                  Container(
+                    width: 94,
+                    height: 94,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: IColors.purpleCrimson,
+                    ),
+                    child: Center(
                       child: Container(
-                        child: Text(
-                          "${title}",
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            color: IColors.black70,
-                          ),
+                        width: 26,
+                        height: 26,
+                        decoration: BoxDecoration(
+                          color: Colors.white54,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.play_arrow_rounded,
+                          color: IColors.purpleCrimson,
+                          size: 25,
                         ),
                       ),
                     ),
                   ),
+                  Row(
+                    children: [
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 102),
+                          child: Container(
+                            child: Text(
+                              "${title}",
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                                color: IColors.black70,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),

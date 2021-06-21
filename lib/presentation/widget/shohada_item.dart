@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:namaz_app/constants/colors.dart';
+import 'package:namaz_app/networking/api_provider.dart';
 
 class ShohadaItem extends StatelessWidget {
   // bool delete = false;
@@ -20,7 +21,7 @@ class ShohadaItem extends StatelessWidget {
         height: 170,
         decoration: BoxDecoration(
             image: DecorationImage(
-              image: NetworkImage(largePicture),
+              image: NetworkImage(ApiProvider.IMAGE_PROVIDER + largePicture),
               colorFilter:
                   ColorFilter.mode(IColors.purpleCrimson65, BlendMode.srcOver),
             ),

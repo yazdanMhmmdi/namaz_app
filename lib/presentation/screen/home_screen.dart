@@ -6,6 +6,7 @@ import 'package:motion_tab_bar/MotionTabController.dart';
 import 'package:motion_tab_bar/motiontabbar.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/logic/bloc/favorite_bloc.dart';
 import 'package:namaz_app/logic/bloc/home_bloc.dart';
 import 'package:namaz_app/presentation/tab/favorite_tab.dart';
 import 'package:namaz_app/presentation/tab/home_tab.dart';
@@ -43,7 +44,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             // ChatListTab(),
 
             // TitleTab(),
-            FavoriteTab(),
+            BlocProvider(
+                create: (context) => FavoriteBloc(), child: FavoriteTab()),
             BlocProvider(
               create: (context) => HomeBloc(),
               child: HomeTab(),

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:namaz_app/logic/bloc/favorite_bloc.dart';
 import 'package:namaz_app/presentation/tab/favorite_tab.dart';
+import 'package:namaz_app/presentation/widget/favorite_video_widget.dart';
 
 class TitleSelector extends StatefulWidget {
-  List<String> titles;
+  List<String> titles = new List<String>();
   int firstTab = 2;
   TitleSelector({@required this.titles, @required this.firstTab});
   @override
@@ -24,12 +27,14 @@ class _TitleSelectorState extends State<TitleSelector> {
   double _rightPadding = 30; //initial right padding
   int temp = 0;
   bool sience = true, medicine = true;
-
+  FavoriteBloc _favoriteBloc;
   @override
   void initState() {
+    _favoriteBloc = BlocProvider.of<FavoriteBloc>(context);
     widget.firstTab = widget.firstTab - 1;
     if (widget.firstTab == 0) {
       // widget.bloc.add(FetchBooks(widget.firstTab + 1)); TODO:
+      _favoriteBloc.add(GetVideosFavorite());
     } else {
       onTapping(widget.firstTab);
     }
@@ -146,5 +151,14 @@ class _TitleSelectorState extends State<TitleSelector> {
 
     print('index; ${blocIndex}');
     // widget.bloc.add(FetchBooks(blocIndex));TODO:
+    if (blocIndex == 1) {
+      _favoriteBloc.add(GetVideosFavorite());
+    } else if (blocIndex == 2) {
+      _favoriteBloc.add(GetAhkamFavorite());
+    }else if (blocIndex == 3) {
+      _favoriteBloc.add(GetNarrativesFavorite());
+    }else if (blocIndex == 4) {
+      _favoriteBloc.add(GetShohadaFavorite());
+    }
   }
 }
