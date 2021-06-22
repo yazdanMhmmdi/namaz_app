@@ -14,3 +14,17 @@ class GetNarrativesDetails extends NarrativesDetailsEvent {
   // TODO: implement props
   List<Object> get props => [this.narratives_id];
 }
+
+class LikeNarratives extends NarrativesDetailsEvent {
+  String user_id, narratives_id;
+  LikeNarratives({@required this.user_id, @required this.narratives_id});
+  @override
+  List<Object> get props => [this.narratives_id, this.user_id];
+}
+
+class DisLikeNarratives extends NarrativesDetailsEvent {
+  String user_id, narratives_id;
+  DisLikeNarratives({@required this.user_id, @required this.narratives_id});
+  @override
+  List<Object> get props => [this.narratives_id, this.user_id];
+}

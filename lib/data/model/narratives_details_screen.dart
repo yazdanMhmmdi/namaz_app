@@ -30,6 +30,7 @@ class Data {
   String quoteeTranslation;
   String quoteTranslation;
   String source;
+  String liked;
 
   Data(
       {this.rowid,
@@ -38,7 +39,8 @@ class Data {
       this.quote,
       this.quoteeTranslation,
       this.quoteTranslation,
-      this.source});
+      this.source,
+      this.liked});
 
   Data.fromJson(Map<String, dynamic> json) {
     rowid = json['rowid'];
@@ -48,6 +50,7 @@ class Data {
     quoteeTranslation = json['quoteeTranslation'];
     quoteTranslation = json['quoteTranslation'];
     source = json['source'];
+    liked = json['liked'];
   }
 
   Map<String, dynamic> toJson() {
@@ -59,6 +62,7 @@ class Data {
     data['quoteeTranslation'] = this.quoteeTranslation;
     data['quoteTranslation'] = this.quoteTranslation;
     data['source'] = this.source;
+    data['liked'] = this.liked;
     return data;
   }
 }

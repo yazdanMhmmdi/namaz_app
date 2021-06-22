@@ -9,11 +9,13 @@ class NarrativesItem extends StatelessWidget {
   String title, subTitle;
   String thumbPicture;
   String id;
+  Function onTap;
   NarrativesItem({
     @required this.deleteSlidable,
     @required this.title,
     @required this.subTitle,
     @required this.id,
+    @required this.onTap,
   });
 
   @override
@@ -51,11 +53,7 @@ class NarrativesItem extends StatelessWidget {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(20),
                       splashColor: IColors.black15,
-                      onTap: () => Navigator.pushNamed(
-                          context, '/narratives_show',
-                          arguments: <String, String>{
-                            "narratives_id": id,
-                          }),
+                      onTap: onTap,
                       child: Padding(
                         padding: const EdgeInsets.only(
                             left: 8, top: 16, right: 69, bottom: 8),

@@ -112,6 +112,16 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
                   subTitle: _model.narratives[index].quoteTranslation,
                   title: _model.narratives[index].quoteeTranslation,
                   deleteSlidable: true,
+                  onTap: () {
+                    Navigator.pushNamed(context, '/narratives_show',
+                        arguments: <String, String>{
+                          "narratives_id":
+                              _model.narratives[index].narrativesId,
+                        }).then((value) {
+                      this.add(GetFavoriteItems(user_id: GlobalWidget.user_id));
+                      GlobalWidget.tabNumber = 3;
+                    });
+                  },
                 );
               }
             },
@@ -132,7 +142,10 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
                   context, '/shohada_details',
                   arguments: <String, String>{
                     "shohada_id": _model.shohadaBozorgan[i].shohadaBozorganId,
-                  }),
+                  }).then((value) {
+                this.add(GetFavoriteItems(user_id: GlobalWidget.user_id));
+                GlobalWidget.tabNumber = 4;
+              }),
               title: _model.shohadaBozorgan[i].name,
               largePicture: _model.shohadaBozorgan[i].pictureSizeLarge,
             );

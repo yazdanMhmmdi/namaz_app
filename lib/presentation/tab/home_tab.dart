@@ -230,6 +230,13 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                           itemCount: state.homeModel.narratives.length,
                           itemBuilder: (context, index) {
                             return NarrativesItem(
+                              onTap: () {
+                                Navigator.pushNamed(context, '/narratives_show',
+                                    arguments: <String, String>{
+                                      "narratives_id":
+                                          state.homeModel.narratives[index].id,
+                                    });
+                              },
                               deleteSlidable: false,
                               title: state.homeModel.narratives[index]
                                   .quoteeTranslation,
