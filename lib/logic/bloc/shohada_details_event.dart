@@ -14,3 +14,17 @@ class GetShohadaDetails extends ShohadaDetailsEvent {
   // TODO: implement props
   List<Object> get props => [this.shohada_id];
 }
+
+class LikeShohada extends ShohadaDetailsEvent {
+  String user_id, shohada_id;
+  LikeShohada({this.shohada_id, this.user_id});
+  @override
+  List<Object> get props => [this.shohada_id, user_id];
+}
+
+class DisLikeShohada extends ShohadaDetailsEvent {
+  String user_id, shohada_id;
+  DisLikeShohada({this.shohada_id, this.user_id});
+  @override
+  List<Object> get props => [this.shohada_id, user_id];
+}

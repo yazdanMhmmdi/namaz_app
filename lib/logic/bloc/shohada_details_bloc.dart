@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:namaz_app/data/model/shohada_details_model.dart';
 import 'package:namaz_app/data/repository/shohada_details_repository.dart';
+import 'package:namaz_app/presentation/widget/global_widget.dart';
 
 part 'shohada_details_event.dart';
 part 'shohada_details_state.dart';
@@ -14,6 +15,8 @@ class ShohadaDetailsBloc
   ShohadaDetailsBloc() : super(ShohadaDetailsInitial());
   ShohadaDetailsRepository _repository = new ShohadaDetailsRepository();
   ShohadaDetailsModel _model;
+  String liked = "false";
+
   @override
   Stream<ShohadaDetailsState> mapEventToState(
     ShohadaDetailsEvent event,
@@ -21,14 +24,42 @@ class ShohadaDetailsBloc
     if (event is GetShohadaDetails) {
       try {
         yield ShohadaDetailsLoading();
-        _model = await _repository.getShohadaDetails(event.shohada_id);
+        _model = await _repository.getShohadaDetails(
+            event.shohada_id, GlobalWidget.user_id);
         if (_model.error == "0") {
-          yield ShohadaDetailsSuccess(shohadaDetailsModel: _model);
+          liked = _model.data.liked.toString();
+
+          yield ShohadaDetailsSuccess(
+              shohadaDetailsModel: _model, liked: liked);
         } else {
           yield ShohadaDetailsFailure();
         }
       } catch (err) {
         yield ShohadaDetailsFailure();
+      }
+    } else if (event is LikeShohada) {
+      try {
+        await _repository.likeShohada(event.shohada_id, event.user_id);
+        if (_model.error == "0") {
+          liked = "true";
+          yield LikeShohadaSuccess(shohadaDetailsModel: _model, liked: liked);
+        } else {
+          // yield LikeAhkamFailure();
+        }
+      } catch (err) {
+        // yield LikeAhkamFailure();
+      }
+    } else if (event is DisLikeShohada) {
+      try {
+        await _repository.disLikeShohada(event.shohada_id, event.user_id);
+        if (_model.error == "0") {
+          liked = "false";
+          yield LikeShohadaSuccess(shohadaDetailsModel: _model, liked: liked);
+        } else {
+          // yield LikeAhkamFailure();
+        }
+      } catch (err) {
+        // yield LikeAhkamFailure();
       }
     }
   }

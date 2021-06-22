@@ -28,13 +28,15 @@ class Data {
   String pictureSizeSmall;
   String pictureSizeLarge;
   String titleText;
+  String liked;
 
   Data(
       {this.id,
       this.name,
       this.pictureSizeSmall,
       this.pictureSizeLarge,
-      this.titleText});
+      this.titleText,
+      this.liked});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -42,6 +44,7 @@ class Data {
     pictureSizeSmall = json['picture_size_small'];
     pictureSizeLarge = json['picture_size_large'];
     titleText = json['title_text'];
+    liked = json['liked'];
   }
 
   Map<String, dynamic> toJson() {
@@ -51,6 +54,7 @@ class Data {
     data['picture_size_small'] = this.pictureSizeSmall;
     data['picture_size_large'] = this.pictureSizeLarge;
     data['title_text'] = this.titleText;
+    data['liked'] = this.liked;
     return data;
   }
 }

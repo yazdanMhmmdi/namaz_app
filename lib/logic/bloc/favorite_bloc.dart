@@ -138,7 +138,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
         for (int i = 0; i < _model.shohadaBozorgan.length; i++) {
           list.add(Builder(builder: (context) {
             return ShohadaItem(
-              onTap: () => Navigator.popAndPushNamed(
+              onTap: () => Navigator.pushNamed(
                   context, '/shohada_details',
                   arguments: <String, String>{
                     "shohada_id": _model.shohadaBozorgan[i].shohadaBozorganId,
