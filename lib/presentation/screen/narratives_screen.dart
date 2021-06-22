@@ -103,6 +103,13 @@ class _NarrativesScreenState extends State<NarrativesScreen> {
                 itemCount: state.narrativesModel.narratives.length,
                 itemBuilder: (context, index) {
                   return NarrativesItem(
+                    id: state.narrativesModel.narratives[index].id,
+                    onTap: () => Navigator.pushNamed(
+                        context, '/narratives_show',
+                        arguments: <String, String>{
+                          "narratives_id": state
+                              .narrativesModel.narratives[index].id,
+                        }),
                     deleteSlidable: false,
                     title: state
                         .narrativesModel.narratives[index].quoteeTranslation,
