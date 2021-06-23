@@ -19,12 +19,13 @@ import 'package:namaz_app/presentation/screen/narratives_show_screen.dart';
 import 'package:namaz_app/presentation/screen/shohada_screen.dart';
 import 'package:namaz_app/presentation/screen/shohada_show_screen.dart';
 import 'package:namaz_app/presentation/screen/sign_up_screen.dart';
+import 'package:namaz_app/presentation/screen/video_details_screen.dart';
 import 'package:namaz_app/presentation/screen/videos_screen.dart';
 
 class AppRouter {
   Route onGeneratedRoute(RouteSettings settings) {
     switch (settings.name) {
-      case '/':
+      case '/home':
         return MaterialPageRoute(builder: (_) => HomeScreen());
       case '/sign_up':
         return MaterialPageRoute(builder: (_) => SignUpScreen());
@@ -74,7 +75,9 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
                 create: (cotnext) => VideoBloc(), child: VideosScreen()));
-
+      case '/':
+        final Map<String, String> args = settings.arguments;
+        return MaterialPageRoute(builder: (_) => VideoDetailsScreen());
       default:
         return MaterialPageRoute(builder: (_) => IntroScreen());
     }
