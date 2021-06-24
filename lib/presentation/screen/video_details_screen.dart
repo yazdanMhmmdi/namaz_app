@@ -26,6 +26,7 @@ class _VideoDetailsScreenState extends State<VideoDetailsScreen> {
   Icon iconState =
       Icon(Icons.favorite_border, size: 30, color: IColors.white85);
   var chewieController;
+  Color backgroundColor = Colors.grey[600];
   @override
   void initState() {
     super.initState();
@@ -39,25 +40,34 @@ class _VideoDetailsScreenState extends State<VideoDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     print(video_id);
-    return Scaffold(
-        backgroundColor: Colors.grey[600],
-        body: BlocBuilder<VideoDetailsBloc, VideoDetailsState>(
-          builder: (context, state) {
-            if (state is VideoDetailsInitial) {
-              return Container();
-            } else if (state is VideoDetailsLoading) {
-              return LoadingBar(
-                color: Colors.white70,
-              );
-            } else if (state is VideoDetailsSuccess) {
-              return getVideoDetailsUI(state);
-            } else if (state is LikeSuccess) {
-              return getVideoDetailsUI(state);
-            } else if (state is VideoDetailsFailure) {
-              return ServerFailureFlare();
-            }
-          },
-        ));
+    return BlocListener<VideoDetailsBloc, VideoDetailsState>(
+      listener: (context, state) {
+        if (state is VideoDetailsFailure) {
+          setState(() {
+            backgroundColor = Colors.white;
+          });
+        }
+      },
+      child: Scaffold(
+          backgroundColor: backgroundColor,
+          body: BlocBuilder<VideoDetailsBloc, VideoDetailsState>(
+            builder: (context, state) {
+              if (state is VideoDetailsInitial) {
+                return Container();
+              } else if (state is VideoDetailsLoading) {
+                return LoadingBar(
+                  color: Colors.white70,
+                );
+              } else if (state is VideoDetailsSuccess) {
+                return getVideoDetailsUI(state);
+              } else if (state is LikeSuccess) {
+                return getVideoDetailsUI(state);
+              } else if (state is VideoDetailsFailure) {
+                return ServerFailureFlare();
+              }
+            },
+          )),
+    );
   }
 
   void _launchURL() async {
