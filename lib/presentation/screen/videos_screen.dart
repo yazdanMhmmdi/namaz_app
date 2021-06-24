@@ -78,7 +78,7 @@ class _VideosScreenState extends State<VideosScreen> {
                   BackButtonWidget(onTap: () => Navigator.pop(context)),
                   Center(
                     child: Text(
-                      "${Strings.narratives}",
+                      "${Strings.videos}",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,

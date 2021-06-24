@@ -14,4 +14,6 @@ class Strings {
   static final String narratives = "آیات و روایات";
   static final String marjae = "مراجع تقلید و احکام نماز";
   static final String shohadaBozorgan = "سخنان شهدا و بزرگان درباره نماز";
+  static final String videos = "ویدئو های آموزشی";
+  static final String ahkam = "احکام مراجع";
 }

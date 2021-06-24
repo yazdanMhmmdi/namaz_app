@@ -90,7 +90,7 @@ class _AhkamScreenState extends State<AhkamScreen> {
                   BackButtonWidget(onTap: () => Navigator.pop(context)),
                   Center(
                     child: Text(
-                      "این یک متن موقتی است",
+                      "${Strings.ahkam}",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
