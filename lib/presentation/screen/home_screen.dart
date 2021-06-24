@@ -37,19 +37,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         orientation: Orientation.portrait);
     return Scaffold(
       backgroundColor: IColors.lightBrown,
-      body: Stack(
-        children: [
-          MotionTabBarView(controller: _bottomNavController, children: <Widget>[
-            // ChatListTab(),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            MotionTabBarView(
+                controller: _bottomNavController,
+                children: <Widget>[
+                  // ChatListTab(),
 
-            // TitleTab(),
-            BlocProvider(create: (context)=> FavoriteBloc(), child: FavoriteTab()),
-            BlocProvider(
-              create: (context) => HomeBloc(),
-              child: HomeTab(),
-            ),
-          ]),
-        ],
+                  // TitleTab(),
+                  BlocProvider(
+                      create: (context) => FavoriteBloc(),
+                      child: FavoriteTab()),
+                  BlocProvider(
+                    create: (context) => HomeBloc(),
+                    child: HomeTab(),
+                  ),
+                ]),
+          ],
+        ),
       ),
       bottomNavigationBar: bottomInternetStatus && bottomFailureStatus
           ? MotionTabBar(

@@ -43,7 +43,7 @@ class VideoDetailsBloc extends Bloc<VideoDetailsEvent, VideoDetailsState> {
             showOptions: false,
             allowFullScreen:
                 false, // in 20 june there is no fix for it so this should be false.
-                
+                   
           );
           await videoPlayerController.initialize();
           // await videoPlayerController.

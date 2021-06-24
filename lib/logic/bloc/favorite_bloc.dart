@@ -52,8 +52,14 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
               padding: EdgeInsets.symmetric(horizontal: 16),
               itemCount: _model.video.length,
               itemBuilder: (context, index) {
-                return VideosItem(
-                  onTap: () {},
+                return VideosItem(   
+                  onTap: () => Navigator.pushNamed(context, '/videos_details',
+                      arguments: <String, String>{
+                        "video_id": _model.video[index].videoId,
+                      }).then((value) {
+                    this.add(GetFavoriteItems(user_id: GlobalWidget.user_id));
+                    GlobalWidget.tabNumber = 1;
+                  }),
                   deleteSlidable: true,
                   title: _model.video[index].title,
                   thumbnail: _model.video[index].thumbnail,
@@ -138,8 +144,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
         for (int i = 0; i < _model.shohadaBozorgan.length; i++) {
           list.add(Builder(builder: (context) {
             return ShohadaItem(
-              onTap: () => Navigator.pushNamed(
-                  context, '/shohada_details',
+              onTap: () => Navigator.pushNamed(context, '/shohada_details',
                   arguments: <String, String>{
                     "shohada_id": _model.shohadaBozorgan[i].shohadaBozorganId,
                   }).then((value) {
