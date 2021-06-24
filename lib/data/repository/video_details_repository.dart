@@ -17,7 +17,7 @@ class VideoDetailsRepository {
 
   Future<VideoDetailsModel> likeVideo(String video_id, String user_id) async {
     final response = await _apiProvider.get(
-        'client_disLike_video_api.php?user_id=${user_id}&video_id=${video_id}');
+        'client_like_video_api.php?user_id=${user_id}&video_id=${video_id}');
     return VideoDetailsModel.fromJson(response);
   }
 

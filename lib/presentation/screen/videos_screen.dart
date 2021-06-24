@@ -50,7 +50,8 @@ class _VideosScreenState extends State<VideosScreen> {
               return getVideoUI(state);
             } else if (state is VideoListCompleted) {
               lazyLoading = false;
-              return getVideoUI(state);
+              return getVideoUI(state); 
+                      
             } else if (state is VideoSuccess) {
               return getVideoUI(state);
             } else if (state is VideoFailure) {
@@ -101,6 +102,11 @@ class _VideosScreenState extends State<VideosScreen> {
                 itemCount: state.videoModel.video.length,
                 itemBuilder: (contet, index) {
                   return VideosItem(
+                      onTap: () => Navigator.pushNamed(
+                              context, '/videos_details',
+                              arguments: <String, String>{
+                                "video_id": state.videoModel.video[index].id,
+                              }),
                       deleteSlidable: false,
                       title: state.videoModel.video[index].title,
                       thumbnail: state.videoModel.video[index].thumbnail);

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/logic/bloc/ahkam_bloc.dart';
 import 'package:namaz_app/logic/bloc/ahkam_details_bloc.dart';
+import 'package:namaz_app/logic/bloc/home_bloc.dart';
 import 'package:namaz_app/logic/bloc/marjae_bloc.dart';
 import 'package:namaz_app/logic/bloc/narratives_bloc.dart';
 import 'package:namaz_app/logic/bloc/narratives_details_bloc.dart';
 import 'package:namaz_app/logic/bloc/shohada_bloc.dart';
 import 'package:namaz_app/logic/bloc/shohada_details_bloc.dart';
 import 'package:namaz_app/logic/bloc/video_bloc.dart';
+import 'package:namaz_app/logic/bloc/video_details_bloc.dart';
 import 'package:namaz_app/presentation/screen/ahkam_screen.dart';
 import 'package:namaz_app/presentation/screen/ahkam_show_screen.dart';
 import 'package:namaz_app/presentation/screen/favorite_screen.dart';
@@ -25,8 +27,10 @@ import 'package:namaz_app/presentation/screen/videos_screen.dart';
 class AppRouter {
   Route onGeneratedRoute(RouteSettings settings) {
     switch (settings.name) {
-      case '/home':
-        return MaterialPageRoute(builder: (_) => HomeScreen());
+      case '/':
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                create: (context) => HomeBloc(), child: HomeScreen()));
       case '/sign_up':
         return MaterialPageRoute(builder: (_) => SignUpScreen());
       case '/marjae':
@@ -75,9 +79,14 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
                 create: (cotnext) => VideoBloc(), child: VideosScreen()));
-      case '/':
+      case '/videos_details':
         final Map<String, String> args = settings.arguments;
-        return MaterialPageRoute(builder: (_) => VideoDetailsScreen());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                create: (context) => VideoDetailsBloc(),
+                child: VideoDetailsScreen(
+                  args: args,
+                )));
       default:
         return MaterialPageRoute(builder: (_) => IntroScreen());
     }
