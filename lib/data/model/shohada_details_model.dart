@@ -27,6 +27,7 @@ class Data {
   String name;
   String pictureSizeSmall;
   String pictureSizeLarge;
+  String pictureSizeXLarge;
   String titleText;
   String liked;
 
@@ -35,6 +36,7 @@ class Data {
       this.name,
       this.pictureSizeSmall,
       this.pictureSizeLarge,
+      this.pictureSizeXLarge,
       this.titleText,
       this.liked});
 
@@ -43,6 +45,7 @@ class Data {
     name = json['name'];
     pictureSizeSmall = json['picture_size_small'];
     pictureSizeLarge = json['picture_size_large'];
+    pictureSizeXLarge = json['picture_size_x_large'];
     titleText = json['title_text'];
     liked = json['liked'];
   }
@@ -53,6 +56,7 @@ class Data {
     data['name'] = this.name;
     data['picture_size_small'] = this.pictureSizeSmall;
     data['picture_size_large'] = this.pictureSizeLarge;
+    data['picture_size_x_large'] = this.pictureSizeXLarge;
     data['title_text'] = this.titleText;
     data['liked'] = this.liked;
     return data;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:namaz_app/constants/colors.dart';
+import 'package:namaz_app/networking/api_provider.dart';
 import 'package:namaz_app/presentation/widget/my_slide_action.dart';
 
 class VideosItem extends StatelessWidget {
@@ -58,6 +59,12 @@ class VideosItem extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: IColors.purpleCrimson,
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        colorFilter: ColorFilter.mode(IColors.purpleCrimson65, BlendMode.srcOver),
+                        image: NetworkImage(
+                            ApiProvider.IMAGE_PROVIDER + thumbnail),
+                      ),
                     ),
                     child: Center(
                       child: Container(

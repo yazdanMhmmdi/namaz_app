@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiProvider {
-  static const String URL_IP = "192.168.43.237"; //192.168.1.2
+  static const String URL_IP = "localhost"; //192.168.1.2
   final String _BASE_URL = "http://$URL_IP/namaz/v1/api/"; //http
   static const IMAGE_PROVIDER = "http://$URL_IP/namaz/v1/";
   static const VIDEO_PROVIDER = "http://$URL_IP/namaz/v1/";

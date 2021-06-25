@@ -1,6 +1,9 @@
+import 'dart:ui';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/logic/bloc/narratives_details_bloc.dart';
@@ -56,7 +59,7 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
           child: BlocBuilder<NarrativesDetailsBloc, NarrativesDetailsState>(
             builder: (context, state) {
               if (state is NarrativesDetailsInitial) {
-                return Container(); 
+                return Container();
               } else if (state is NarrativesDetailsLoading) {
                 return LoadingBar(
                   color: IColors.lightBrown,
@@ -95,8 +98,33 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
   }
 
   Widget getNarrativesShowUI(var state) {
+    ScreenUtil.init(
+      BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width,
+          maxHeight: MediaQuery.of(context).size.height),
+      designSize: Size(360, 669),
+    );
     return Stack(
       children: [
+        Container(
+          width: double.infinity,
+          height: ScreenUtil().setHeight(250),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              fit: BoxFit.fitWidth,
+              image: AssetImage(
+                Assets.narrativesBackground,
+              ),
+            ),
+          ),
+          child: new BackdropFilter(
+            filter: new ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
+            child: new Container(
+              decoration:
+                  new BoxDecoration(color: Colors.white.withOpacity(0.05)),
+            ),
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 22),
           child: Row(

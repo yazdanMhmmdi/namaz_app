@@ -1,12 +1,15 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flare_loading/flare_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/logic/bloc/shohada_details_bloc.dart';
+import 'package:namaz_app/networking/api_provider.dart';
 import 'package:namaz_app/presentation/widget/global_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
@@ -67,6 +70,24 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
   Widget getShohadaUI(var state) {
     return Stack(
       children: [
+        Container(
+          width: double.infinity,
+          height: ScreenUtil().setHeight(250),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              fit: BoxFit.fitWidth,
+              image: NetworkImage(ApiProvider.IMAGE_PROVIDER +
+                  state.shohadaDetailsModel.data.pictureSizeXLarge),
+            ),
+          ),
+          child: new BackdropFilter(
+            filter: new ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
+            child: new Container(
+              decoration:
+                  new BoxDecoration(color: Colors.white.withOpacity(0.05)),
+            ),
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 22),
           child: Row(
