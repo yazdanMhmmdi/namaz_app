@@ -19,6 +19,12 @@ class FavoriteSuccess extends FavoriteState {
   List<Object> get props => [this.favoriteModel];
 }
 
-class FavoriteIsEmpty extends FavoriteState {}
+class FavoriteIsEmpty extends FavoriteState {
+  var tab;
+  FavoriteIsEmpty({@required this.tab});
+  @override
+  // TODO: implement props
+  List<Object> get props => [this.tab];
+}
 
 class FavoriteFailure extends FavoriteState {}

@@ -2,17 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
+import 'package:namaz_app/logic/bloc/favorite_bloc.dart';
+import 'package:namaz_app/presentation/widget/global_widget.dart';
 import 'package:namaz_app/presentation/widget/my_slide_action.dart';
 
 class AhkamItem extends StatelessWidget {
   bool deleteSlidable = false;
   String title, id;
   Function onTap;
-  AhkamItem(
-      {@required this.deleteSlidable,
-      @required this.title,
-      @required this.id,
-      @required this.onTap});
+  FavoriteBloc favoriteBloc;
+  AhkamItem({
+    @required this.deleteSlidable,
+    @required this.title,
+    @required this.id,
+    @required this.onTap,
+    this.favoriteBloc,
+  });
   @override
   Widget build(BuildContext context) {
     return Slidable(
@@ -25,7 +30,11 @@ class AhkamItem extends StatelessWidget {
           color: Colors.red,
           icon: Icons.delete,
           actionBorderRadius: 8,
-          onTap: () {},
+          onTap: () {
+            favoriteBloc.add(
+                DeleteAhkamItem(ahkam_id: id, user_id: GlobalWidget.user_id));
+            favoriteBloc.add(GetFavoriteItems(user_id: GlobalWidget.user_id));
+          },
         )
       ],
       child: Padding(

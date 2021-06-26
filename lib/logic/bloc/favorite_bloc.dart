@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:namaz_app/data/model/delete_favorites_model.dart';
 import 'package:namaz_app/data/model/favorite_model.dart';
 import 'package:namaz_app/data/repository/favorite_repository.dart';
 import 'package:namaz_app/presentation/tab/favorite_tab.dart';
 import 'package:namaz_app/presentation/widget/ahkam_item.dart';
+import 'package:namaz_app/presentation/widget/empty_widget.dart';
 import 'package:namaz_app/presentation/widget/favorite_video_widget.dart';
 import 'package:namaz_app/presentation/widget/global_widget.dart';
 import 'package:namaz_app/presentation/widget/marjae_large_item.dart';
@@ -41,7 +43,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       }
     } else if (event is GetVideosFavorite) {
       if (_model.video.length == 0) {
-        yield FavoriteIsEmpty();
+        yield FavoriteIsEmpty(tab: EmptyWidget());
       } else {
         yield FavoriteLoading();
         yield FavoriteSuccess(
@@ -52,7 +54,9 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
               padding: EdgeInsets.symmetric(horizontal: 16),
               itemCount: _model.video.length,
               itemBuilder: (context, index) {
-                return VideosItem(   
+                return VideosItem(
+                  video_id: _model.video[index].videoId,
+                  favoriteBloc: this,
                   onTap: () => Navigator.pushNamed(context, '/videos_details',
                       arguments: <String, String>{
                         "video_id": _model.video[index].videoId,
@@ -72,7 +76,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       }
     } else if (event is GetAhkamFavorite) {
       if (_model.ahkam.length == 0) {
-        yield FavoriteIsEmpty();
+        yield FavoriteIsEmpty(tab: EmptyWidget());
       } else {
         yield FavoriteLoading();
         yield FavoriteSuccess(
@@ -84,6 +88,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
             itemBuilder: (context, index) {
               return AhkamItem(
                 id: _model.ahkam[index].ahkamId,
+                favoriteBloc: this,
                 onTap: () => Navigator.pushNamed(context, '/ahkam_show',
                     arguments: <String, String>{
                       "ahkam_id": _model.ahkam[index].ahkamId,
@@ -101,8 +106,8 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
         );
       }
     } else if (event is GetNarrativesFavorite) {
-      if (_model.ahkam.length == 0) {
-        yield FavoriteIsEmpty();
+      if (_model.narratives.length == 0) {
+        yield FavoriteIsEmpty(tab: EmptyWidget());
       } else {
         yield FavoriteLoading();
         yield FavoriteSuccess(
@@ -118,6 +123,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
                   subTitle: _model.narratives[index].quoteTranslation,
                   title: _model.narratives[index].quoteeTranslation,
                   deleteSlidable: true,
+                  favoriteBloc: this,
                   onTap: () {
                     Navigator.pushNamed(context, '/narratives_show',
                         arguments: <String, String>{
@@ -136,14 +142,17 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
         );
       }
     } else if (event is GetShohadaFavorite) {
-      if (_model.ahkam.length == 0) {
-        yield FavoriteIsEmpty();
+      if (_model.shohadaBozorgan.length == 0) {
+        yield FavoriteIsEmpty(tab: EmptyWidget());
       } else {
         yield FavoriteLoading();
         List<Widget> list = new List<Widget>();
         for (int i = 0; i < _model.shohadaBozorgan.length; i++) {
           list.add(Builder(builder: (context) {
             return ShohadaItem(
+              deleteSlidable: true,
+              shohada_id: _model.shohadaBozorgan[i].shohadaBozorganId,
+              favoriteBloc: this,
               onTap: () => Navigator.pushNamed(context, '/shohada_details',
                   arguments: <String, String>{
                     "shohada_id": _model.shohadaBozorgan[i].shohadaBozorganId,
@@ -167,6 +176,62 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
           ),
           favoriteModel: _model,
         );
+      }
+    } else if (event is DeleteVideoItem) {
+      try {
+        yield FavoriteLoading();
+        DeleteFavoritesModel _favoritesModel =
+            await _repository.deleteVideoItems(event.user_id, event.video_id);
+
+        if (_favoritesModel.error == "0") {
+          yield FavoriteSuccess(tab: Container());
+        } else {
+          yield FavoriteFailure();
+        }
+      } catch (err) {
+        yield FavoriteFailure();
+      }
+    } else if (event is DeleteAhkamItem) {
+      try {
+        yield FavoriteLoading();
+        DeleteFavoritesModel _favoritesModel =
+            await _repository.deleteAhkamItems(event.user_id, event.ahkam_id);
+
+        if (_favoritesModel.error == "0") {
+          yield FavoriteSuccess(tab: Container());
+        } else {
+          yield FavoriteFailure();
+        }
+      } catch (err) {
+        yield FavoriteFailure();
+      }
+    } else if (event is DeleteNarrativesItem) {
+      try {
+        yield FavoriteLoading();
+        DeleteFavoritesModel _favoritesModel = await _repository
+            .deleteNarrativesItems(event.user_id, event.narratives_id);
+
+        if (_favoritesModel.error == "0") {
+          yield FavoriteSuccess(tab: Container());
+        } else {
+          yield FavoriteFailure();
+        }
+      } catch (err) {
+        yield FavoriteFailure();
+      }
+    } else if (event is DeleteShohadaItem) {
+      try {
+        yield FavoriteLoading();
+        DeleteFavoritesModel _favoritesModel = await _repository
+            .deleteShohadaItems(event.user_id, event.shohada_id);
+
+        if (_favoritesModel.error == "0") {
+          yield FavoriteSuccess(tab: Container());
+        } else {
+          yield FavoriteFailure();
+        }
+      } catch (err) {
+        yield FavoriteFailure();
       }
     }
   }

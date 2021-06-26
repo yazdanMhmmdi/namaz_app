@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:namaz_app/constants/colors.dart';
+import 'package:namaz_app/logic/bloc/favorite_bloc.dart';
 import 'package:namaz_app/networking/api_provider.dart';
+import 'package:namaz_app/presentation/widget/global_widget.dart';
+import 'package:namaz_app/presentation/widget/my_slide_action.dart';
 
 class ShohadaItem extends StatelessWidget {
   // bool delete = false;
@@ -8,10 +12,17 @@ class ShohadaItem extends StatelessWidget {
   String title;
   String largePicture;
   Function onTap;
-  ShohadaItem(
-      {@required this.title,
-      @required this.largePicture,
-      @required this.onTap});
+  bool deleteSlidable = false;
+  FavoriteBloc favoriteBloc;
+  String shohada_id;
+  ShohadaItem({
+    @required this.title,
+    @required this.largePicture,
+    @required this.onTap,
+    @required this.deleteSlidable,
+    this.favoriteBloc,
+    @required this.shohada_id,
+  });
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -42,6 +53,30 @@ class ShohadaItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             child: Stack(
               children: [
+                GestureDetector(
+                  onTap: () {
+                    favoriteBloc.add(DeleteShohadaItem(
+                        user_id: GlobalWidget.user_id, shohada_id: shohada_id));
+                    favoriteBloc
+                        .add(GetFavoriteItems(user_id: GlobalWidget.user_id));
+                  },
+                  child: Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.delete,
+                        color: IColors.white85,
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(8),
+                        topRight: Radius.circular(8),
+                      ),
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
                 Align(
                     alignment: Alignment.bottomCenter,
                     child: Padding(

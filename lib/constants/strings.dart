@@ -16,4 +16,5 @@ class Strings {
   static final String shohadaBozorgan = "سخنان شهدا و بزرگان درباره نماز";
   static final String videos = "ویدئو های آموزشی";
   static final String ahkam = "احکام مراجع";
+  static final String emptyNote = "آیتمی جهت نمایش وجود ندارد";
 }

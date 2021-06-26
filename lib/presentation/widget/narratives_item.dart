@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
+import 'package:namaz_app/logic/bloc/favorite_bloc.dart';
+import 'package:namaz_app/presentation/widget/global_widget.dart';
 import 'package:namaz_app/presentation/widget/my_slide_action.dart';
 
 class NarrativesItem extends StatelessWidget {
@@ -10,12 +12,14 @@ class NarrativesItem extends StatelessWidget {
   String thumbPicture;
   String id;
   Function onTap;
+  FavoriteBloc favoriteBloc;
   NarrativesItem({
     @required this.deleteSlidable,
     @required this.title,
     @required this.subTitle,
     @required this.id,
     @required this.onTap,
+    this.favoriteBloc,
   });
 
   @override
@@ -30,7 +34,11 @@ class NarrativesItem extends StatelessWidget {
           color: Colors.red,
           icon: Icons.delete,
           actionBorderRadius: 8,
-          onTap: () {},
+          onTap: () {
+            favoriteBloc.add(DeleteNarrativesItem(
+                narratives_id: id, user_id: GlobalWidget.user_id));
+            favoriteBloc.add(GetFavoriteItems(user_id: GlobalWidget.user_id));
+          },
         )
       ],
       child: Padding(
