@@ -28,6 +28,8 @@ class AppRouter {
   Route onGeneratedRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
+        return MaterialPageRoute(builder: (_) => IntroScreen());
+      case '/home':
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
                 create: (context) => HomeBloc(), child: HomeScreen()));

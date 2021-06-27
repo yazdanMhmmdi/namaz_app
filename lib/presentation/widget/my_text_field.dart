@@ -52,20 +52,16 @@ class _MyTextFiledState extends State<MyTextFiled> {
                     border: InputBorder.none,
                     hintText: '${widget.text}',
                   ),
-                  inputFormatters: [
-                    new FilteringTextInputFormatter.allow(
-                        RegExp(r'^[a-zA-Z0-9]+$')),
-                  ],
                 ),
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.only(right: 16),
-              //   child: TextField(
-              //     decoration: InputDecoration(
-              //         border: InputBorder.none,
-              //         hintText: 'نام کاربری'),
-              //   ),
-              // ),
+                // Padding(
+                //   padding: const EdgeInsets.only(right: 16),
+                //   child: TextField(
+                //     decoration: InputDecoration(
+                //         border: InputBorder.none,
+                //         hintText: 'نام کاربری'),
+                //   ),
+                // ),
+              )
             ],
           ),
         ),

@@ -17,4 +17,8 @@ class Strings {
   static final String videos = "ویدئو های آموزشی";
   static final String ahkam = "احکام مراجع";
   static final String emptyNote = "آیتمی جهت نمایش وجود ندارد";
+  
+  static final String signUpUsernameWarning = "نام کاربری اشتباه است";
+    static final String signUpPasswordWarning = "رمز ورود اشتباه است";
+
 }

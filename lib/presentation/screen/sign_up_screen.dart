@@ -7,10 +7,28 @@ import 'package:namaz_app/presentation/widget/background_shapes.dart';
 import 'package:namaz_app/presentation/widget/my_button.dart';
 import 'package:namaz_app/presentation/widget/my_text_field.dart';
 import 'package:namaz_app/presentation/widget/progress_button.dart';
+import 'package:namaz_app/presentation/widget/warning_bar.dart';
+import 'package:regexpattern/regexpattern.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
+  @override
+  _SignUpScreenState createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController usernameController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
+
+  bool _usernameStatus = true;
+  bool _passwordStatus = true;
+
   ButtonState buttonState = ButtonState.idle;
+
+  @override
+  void initState() {
+    authValidatiors();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +65,19 @@ class SignUpScreen extends StatelessWidget {
                             icon: Icons.person,
                             text: "${Strings.signUpUsername}",
                             textFieldColor: IColors.lightBrown),
+                        _usernameStatus
+                            ? Container()
+                            : WarningBar(text: Strings.signUpUsernameWarning),
                         SizedBox(height: 16),
                         MyTextFiled(
-                            controller: usernameController,
-                            obscureText: false,
-                            icon: Icons.person,
+                            controller: passwordController,
+                            obscureText: true,
+                            icon: Icons.lock,
                             text: "${Strings.signPassword}",
                             textFieldColor: IColors.lightBrown),
+                        _passwordStatus
+                            ? Container()
+                            : WarningBar(text: Strings.signUpPasswordWarning),
                         SizedBox(height: 16),
                         MyButton(
                           buttonState: buttonState,
@@ -70,5 +94,37 @@ class SignUpScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void authValidatiors() {
+    usernameController.addListener(() {
+      if (usernameController.text.isUsername() &&
+          usernameController.text.length < 17 &&
+          usernameController.text.length >= 5) {
+        print('ready to sign up');
+        setState(() {
+          _usernameStatus = true;
+        });
+      } else {
+        print('no');
+        setState(() {
+          _usernameStatus = false;
+        });
+      }
+    });
+
+    passwordController.addListener(() {
+      if (passwordController.text.isPasswordEasy() &&
+          passwordController.text.length >= 8 &&
+          passwordController.text.length < 17) {
+        setState(() {
+          _passwordStatus = true;
+        });
+      } else {
+        setState(() {
+          _passwordStatus = false;
+        });
+      }
+    });
   }
 }
