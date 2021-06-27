@@ -8,6 +8,7 @@ import 'package:namaz_app/logic/bloc/narratives_bloc.dart';
 import 'package:namaz_app/logic/bloc/narratives_details_bloc.dart';
 import 'package:namaz_app/logic/bloc/shohada_bloc.dart';
 import 'package:namaz_app/logic/bloc/shohada_details_bloc.dart';
+import 'package:namaz_app/logic/bloc/sign_up_bloc.dart';
 import 'package:namaz_app/logic/bloc/video_bloc.dart';
 import 'package:namaz_app/logic/bloc/video_details_bloc.dart';
 import 'package:namaz_app/presentation/screen/ahkam_screen.dart';
@@ -34,7 +35,9 @@ class AppRouter {
             builder: (_) => BlocProvider(
                 create: (context) => HomeBloc(), child: HomeScreen()));
       case '/sign_up':
-        return MaterialPageRoute(builder: (_) => SignUpScreen());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                create: (context) => SignUpBloc(), child: SignUpScreen()));
       case '/marjae':
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
