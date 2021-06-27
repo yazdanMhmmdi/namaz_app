@@ -28,7 +28,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
   var borderRadius;
   AnimationController _animationController;
   String prevScreen;
-
+  Color backgroundColor = IColors.purpleCrimson;
   Icon iconState =
       Icon(Icons.favorite_border, size: 30, color: IColors.white85);
   @override
@@ -45,25 +45,34 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: IColors.purpleCrimson,
-        body: SafeArea(
-          child: BlocBuilder<AhkamDetailsBloc, AhkamDetailsState>(
-            builder: (context, state) {
-              if (state is AhkamDetailsInitial) {
-                return Container();
-              } else if (state is AhkamDetailsLoading) {
-                return LoadingBar(color: IColors.lightBrown);
-              } else if (state is AhkamDetailsSuccess) {
-                return getAhkamShowUI(state);
-              } else if (state is LikeAhkamSuccess) {
-                return getAhkamShowUI(state);
-              } else if (state is AhkamDetailsFailure) {
-                return ServerFailureFlare();
-              }
-            },
-          ),
-        ));
+    return BlocListener<AhkamDetailsBloc, AhkamDetailsState>(
+      listener: (context, state) {
+        if (state is AhkamDetailsFailure) {
+          setState(() {
+            backgroundColor = Colors.white;
+          });
+        }
+      },
+      child: Scaffold(
+          backgroundColor: backgroundColor,
+          body: SafeArea(
+            child: BlocBuilder<AhkamDetailsBloc, AhkamDetailsState>(
+              builder: (context, state) {
+                if (state is AhkamDetailsInitial) {
+                  return Container();
+                } else if (state is AhkamDetailsLoading) {
+                  return LoadingBar(color: IColors.lightBrown);
+                } else if (state is AhkamDetailsSuccess) {
+                  return getAhkamShowUI(state);
+                } else if (state is LikeAhkamSuccess) {
+                  return getAhkamShowUI(state);
+                } else if (state is AhkamDetailsFailure) {
+                  return ServerFailureFlare();
+                }
+              },
+            ),
+          )),
+    );
   }
 
   void _getArguments() {

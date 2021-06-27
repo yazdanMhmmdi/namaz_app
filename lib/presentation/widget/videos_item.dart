@@ -19,7 +19,7 @@ class VideosItem extends StatelessWidget {
     @required this.title,
     @required this.thumbnail,
     @required this.onTap,
-    @required this.favoriteBloc,
+    this.favoriteBloc,
   });
   @override
   Widget build(BuildContext context) {

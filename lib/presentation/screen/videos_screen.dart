@@ -102,6 +102,8 @@ class _VideosScreenState extends State<VideosScreen> {
                 itemCount: state.videoModel.video.length,
                 itemBuilder: (contet, index) {
                   return VideosItem(
+                    
+                    video_id: state.videoModel.video[index].id,
                       onTap: () => Navigator.pushNamed(
                               context, '/videos_details',
                               arguments: <String, String>{

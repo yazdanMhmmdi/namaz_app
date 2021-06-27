@@ -67,6 +67,7 @@ class MarjaeSmallItem extends StatelessWidget {
                   color: Colors.transparent,
                   child: InkWell(
                     splashColor: Colors.white10,
+                    borderRadius: BorderRadius.circular(20),
                     onTap: onTap,
                     child: Align(
                       alignment: Alignment.bottomCenter,

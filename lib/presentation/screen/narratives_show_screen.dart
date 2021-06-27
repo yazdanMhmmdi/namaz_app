@@ -34,7 +34,7 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
   var borderRadius;
 
   AnimationController _animationController;
-
+  Color backgroundColor = IColors.purpleCrimson;
   Icon iconState =
       Icon(Icons.favorite_border, size: 30, color: IColors.white85);
   @override
@@ -53,27 +53,36 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: IColors.purpleCrimson,
-        body: SafeArea(
-          child: BlocBuilder<NarrativesDetailsBloc, NarrativesDetailsState>(
-            builder: (context, state) {
-              if (state is NarrativesDetailsInitial) {
-                return Container();
-              } else if (state is NarrativesDetailsLoading) {
-                return LoadingBar(
-                  color: IColors.lightBrown,
-                );
-              } else if (state is NarrativesDetailsSuccess) {
-                return getNarrativesShowUI(state);
-              } else if (state is LikeNarrativesSuccess) {
-                return getNarrativesShowUI(state);
-              } else if (state is NarrativesDetailsFailure) {
-                return ServerFailureFlare();
-              }
-            },
-          ),
-        ));
+    return BlocListener<NarrativesDetailsBloc, NarrativesDetailsState>(
+      listener: (context, state) {
+        if (state is NarrativesDetailsFailure) {
+          setState(() {
+            backgroundColor = Colors.white;
+          });
+        }
+      },
+      child: Scaffold(
+          backgroundColor: backgroundColor,
+          body: SafeArea(
+            child: BlocBuilder<NarrativesDetailsBloc, NarrativesDetailsState>(
+              builder: (context, state) {
+                if (state is NarrativesDetailsInitial) {
+                  return Container();
+                } else if (state is NarrativesDetailsLoading) {
+                  return LoadingBar(
+                    color: IColors.lightBrown,
+                  );
+                } else if (state is NarrativesDetailsSuccess) {
+                  return getNarrativesShowUI(state);
+                } else if (state is LikeNarrativesSuccess) {
+                  return getNarrativesShowUI(state);
+                } else if (state is NarrativesDetailsFailure) {
+                  return ServerFailureFlare();
+                }
+              },
+            ),
+          )),
+    );
   }
 
   void _getArguments() {

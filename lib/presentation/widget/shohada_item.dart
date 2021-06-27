@@ -60,22 +60,24 @@ class ShohadaItem extends StatelessWidget {
                     favoriteBloc
                         .add(GetFavoriteItems(user_id: GlobalWidget.user_id));
                   },
-                  child: Container(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.delete,
-                        color: IColors.white85,
-                      ),
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(8),
-                        topRight: Radius.circular(8),
-                      ),
-                      color: Colors.red,
-                    ),
-                  ),
+                  child: deleteSlidable
+                      ? Container(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.delete,
+                              color: IColors.white85,
+                            ),
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(8),
+                              topRight: Radius.circular(8),
+                            ),
+                            color: Colors.red,
+                          ),
+                        )
+                      : Container(),
                 ),
                 Align(
                     alignment: Alignment.bottomCenter,

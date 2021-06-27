@@ -32,6 +32,8 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
   AnimationController _animationController;
   Icon iconState =
       Icon(Icons.favorite_border, size: 30, color: IColors.white85);
+  Color backgroundColor = IColors.purpleCrimson;
+
   @override
   void initState() {
     arguments = widget.args;
@@ -46,25 +48,34 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: IColors.purpleCrimson,
-        body: SafeArea(
-          child: BlocBuilder<ShohadaDetailsBloc, ShohadaDetailsState>(
-            builder: (context, state) {
-              if (state is ShohadaDetailsInitial) {
-                return Container();
-              } else if (state is ShohadaDetailsLoading) {
-                return LoadingBar();
-              } else if (state is ShohadaDetailsSuccess) {
-                return getShohadaUI(state);
-              } else if (state is LikeShohadaSuccess) {
-                return getShohadaUI(state);
-              } else if (state is ShohadaDetailsFailure) {
-                return ServerFailureFlare();
-              }
-            },
-          ),
-        ));
+    return BlocListener<ShohadaDetailsBloc, ShohadaDetailsState>(
+      listener: (context, state) {
+        if (state is ShohadaDetailsFailure) {
+          setState(() {
+            backgroundColor = Colors.white;
+          });
+        }
+      },
+      child: Scaffold(
+          backgroundColor: backgroundColor,
+          body: SafeArea(
+            child: BlocBuilder<ShohadaDetailsBloc, ShohadaDetailsState>(
+              builder: (context, state) {
+                if (state is ShohadaDetailsInitial) {
+                  return Container();
+                } else if (state is ShohadaDetailsLoading) {
+                  return LoadingBar();
+                } else if (state is ShohadaDetailsSuccess) {
+                  return getShohadaUI(state);
+                } else if (state is LikeShohadaSuccess) {
+                  return getShohadaUI(state);
+                } else if (state is ShohadaDetailsFailure) {
+                  return ServerFailureFlare();
+                }
+              },
+            ),
+          )),
+    );
   }
 
   Widget getShohadaUI(var state) {

@@ -71,13 +71,14 @@ class _ShohadaScreenState extends State<ShohadaScreen> {
     List<Widget> list = new List<Widget>();
     for (int i = 0; i < state.shohadaModel.shohadaBozorgan.length; i++) {
       list.add(ShohadaItem(
+        shohada_id: state.shohadaModel.shohadaBozorgan[i].id,
+        deleteSlidable: false,
         onTap: () => Navigator.pushNamed(context, '/shohada_details',
             arguments: <String, String>{
               "shohada_id": state.shohadaModel.shohadaBozorgan[i].id,
             }),
         title: state.shohadaModel.shohadaBozorgan[i].name,
-        largePicture: 
-            state.shohadaModel.shohadaBozorgan[i].pictureSizeLarge,
+        largePicture: state.shohadaModel.shohadaBozorgan[i].pictureSizeLarge,
       ));
     }
     return SingleChildScrollView(
