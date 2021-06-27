@@ -17,11 +17,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     HomeEvent event,
   ) async* {
     if (event is GetHomeItemsEvent) {
-      yield HomeLoading();
-      _model = await _repository.getHomeItems();
-      if (_model.error == "0") {
-        yield HomeSuccess(homeModel: _model);
-      } else {
+      try {
+        yield HomeLoading();
+        _model = await _repository.getHomeItems();
+        if (_model.error == "0") {
+          yield HomeSuccess(homeModel: _model);
+        } else {
+          yield HomeFailure();
+        }
+      } catch (err) {
         yield HomeFailure();
       }
     }

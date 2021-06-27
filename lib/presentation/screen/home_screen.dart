@@ -10,6 +10,7 @@ import 'package:namaz_app/logic/bloc/favorite_bloc.dart';
 import 'package:namaz_app/logic/bloc/home_bloc.dart';
 import 'package:namaz_app/presentation/tab/favorite_tab.dart';
 import 'package:namaz_app/presentation/tab/home_tab.dart';
+import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -35,57 +36,74 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             maxHeight: MediaQuery.of(context).size.height),
         designSize: Size(360, 690),
         orientation: Orientation.portrait);
-    return Scaffold(
-      backgroundColor: IColors.lightBrown,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            MotionTabBarView(
-                controller: _bottomNavController,
-                children: <Widget>[
-                  // ChatListTab(),
+    return BlocListener<HomeBloc, HomeState>(
+      listener: (context, state) {
+        if (state is HomeFailure) {
+          setState(() {
+            bottomFailureStatus = false;
+          });
+        }
+      },
+      child: Scaffold(
+        backgroundColor: IColors.lightBrown,
+        body: SafeArea(
+          child: BlocBuilder<HomeBloc, HomeState>(
+            builder: (context, state) {
+              if (state is HomeFailure) {
+                return ServerFailureFlare();
+              } else {
+                return Stack(
+                  children: [
+                    MotionTabBarView(
+                        controller: _bottomNavController,
+                        children: <Widget>[
+                          // ChatListTab(),
 
-                  // TitleTab(),
-                  BlocProvider(
-                      create: (context) => FavoriteBloc(),
-                      child: FavoriteTab()),
-                  BlocProvider(
-                    create: (context) => HomeBloc(),
-                    child: HomeTab(),
-                  ),
-                ]),
-          ],
+                          // TitleTab(),
+                          BlocProvider(
+                              create: (context) => FavoriteBloc(),
+                              child: FavoriteTab()),
+                          BlocProvider.value(
+                            value: BlocProvider.of<HomeBloc>(context),
+                            child: HomeTab(),
+                          ),
+                        ]),
+                  ],
+                );
+              }
+            },
+          ),
         ),
+        bottomNavigationBar: bottomInternetStatus && bottomFailureStatus
+            ? MotionTabBar(
+                labels: [
+                  Strings.homeFavorite,
+                  Strings.home,
+                ],
+                initialSelectedTab: Strings.home,
+
+                tabIconColor: Color(0xffA3A2A8),
+                tabSelectedColor: IColors.brown, //TODO: needs to be replace
+                onTabItemSelected: (int value) {
+                  print(value);
+                  setState(() {
+                    _bottomNavController.index = value;
+                  });
+                },
+                icons: [
+                  // Icons.chat,
+                  Icons.favorite,
+
+                  Icons.home,
+                ],
+                textStyle: TextStyle(
+                    color: Colors.black87,
+                    fontFamily: "IranSans",
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700),
+              )
+            : null,
       ),
-      bottomNavigationBar: bottomInternetStatus && bottomFailureStatus
-          ? MotionTabBar(
-              labels: [
-                Strings.homeFavorite,
-                Strings.home,
-              ],
-              initialSelectedTab: Strings.home,
-
-              tabIconColor: Color(0xffA3A2A8),
-              tabSelectedColor: IColors.brown, //TODO: needs to be replace
-              onTabItemSelected: (int value) {
-                print(value);
-                setState(() {
-                  _bottomNavController.index = value;
-                });
-              },
-              icons: [
-                // Icons.chat,
-                Icons.favorite,
-
-                Icons.home,
-              ],
-              textStyle: TextStyle(
-                  color: Colors.black87,
-                  fontFamily: "IranSans",
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700),
-            )
-          : null,
     );
   }
 }

@@ -337,7 +337,8 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
         );
       } else if (state is HomeLoading) {
         return LoadingBar();
-      } else {
+      }
+       else {
         return Container();
       }
     });
