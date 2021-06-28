@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
@@ -235,14 +236,50 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                                 )
                               ],
                             ),
-                            Text(
-                              "${state.ahkamDetailsModel.data.titleText}",
-                              maxLines: null,
-                              style: TextStyle(
-                                  fontSize: 14,
+                            Html(
+                              data:
+                                  '${state.ahkamDetailsModel.data.titleText}',
+                              style: {
+                                "*": Style(
+                                  lineHeight: LineHeight.number(1),
+                                  direction: TextDirection.rtl,
+                                ),
+                                "h3": Style(
+                                  fontSize: FontSize(18),
+                                  color: IColors.black70,
+                                ),
+                                "h4": Style(
+                                  fontSize: FontSize(16),
+                                  color: IColors.black70,
+                                ),
+                                "h5": Style(
+                                  fontSize: FontSize(16),
+                                  color: IColors.black70,
                                   fontWeight: FontWeight.bold,
-                                  color: IColors.black70),
-                            )
+                                ),
+                                "div": Style(
+                                  fontSize: FontSize(14),
+                                  padding: EdgeInsets.only(right: 20),
+                                ),
+                                "div p": Style(
+                                  color: IColors.black45,
+                                  fontSize: FontSize(14),
+                                ),
+                                "p": Style(
+                                  color: IColors.black45,
+                                  fontSize: FontSize(14),
+                                ),
+                                "h4 strong span": Style(
+                                  color: IColors.black70,
+                                ),
+                                "br": Style(
+                                  display: Display.INLINE_BLOCK,
+                                  markerContent: "",
+                                  margin: EdgeInsets.symmetric(vertical: 1),
+                                )
+                              },
+                            ),
+                           
                           ],
                         ),
                       ),

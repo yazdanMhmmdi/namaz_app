@@ -45,7 +45,8 @@ dependencies:
   chewie: ^1.2.2
   regexpattern: ^1.0.0
   shared_preferences: ^2.0.5
-
+  flutter_html: ^2.1.0
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
