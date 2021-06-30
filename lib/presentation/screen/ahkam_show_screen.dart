@@ -4,8 +4,8 @@ import 'dart:ui';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/logic/bloc/ahkam_details_bloc.dart';
@@ -13,6 +13,7 @@ import 'package:namaz_app/networking/api_provider.dart';
 import 'package:namaz_app/presentation/widget/global_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
+import 'package:simple_html_css/simple_html_css.dart';
 
 class AhkamShowScreen extends StatefulWidget {
   Map<String, String> args;
@@ -236,50 +237,87 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                                 )
                               ],
                             ),
-                            Html(
-                              data:
-                                  '${state.ahkamDetailsModel.data.titleText}',
-                              style: {
-                                "*": Style(
-                                  lineHeight: LineHeight.number(1),
-                                  direction: TextDirection.rtl,
-                                ),
-                                "h3": Style(
-                                  fontSize: FontSize(18),
-                                  color: IColors.black70,
-                                ),
-                                "h4": Style(
-                                  fontSize: FontSize(16),
-                                  color: IColors.black70,
-                                ),
-                                "h5": Style(
-                                  fontSize: FontSize(16),
-                                  color: IColors.black70,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                "div": Style(
-                                  fontSize: FontSize(14),
-                                  padding: EdgeInsets.only(right: 20),
-                                ),
-                                "div p": Style(
-                                  color: IColors.black45,
-                                  fontSize: FontSize(14),
-                                ),
-                                "p": Style(
-                                  color: IColors.black45,
-                                  fontSize: FontSize(14),
-                                ),
-                                "h4 strong span": Style(
-                                  color: IColors.black70,
-                                ),
-                                "br": Style(
-                                  display: Display.INLINE_BLOCK,
-                                  markerContent: "",
-                                  margin: EdgeInsets.symmetric(vertical: 1),
-                                )
+                            HtmlWidget(
+                              // the first parameter (`html`) is required
+                              '''
+  ${state.ahkamDetailsModel.data.titleText}
+  ''',
+
+                              // all other parameters are optional, a few notable params:
+
+                              // specify custom styling for an element
+                              // see supported inline styling below
+                              customStylesBuilder: (element) {
+                                if (element.outerHtml.contains('*')) {
+                                  return {
+                                    'line-height': '1.6',
+                                  };
+                                }
+                                if (element.classes.contains('foo')) {
+                                  return {
+                                    'color': 'red',
+                                    'line-height': '2.6',
+                                  };
+                                }
+
+                                return null;
                               },
+
+                              // render a custom widget
+                              customWidgetBuilder: (element) {
+                                if (element.attributes['foo'] == 'bar') {
+                                  return Container();
+                                }
+
+                                return null;
+                              },
+
+                              // this callback will be triggered when user taps a link
+                              onTapUrl: (url) => print('tapped $url'),
+
+                              // set the default styling for text
+                              textStyle: TextStyle(fontSize: 14),
                             ),
-                           
+                            // state.ahkamDetailsModel.data.titleText
+                            // style: {
+                            //   "*": Style(
+                            //     lineHeight: LineHeight.number(1),
+                            //     direction: TextDirection.rtl,
+                            //   ),
+                            //   "h3": Style(
+                            //     fontSize: FontSize(18),
+                            //     color: IColors.black70,
+                            //   ),
+                            //   "h4": Style(
+                            //     fontSize: FontSize(16),
+                            //     color: IColors.black70,
+                            //   ),
+                            //   "h5": Style(
+                            //     fontSize: FontSize(16),
+                            //     color: IColors.black70,
+                            //     fontWeight: FontWeight.bold,
+                            //   ),
+                            //   "div": Style(
+                            //     fontSize: FontSize(14),
+                            //     padding: EdgeInsets.only(right: 20),
+                            //   ),
+                            //   "div p": Style(
+                            //     color: IColors.black45,
+                            //     fontSize: FontSize(14),
+                            //   ),
+                            //   "p": Style(
+                            //     color: IColors.black45,
+                            //     fontSize: FontSize(14),
+                            //   ),
+                            //   "h4 strong span": Style(
+                            //     color: IColors.black70,
+                            //   ),
+                            //   "br": Style(
+                            //     display: Display.INLINE_BLOCK,
+                            //     markerContent: "",
+                            //     margin: EdgeInsets.symmetric(vertical: 1),
+                            //   )
+                            // },
                           ],
                         ),
                       ),
