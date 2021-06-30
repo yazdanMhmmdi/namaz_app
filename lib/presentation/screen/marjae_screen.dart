@@ -48,7 +48,7 @@ class MarjaeScreen extends StatelessWidget {
                             Text(
                               "${Strings.marjae}",
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 18,
                                 fontWeight: FontWeight.w700,
                                 color: IColors.black70,
                               ),

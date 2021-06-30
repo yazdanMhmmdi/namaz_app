@@ -63,24 +63,22 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
       },
       child: Scaffold(
           backgroundColor: backgroundColor,
-          body: SafeArea(
-            child: BlocBuilder<NarrativesDetailsBloc, NarrativesDetailsState>(
-              builder: (context, state) {
-                if (state is NarrativesDetailsInitial) {
-                  return Container();
-                } else if (state is NarrativesDetailsLoading) {
-                  return LoadingBar(
-                    color: IColors.lightBrown,
-                  );
-                } else if (state is NarrativesDetailsSuccess) {
-                  return getNarrativesShowUI(state);
-                } else if (state is LikeNarrativesSuccess) {
-                  return getNarrativesShowUI(state);
-                } else if (state is NarrativesDetailsFailure) {
-                  return ServerFailureFlare();
-                }
-              },
-            ),
+          body: BlocBuilder<NarrativesDetailsBloc, NarrativesDetailsState>(
+            builder: (context, state) {
+              if (state is NarrativesDetailsInitial) {
+                return Container();
+              } else if (state is NarrativesDetailsLoading) {
+                return LoadingBar(
+                  color: IColors.lightBrown,
+                );
+              } else if (state is NarrativesDetailsSuccess) {
+                return getNarrativesShowUI(state);
+              } else if (state is LikeNarrativesSuccess) {
+                return getNarrativesShowUI(state);
+              } else if (state is NarrativesDetailsFailure) {
+                return ServerFailureFlare();
+              }
+            },
           )),
     );
   }
@@ -135,7 +133,7 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 22),
+          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 32),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -197,7 +195,7 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                       child: ListView(
                         controller: scroll,
                         padding: const EdgeInsets.only(
-                            top: 30, right: 16, left: 16, bottom: 16),
+                            top: 38, right: 16, left: 16, bottom: 16),
                         children: [
                           Row(
                             children: [
@@ -236,18 +234,19 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
-                                            fontSize: 14,
+                                            fontSize: 16,
                                             fontWeight: FontWeight.w700,
                                             color: IColors.black70),
                                       ),
                                     ),
+                                    SizedBox(height: 8,),
                                     Flexible(
                                       child: Text(
                                         "${state.narrativesDetailsModel.data.quoteeTranslation}",
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
-                                            fontSize: 14,
+                                            fontSize: 16,
                                             fontWeight: FontWeight.w700,
                                             color: IColors.black70),
                                       ),
@@ -264,7 +263,7 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                             "${state.narrativesDetailsModel.data.quote}",
                             // overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 16,
                                 fontWeight: FontWeight.normal,
                                 color: IColors.black45),
                           ),
@@ -275,7 +274,7 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                             "${state.narrativesDetailsModel.data.quoteTranslation}",
                             // overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 16,
                                 fontWeight: FontWeight.normal,
                                 color: IColors.black45),
                           ),
@@ -290,7 +289,7 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w700,
                                       color: IColors.black70),
                                 ),

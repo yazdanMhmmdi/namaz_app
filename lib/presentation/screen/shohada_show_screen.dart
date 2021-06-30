@@ -58,22 +58,20 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
       },
       child: Scaffold(
           backgroundColor: backgroundColor,
-          body: SafeArea(
-            child: BlocBuilder<ShohadaDetailsBloc, ShohadaDetailsState>(
-              builder: (context, state) {
-                if (state is ShohadaDetailsInitial) {
-                  return Container();
-                } else if (state is ShohadaDetailsLoading) {
-                  return LoadingBar();
-                } else if (state is ShohadaDetailsSuccess) {
-                  return getShohadaUI(state);
-                } else if (state is LikeShohadaSuccess) {
-                  return getShohadaUI(state);
-                } else if (state is ShohadaDetailsFailure) {
-                  return ServerFailureFlare();
-                }
-              },
-            ),
+          body: BlocBuilder<ShohadaDetailsBloc, ShohadaDetailsState>(
+            builder: (context, state) {
+              if (state is ShohadaDetailsInitial) {
+                return Container();
+              } else if (state is ShohadaDetailsLoading) {
+                return LoadingBar();
+              } else if (state is ShohadaDetailsSuccess) {
+                return getShohadaUI(state);
+              } else if (state is LikeShohadaSuccess) {
+                return getShohadaUI(state);
+              } else if (state is ShohadaDetailsFailure) {
+                return ServerFailureFlare();
+              }
+            },
           )),
     );
   }
@@ -100,7 +98,7 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 22),
+          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 32),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -192,7 +190,7 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w700,
                                       color: IColors.black70),
                                 ),
@@ -203,7 +201,7 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
                             "${state.shohadaDetailsModel.data.titleText}",
                             // overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 16,
                                 fontWeight: FontWeight.normal,
                                 color: IColors.black45),
                           )

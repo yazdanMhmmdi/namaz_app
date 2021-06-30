@@ -253,6 +253,9 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                       }
                     },
                   ),
+                  SizedBox(
+                    height: 8,
+                  ),
                   GestureDetector(
                     onTap: () => Navigator.pushNamed(context, '/narratives'),
                     child: Center(
@@ -267,7 +270,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                     ),
                   ),
                   SizedBox(
-                    height: 8,
+                    height: 16,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -337,8 +340,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
         );
       } else if (state is HomeLoading) {
         return LoadingBar();
-      }
-       else {
+      } else {
         return Container();
       }
     });

@@ -92,8 +92,8 @@ class _AhkamScreenState extends State<AhkamScreen> {
                     child: Text(
                       "${Strings.ahkam}",
                       style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
                         color: IColors.black70,
                       ),
                     ),

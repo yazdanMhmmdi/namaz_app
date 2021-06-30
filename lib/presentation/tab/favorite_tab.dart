@@ -68,7 +68,7 @@ class _FavoriteTabState extends State<FavoriteTab> with WidgetsBindingObserver {
               ),
             ),
             SizedBox(
-              height: 8,
+              height: 12,
             ),
             state.tab,
             SizedBox(

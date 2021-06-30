@@ -80,8 +80,8 @@ class _VideosScreenState extends State<VideosScreen> {
                     child: Text(
                       "${Strings.videos}",
                       style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
                         color: IColors.black70,
                       ),
                     ),

@@ -57,22 +57,20 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
       },
       child: Scaffold(
           backgroundColor: backgroundColor,
-          body: SafeArea(
-            child: BlocBuilder<AhkamDetailsBloc, AhkamDetailsState>(
-              builder: (context, state) {
-                if (state is AhkamDetailsInitial) {
-                  return Container();
-                } else if (state is AhkamDetailsLoading) {
-                  return LoadingBar(color: IColors.lightBrown);
-                } else if (state is AhkamDetailsSuccess) {
-                  return getAhkamShowUI(state);
-                } else if (state is LikeAhkamSuccess) {
-                  return getAhkamShowUI(state);
-                } else if (state is AhkamDetailsFailure) {
-                  return ServerFailureFlare();
-                }
-              },
-            ),
+          body: BlocBuilder<AhkamDetailsBloc, AhkamDetailsState>(
+            builder: (context, state) {
+              if (state is AhkamDetailsInitial) {
+                return Container();
+              } else if (state is AhkamDetailsLoading) {
+                return LoadingBar(color: IColors.lightBrown);
+              } else if (state is AhkamDetailsSuccess) {
+                return getAhkamShowUI(state);
+              } else if (state is LikeAhkamSuccess) {
+                return getAhkamShowUI(state);
+              } else if (state is AhkamDetailsFailure) {
+                return ServerFailureFlare();
+              }
+            },
           )),
     );
   }
@@ -137,7 +135,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 22),
+          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 32),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -230,7 +228,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                        fontSize: 14,
+                                        fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                         color: IColors.black70),
                                   ),

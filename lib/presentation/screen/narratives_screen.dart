@@ -82,7 +82,7 @@ class _NarrativesScreenState extends State<NarrativesScreen> {
                   Text(
                     "${Strings.narratives}",
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
                       fontWeight: FontWeight.w700,
                       color: IColors.black70,
                     ),

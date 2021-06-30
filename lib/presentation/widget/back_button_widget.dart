@@ -12,8 +12,8 @@ class BackButtonWidget extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(8),
         child: Container(
-          width: 25,
-          height: 25,
+          width: 28,
+          height: 28,
           decoration: BoxDecoration(
             color: IColors.brown,
             borderRadius: BorderRadius.circular(8),

@@ -96,7 +96,7 @@ class _ShohadaScreenState extends State<ShohadaScreen> {
                   Text(
                     "${Strings.shohadaBozorgan}",
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
                       fontWeight: FontWeight.w700,
                       color: IColors.black70,
                     ),
