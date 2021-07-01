@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,6 +27,20 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
   void initState() {
     _homeBloc = BlocProvider.of<HomeBloc>(context);
     _homeBloc.add(GetHomeItemsEvent());
+
+    FeatureDiscovery.clearPreferences(context, const <String>{
+      // Feature ids for every feature that you want to showcase in order.
+      'favorite',
+    });
+    Timer(Duration(seconds: 1), () {
+      FeatureDiscovery.discoverFeatures(
+        context,
+        const <String>{
+          // Feature ids for every feature that you want to showcase in order.
+          'favorite',
+        },
+      );
+    });
     super.initState();
   }
 

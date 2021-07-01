@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:namaz_app/data/model/shohada_details_model.dart';
 import 'package:namaz_app/data/repository/shohada_details_repository.dart';
 import 'package:namaz_app/presentation/widget/global_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'shohada_details_event.dart';
 part 'shohada_details_state.dart';
@@ -16,7 +17,8 @@ class ShohadaDetailsBloc
   ShohadaDetailsRepository _repository = new ShohadaDetailsRepository();
   ShohadaDetailsModel _model;
   String liked = "false";
-
+  SharedPreferences prefs;
+  bool featureDiscovery = false;
   @override
   Stream<ShohadaDetailsState> mapEventToState(
     ShohadaDetailsEvent event,
@@ -28,9 +30,13 @@ class ShohadaDetailsBloc
             event.shohada_id, GlobalWidget.user_id);
         if (_model.error == "0") {
           liked = _model.data.liked.toString();
+          await experienceFeatureDiscovery();
 
           yield ShohadaDetailsSuccess(
-              shohadaDetailsModel: _model, liked: liked);
+            shohadaDetailsModel: _model,
+            liked: liked,
+            featureDiscovery: featureDiscovery,
+          );
         } else {
           yield ShohadaDetailsFailure();
         }
@@ -61,6 +67,20 @@ class ShohadaDetailsBloc
       } catch (err) {
         // yield LikeAhkamFailure();
       }
+    }
+  }
+
+  Future<void> experienceFeatureDiscovery() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferences preferences = prefs;
+
+    if (preferences.getString("fav") == null) {
+      print("not defined");
+      featureDiscovery = true;
+      await prefs.setString("fav", "false");
+    } else {
+      featureDiscovery = false;
+      print("defined");
     }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:namaz_app/constants/assets.dart';
@@ -15,16 +16,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        fontFamily: Assets.basicFont,
-        canvasColor: Colors.transparent,
+    return FeatureDiscovery(
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          fontFamily: Assets.basicFont,
+          canvasColor: Colors.transparent,
+        ),
+        debugShowCheckedModeBanner: false,
+        onGenerateRoute: _appRouter.onGeneratedRoute,
       ),
-      debugShowCheckedModeBanner: false,
-      onGenerateRoute: _appRouter.onGeneratedRoute,
     );
   }
 }

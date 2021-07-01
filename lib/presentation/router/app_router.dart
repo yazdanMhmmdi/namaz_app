@@ -1,3 +1,4 @@
+import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/logic/bloc/ahkam_bloc.dart';
@@ -70,9 +71,12 @@ class AppRouter {
       case '/narratives_show':
         final Map<String, String> args = settings.arguments;
         return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-                create: (context) => NarrativesDetailsBloc(),
-                child: NarrativesShowScreen(args: args)));
+            builder: (_) => FeatureDiscovery.withProvider(
+                  persistenceProvider: NoPersistenceProvider(),
+                  child: BlocProvider(
+                      create: (context) => NarrativesDetailsBloc(),
+                      child: NarrativesShowScreen(args: args)),
+                ));
       case '/shohada_details':
         final Map<String, String> args = settings.arguments;
         return MaterialPageRoute(

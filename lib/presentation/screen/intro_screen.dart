@@ -19,7 +19,6 @@ class _IntroScreenState extends State<IntroScreen> {
         Navigator.pushNamedAndRemoveUntil(context, '/sign_up', (e) => false);
       } else {
         Navigator.pushNamedAndRemoveUntil(context, '/home', (e) => false);
-        
       }
     });
     super.initState();
@@ -32,6 +31,54 @@ class _IntroScreenState extends State<IntroScreen> {
       body: Stack(
         children: [
           BackgroundShapes(),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  child: Image.asset(Assets.prayerO),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  "این یک متن موقتی",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: IColors.lightBrown,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  "سازنده یزدان محمدی",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: IColors.lightBrown.withOpacity(0.5),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                
+                SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  "دانشکده فنی پسران قم",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: IColors.lightBrown.withOpacity(0.5),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

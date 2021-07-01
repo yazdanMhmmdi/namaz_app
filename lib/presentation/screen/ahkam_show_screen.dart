@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:animate_do/animate_do.dart';
+import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -42,6 +43,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
     _ahkamDetailsBloc = BlocProvider.of<AhkamDetailsBloc>(context);
     _ahkamDetailsBloc.add(
         GetAhkamDetails(ahkam_id: ahkam_id, user_id: GlobalWidget.user_id));
+
     super.initState();
   }
 
@@ -53,6 +55,18 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
           setState(() {
             backgroundColor = Colors.white;
           });
+        } else if (state is AhkamDetailsSuccess) {
+          if (state.featureDiscovery) {
+            Timer(Duration(seconds: 2), () {
+              // FeatureDiscovery.discoverFeatures(
+              //   context,
+              //   const <String>{
+              //     // Feature ids for every feature that you want to showcase in order.
+              //     'favorite',
+              //   },
+              // );
+            });
+          }
         }
       },
       child: Scaffold(
@@ -146,18 +160,40 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                 controller: (controller) {
                   _animationController = controller;
                 },
-                child: IconButton(
-                  padding: EdgeInsets.zero,
-                  onPressed: () {
-                    _animationController.reset();
-                    _animationController.forward();
-                    likeIconState();
-                  },
-                  icon: state.liked == "true"
-                      ? iconState =
-                          Icon(Icons.favorite, size: 30, color: IColors.white85)
-                      : iconState = Icon(Icons.favorite_border,
-                          size: 30, color: IColors.white85),
+                child: DescribedFeatureOverlay(
+                  featureId:
+                      'favorite', // Unique id that identifies this overlay.
+                  tapTarget: Icon(Icons
+                      .favorite_border), // The widget that will be displayed as the tap target.
+                  title: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'مورد علاقه ها',
+                    ),
+                  ),
+                  description: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'برای اضافه کردن این احکام به عنوان مورد علاقه از این دکمه استفاده کنید.',
+                      textAlign: TextAlign.right,
+                    ),
+                  ),
+                  backgroundColor: IColors.brown,
+                  targetColor: Colors.white,
+                  textColor: Colors.white,
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    onPressed: () {
+                      _animationController.reset();
+                      _animationController.forward();
+                      likeIconState();
+                    },
+                    icon: state.liked == "true"
+                        ? iconState = Icon(Icons.favorite,
+                            size: 30, color: IColors.white85)
+                        : iconState = Icon(Icons.favorite_border,
+                            size: 30, color: IColors.white85),
+                  ),
                 ),
               ),
               IconButton(

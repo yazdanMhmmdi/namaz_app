@@ -7,6 +7,7 @@ import 'package:namaz_app/data/model/like_narratives_model.dart';
 import 'package:namaz_app/data/model/narratives_details_screen.dart';
 import 'package:namaz_app/data/repository/narratives_details_repository.dart';
 import 'package:namaz_app/presentation/widget/global_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'narratives_details_event.dart';
 part 'narratives_details_state.dart';
@@ -19,6 +20,8 @@ class NarrativesDetailsBloc
   NarrativesDetailsModel _model;
   LikeNarrativesModel _likeNarrativesModel;
   String liked = "false";
+  bool featureDiscovery = false;
+
   @override
   Stream<NarrativesDetailsState> mapEventToState(
     NarrativesDetailsEvent event,
@@ -30,8 +33,11 @@ class NarrativesDetailsBloc
             event.narratives_id, GlobalWidget.user_id);
         if (_model.error == "0") {
           liked = _model.data.liked.toString();
-
-          yield NarrativesDetailsSuccess(narrativesDetailsModel: _model, liked: liked);
+          await experienceFeatureDiscovery();
+          yield NarrativesDetailsSuccess(
+              narrativesDetailsModel: _model,
+              liked: liked,
+              featureDiscovery: featureDiscovery);
         } else {
           yield NarrativesDetailsFailure();
         }
@@ -66,6 +72,20 @@ class NarrativesDetailsBloc
       } catch (err) {
         // yield LikeAhkamFailure();
       }
+    }
+  }
+
+  Future<void> experienceFeatureDiscovery() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferences preferences = prefs;
+
+    if (preferences.getString("fav") == null) {
+      print("not defined");
+      featureDiscovery = true;
+      await prefs.setString("fav", "false");
+    } else {
+      featureDiscovery = false;
+      print("defined");
     }
   }
 }
