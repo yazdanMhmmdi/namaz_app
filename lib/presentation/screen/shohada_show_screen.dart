@@ -10,9 +10,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/logic/bloc/shohada_details_bloc.dart';
+import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/networking/api_provider.dart';
 import 'package:namaz_app/presentation/widget/global_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
+import 'package:namaz_app/presentation/widget/no_network_flare.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 
 class ShohadaShowScreen extends StatefulWidget {
@@ -72,18 +74,39 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
       },
       child: Scaffold(
           backgroundColor: backgroundColor,
-          body: BlocBuilder<ShohadaDetailsBloc, ShohadaDetailsState>(
+          body: BlocConsumer<InternetCubit, InternetState>(
+            listener: (context, state) {
+              if (state is InternetConnected) {
+                setState(() {
+                  backgroundColor = IColors.purpleCrimson;
+                });
+              } else if (state is InternetDisconnected) {
+                setState(() {
+                  backgroundColor = Colors.white;
+                });
+              }
+            },
             builder: (context, state) {
-              if (state is ShohadaDetailsInitial) {
+              if (state is InternetConnected) {
+                return BlocBuilder<ShohadaDetailsBloc, ShohadaDetailsState>(
+                  builder: (context, state) {
+                    if (state is ShohadaDetailsInitial) {
+                      return Container();
+                    } else if (state is ShohadaDetailsLoading) {
+                      return LoadingBar();
+                    } else if (state is ShohadaDetailsSuccess) {
+                      return getShohadaUI(state);
+                    } else if (state is LikeShohadaSuccess) {
+                      return getShohadaUI(state);
+                    } else if (state is ShohadaDetailsFailure) {
+                      return ServerFailureFlare();
+                    }
+                  },
+                );
+              } else if (state is InternetDisconnected) {
+                return NoNetworkFlare();
+              } else {
                 return Container();
-              } else if (state is ShohadaDetailsLoading) {
-                return LoadingBar();
-              } else if (state is ShohadaDetailsSuccess) {
-                return getShohadaUI(state);
-              } else if (state is LikeShohadaSuccess) {
-                return getShohadaUI(state);
-              } else if (state is ShohadaDetailsFailure) {
-                return ServerFailureFlare();
               }
             },
           )),

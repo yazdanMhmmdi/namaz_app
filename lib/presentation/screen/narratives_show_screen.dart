@@ -9,9 +9,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/logic/bloc/narratives_details_bloc.dart';
+import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/presentation/widget/back_button_widget.dart';
 import 'package:namaz_app/presentation/widget/global_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
+import 'package:namaz_app/presentation/widget/no_network_flare.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 
 class NarrativesShowScreen extends StatefulWidget {
@@ -77,20 +79,42 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
       },
       child: Scaffold(
           backgroundColor: backgroundColor,
-          body: BlocBuilder<NarrativesDetailsBloc, NarrativesDetailsState>(
+          body: BlocConsumer<InternetCubit, InternetState>(
+            listener: (context, state) {
+              if (state is InternetConnected) {
+                setState(() {
+                  backgroundColor = IColors.purpleCrimson;
+                });
+              } else if (state is InternetDisconnected) {
+                setState(() {
+                  backgroundColor = Colors.white;
+                });
+              }
+            },
             builder: (context, state) {
-              if (state is NarrativesDetailsInitial) {
-                return Container();
-              } else if (state is NarrativesDetailsLoading) {
-                return LoadingBar(
-                  color: IColors.lightBrown,
+              if (state is InternetConnected) {
+                return BlocBuilder<NarrativesDetailsBloc,
+                    NarrativesDetailsState>(
+                  builder: (context, state) {
+                    if (state is NarrativesDetailsInitial) {
+                      return Container();
+                    } else if (state is NarrativesDetailsLoading) {
+                      return LoadingBar(
+                        color: IColors.lightBrown,
+                      );
+                    } else if (state is NarrativesDetailsSuccess) {
+                      return getNarrativesShowUI(state);
+                    } else if (state is LikeNarrativesSuccess) {
+                      return getNarrativesShowUI(state);
+                    } else if (state is NarrativesDetailsFailure) {
+                      return ServerFailureFlare();
+                    }
+                  },
                 );
-              } else if (state is NarrativesDetailsSuccess) {
-                return getNarrativesShowUI(state);
-              } else if (state is LikeNarrativesSuccess) {
-                return getNarrativesShowUI(state);
-              } else if (state is NarrativesDetailsFailure) {
-                return ServerFailureFlare();
+              } else if (state is InternetDisconnected) {
+                return NoNetworkFlare();
+              } else {
+                return Container();
               }
             },
           )),

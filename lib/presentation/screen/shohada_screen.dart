@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/logic/bloc/shohada_bloc.dart';
+import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/networking/api_provider.dart';
 import 'package:namaz_app/presentation/widget/back_button_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/marjae_large_item.dart';
 import 'package:namaz_app/presentation/widget/my_tool_bar_text.dart';
+import 'package:namaz_app/presentation/widget/no_network_flare.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 import 'package:namaz_app/presentation/widget/shohada_item.dart';
 import 'package:namaz_app/presentation/widget/videos_item.dart';
@@ -34,6 +36,8 @@ class _ShohadaScreenState extends State<ShohadaScreen> {
     super.initState();
   }
 
+  Color backgroundColor = IColors.lightBrown;
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<ShohadaBloc, ShohadaState>(
@@ -45,24 +49,34 @@ class _ShohadaScreenState extends State<ShohadaScreen> {
         }
       },
       child: Scaffold(
-        backgroundColor: IColors.lightBrown,
+        backgroundColor: backgroundColor,
         body: SafeArea(
-          child: BlocBuilder<ShohadaBloc, ShohadaState>(
-            builder: (context, state) {
-              if (state is ShohadaLoading) {
-                return LoadingBar();
-              } else if (state is ShohadaSuccess) {
-                return shohadaUI(state);
-              } else if (state is ShohadaLazyLoading) {
-                return shohadaUI(state);
-              } else if (state is ShohadaFailure) {
-                return ServerFailureFlare();
-              } else if (state is ShohadaInitial) {
-                return Container();
-              }
-            },
-          ),
-        ),
+            child: BlocConsumer<InternetCubit, InternetState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            if (state is InternetConnected) {
+              return BlocBuilder<ShohadaBloc, ShohadaState>(
+                builder: (context, state) {
+                  if (state is ShohadaLoading) {
+                    return LoadingBar();
+                  } else if (state is ShohadaSuccess) {
+                    return shohadaUI(state);
+                  } else if (state is ShohadaLazyLoading) {
+                    return shohadaUI(state);
+                  } else if (state is ShohadaFailure) {
+                    return ServerFailureFlare();
+                  } else if (state is ShohadaInitial) {
+                    return Container();
+                  }
+                },
+              );
+            } else if (state is InternetDisconnected) {
+              return NoNetworkFlare();
+            } else {
+              return Container();
+            }
+          },
+        )),
       ),
     );
   }

@@ -4,10 +4,12 @@ import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/logic/bloc/ahkam_bloc.dart';
+import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/presentation/widget/ahkam_item.dart';
 import 'package:namaz_app/presentation/widget/back_button_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/marjae_large_item.dart';
+import 'package:namaz_app/presentation/widget/no_network_flare.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 import 'package:namaz_app/presentation/widget/shohada_item.dart';
 import 'package:namaz_app/presentation/widget/videos_item.dart';
@@ -48,25 +50,35 @@ class _AhkamScreenState extends State<AhkamScreen> {
     return Scaffold(
       backgroundColor: IColors.lightBrown,
       body: SafeArea(
-        child: BlocBuilder<AhkamBloc, AhkamState>(
-          builder: (context, state) {
-            if (state is AhkamInitial) {
-              return Container();
-            } else if (state is AhkamLoading) {
-              return LoadingBar();
-            } else if (state is AhkamSuccess) {
-              return getAhkamUI(state);
-            } else if (state is AhkamLazyLoading) {
-              return getAhkamUI(state);
-            } else if (state is AhkamListCompleted) {
-              lazyLoading = false;
-              return getAhkamUI(state);
-            } else if (state is AhkamFailure) {
-              return ServerFailureFlare();
-            }
-          },
-        ),
-      ),
+          child: BlocConsumer<InternetCubit, InternetState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          if (state is InternetConnected) {
+            return BlocBuilder<AhkamBloc, AhkamState>(
+              builder: (context, state) {
+                if (state is AhkamInitial) {
+                  return Container();
+                } else if (state is AhkamLoading) {
+                  return LoadingBar();
+                } else if (state is AhkamSuccess) {
+                  return getAhkamUI(state);
+                } else if (state is AhkamLazyLoading) {
+                  return getAhkamUI(state);
+                } else if (state is AhkamListCompleted) {
+                  lazyLoading = false;
+                  return getAhkamUI(state);
+                } else if (state is AhkamFailure) {
+                  return ServerFailureFlare();
+                }
+              },
+            );
+          } else if (state is InternetDisconnected) {
+            return NoNetworkFlare();
+          } else {
+            return Container();
+          }
+        },
+      )),
     );
   }
 
@@ -81,7 +93,6 @@ class _AhkamScreenState extends State<AhkamScreen> {
         textDirection: TextDirection.rtl,
         child: Column(
           children: [
-            
             Padding(
               padding: const EdgeInsets.only(top: 16, right: 16, left: 16),
               child: Row(

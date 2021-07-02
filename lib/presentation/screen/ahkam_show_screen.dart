@@ -10,9 +10,11 @@ import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/logic/bloc/ahkam_details_bloc.dart';
+import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/networking/api_provider.dart';
 import 'package:namaz_app/presentation/widget/global_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
+import 'package:namaz_app/presentation/widget/no_network_flare.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 import 'package:simple_html_css/simple_html_css.dart';
 
@@ -71,18 +73,39 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
       },
       child: Scaffold(
           backgroundColor: backgroundColor,
-          body: BlocBuilder<AhkamDetailsBloc, AhkamDetailsState>(
+          body: BlocConsumer<InternetCubit, InternetState>(
+            listener: (context, state) {
+              if (state is InternetConnected) {
+                setState(() {
+                  backgroundColor = IColors.purpleCrimson;
+                });
+              } else if (state is InternetDisconnected) {
+                setState(() {
+                  backgroundColor = Colors.white;
+                });
+              }
+            },
             builder: (context, state) {
-              if (state is AhkamDetailsInitial) {
+              if (state is InternetConnected) {
+                return BlocBuilder<AhkamDetailsBloc, AhkamDetailsState>(
+                  builder: (context, state) {
+                    if (state is AhkamDetailsInitial) {
+                      return Container();
+                    } else if (state is AhkamDetailsLoading) {
+                      return LoadingBar(color: IColors.lightBrown);
+                    } else if (state is AhkamDetailsSuccess) {
+                      return getAhkamShowUI(state);
+                    } else if (state is LikeAhkamSuccess) {
+                      return getAhkamShowUI(state);
+                    } else if (state is AhkamDetailsFailure) {
+                      return ServerFailureFlare();
+                    }
+                  },
+                );
+              } else if (state is InternetDisconnected) {
+                return NoNetworkFlare();
+              } else {
                 return Container();
-              } else if (state is AhkamDetailsLoading) {
-                return LoadingBar(color: IColors.lightBrown);
-              } else if (state is AhkamDetailsSuccess) {
-                return getAhkamShowUI(state);
-              } else if (state is LikeAhkamSuccess) {
-                return getAhkamShowUI(state);
-              } else if (state is AhkamDetailsFailure) {
-                return ServerFailureFlare();
               }
             },
           )),
@@ -126,6 +149,12 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
   }
 
   Widget getAhkamShowUI(var state) {
+    ScreenUtil.init(
+      BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width,
+          maxHeight: MediaQuery.of(context).size.height),
+      designSize: Size(360, 669),
+    );
     return Stack(
       children: [
         Container(
@@ -162,7 +191,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                 },
                 child: DescribedFeatureOverlay(
                   featureId:
-                      'favorite', // Unique id that identifies this overlay.
+                      'ahkam_favorite', // Unique id that identifies this overlay.
                   tapTarget: Icon(Icons
                       .favorite_border), // The widget that will be displayed as the tap target.
                   title: Align(

@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/logic/bloc/narratives_bloc.dart';
+import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/presentation/widget/back_button_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/narratives_item.dart';
+import 'package:namaz_app/presentation/widget/no_network_flare.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 
 class NarrativesScreen extends StatefulWidget {
@@ -43,25 +45,35 @@ class _NarrativesScreenState extends State<NarrativesScreen> {
       child: Scaffold(
         backgroundColor: IColors.lightBrown,
         body: SafeArea(
-          child: BlocBuilder<NarrativesBloc, NarrativesState>(
-            builder: (context, state) {
-              if (state is NarrativesInitial) {
-                return Container();
-              } else if (state is NarrativesLoading) {
-                return LoadingBar();
-              } else if (state is NarrativesLazyLoading) {
-                return narrativesUI(state);
-              } else if (state is NarrativesSuccess) {
-                return narrativesUI(state);
-              } else if (state is NarrativesListCompleted) {
-                lazyLoading = false;
-                return narrativesUI(state);
-              } else if (state is NarrativesFailure) {
-                return ServerFailureFlare();
-              }
-            },
-          ),
-        ),
+            child: BlocConsumer<InternetCubit, InternetState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            if (state is InternetConnected) {
+              return BlocBuilder<NarrativesBloc, NarrativesState>(
+                builder: (context, state) {
+                  if (state is NarrativesInitial) {
+                    return Container();
+                  } else if (state is NarrativesLoading) {
+                    return LoadingBar();
+                  } else if (state is NarrativesLazyLoading) {
+                    return narrativesUI(state);
+                  } else if (state is NarrativesSuccess) {
+                    return narrativesUI(state);
+                  } else if (state is NarrativesListCompleted) {
+                    lazyLoading = false;
+                    return narrativesUI(state);
+                  } else if (state is NarrativesFailure) {
+                    return ServerFailureFlare();
+                  }
+                },
+              );
+            } else if (state is InternetDisconnected) {
+              return NoNetworkFlare();
+            } else {
+              return Container();
+            }
+          },
+        )),
       ),
     );
   }
@@ -107,8 +119,8 @@ class _NarrativesScreenState extends State<NarrativesScreen> {
                     onTap: () => Navigator.pushNamed(
                         context, '/narratives_show',
                         arguments: <String, String>{
-                          "narratives_id": state
-                              .narrativesModel.narratives[index].id,
+                          "narratives_id":
+                              state.narrativesModel.narratives[index].id,
                         }),
                     deleteSlidable: false,
                     title: state

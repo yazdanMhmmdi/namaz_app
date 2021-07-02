@@ -8,8 +8,10 @@ import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/logic/bloc/favorite_bloc.dart';
 import 'package:namaz_app/logic/bloc/home_bloc.dart';
+import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/presentation/tab/favorite_tab.dart';
 import 'package:namaz_app/presentation/tab/home_tab.dart';
+import 'package:namaz_app/presentation/widget/no_network_flare.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -46,33 +48,27 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       },
       child: Scaffold(
         backgroundColor: IColors.lightBrown,
-        body: SafeArea(
-          child: BlocBuilder<HomeBloc, HomeState>(
-            builder: (context, state) {
-              if (state is HomeFailure) {
-                return ServerFailureFlare();
-              } else {
-                return Stack(
-                  children: [
-                    MotionTabBarView(
-                        controller: _bottomNavController,
-                        children: <Widget>[
-                          // ChatListTab(),
-
-                          // TitleTab(),
-                          BlocProvider(
-                              create: (context) => FavoriteBloc(),
-                              child: FavoriteTab()),
-                          BlocProvider.value(
-                            value: BlocProvider.of<HomeBloc>(context),
-                            child: HomeTab(),
-                          ),
-                        ]),
-                  ],
-                );
-              }
-            },
-          ),
+        body: BlocConsumer<InternetCubit, InternetState>(
+          listener: (context, state) {
+            if (state is InternetConnected) {
+              setState(() {
+                bottomInternetStatus = true;
+              });
+            } else if (state is InternetDisconnected) {
+              setState(() {
+                bottomInternetStatus = false;
+              });
+            }
+          },
+          builder: (context, state) {
+            if (state is InternetConnected) {
+              return getHomeScreenUI();
+            } else if (state is InternetDisconnected) {
+              return NoNetworkFlare();
+            } else {
+              return Container();
+            }
+          },
         ),
         bottomNavigationBar: bottomInternetStatus && bottomFailureStatus
             ? MotionTabBar(
@@ -103,6 +99,37 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     fontWeight: FontWeight.w700),
               )
             : null,
+      ),
+    );
+  }
+
+  Widget getHomeScreenUI() {
+    return SafeArea(
+      child: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          if (state is HomeFailure) {
+            return ServerFailureFlare();
+          } else {
+            return Stack(
+              children: [
+                MotionTabBarView(
+                    controller: _bottomNavController,
+                    children: <Widget>[
+                      // ChatListTab(),
+
+                      // TitleTab(),
+                      BlocProvider(
+                          create: (context) => FavoriteBloc(),
+                          child: FavoriteTab()),
+                      BlocProvider.value(
+                        value: BlocProvider.of<HomeBloc>(context),
+                        child: HomeTab(),
+                      ),
+                    ]),
+              ],
+            );
+          }
+        },
       ),
     );
   }

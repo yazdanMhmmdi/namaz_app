@@ -8,6 +8,7 @@ import 'package:namaz_app/presentation/screen/intro_screen.dart';
 import 'package:namaz_app/presentation/screen/sign_up_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized(); //connectivity_plus package dependency on
   runApp(MyApp());
 }
 

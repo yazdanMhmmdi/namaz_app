@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,9 +13,9 @@ import 'package:namaz_app/logic/bloc/shohada_details_bloc.dart';
 import 'package:namaz_app/logic/bloc/sign_up_bloc.dart';
 import 'package:namaz_app/logic/bloc/video_bloc.dart';
 import 'package:namaz_app/logic/bloc/video_details_bloc.dart';
+import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/presentation/screen/ahkam_screen.dart';
 import 'package:namaz_app/presentation/screen/ahkam_show_screen.dart';
-import 'package:namaz_app/presentation/screen/favorite_screen.dart';
 import 'package:namaz_app/presentation/screen/home_screen.dart';
 import 'package:namaz_app/presentation/screen/intro_screen.dart';
 import 'package:namaz_app/presentation/screen/marjae_screen.dart';
@@ -27,67 +28,151 @@ import 'package:namaz_app/presentation/screen/video_details_screen.dart';
 import 'package:namaz_app/presentation/screen/videos_screen.dart';
 
 class AppRouter {
+  final InternetCubit _internetCubit =
+      new InternetCubit(connectivity: Connectivity());
   Route onGeneratedRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => IntroScreen());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
+                value: _internetCubit, child: IntroScreen()));
       case '/home':
         return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-                create: (context) => HomeBloc(), child: HomeScreen()));
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider.value(
+                value: _internetCubit,
+              ),
+              BlocProvider(
+                create: (context) => HomeBloc(),
+              ),
+            ],
+            child: HomeScreen(),
+          ),
+        );
       case '/sign_up':
         return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-                create: (context) => SignUpBloc(), child: SignUpScreen()));
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                      value: _internetCubit,
+                    ),
+                    BlocProvider(create: (context) => SignUpBloc())
+                  ],
+                  child: SignUpScreen(),
+                ));
       case '/marjae':
         return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-                create: (context) => MarjaeBloc()..add(GetMarjaeList()),
-                child: MarjaeScreen()));
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider(
+                      create: (context) => MarjaeBloc()..add(GetMarjaeList()),
+                    ),
+                    BlocProvider.value(
+                      value: _internetCubit,
+                    ),
+                  ],
+                  child: MarjaeScreen(),
+                ));
       case '/shohada':
         return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-                create: (context) => ShohadaBloc()..add(GetShohadaList()),
-                child: ShohadaScreen()));
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                      value: _internetCubit,
+                    ),
+                    BlocProvider(
+                      create: (context) => ShohadaBloc()..add(GetShohadaList()),
+                    )
+                  ],
+                  child: ShohadaScreen(),
+                ));
 
       case '/narratives':
         return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-                create: (context) => NarrativesBloc(),
-                child: NarrativesScreen()));
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                      value: _internetCubit,
+                    ),
+                    BlocProvider(
+                      create: (context) => NarrativesBloc(),
+                    )
+                  ],
+                  child: NarrativesScreen(),
+                ));
       case '/ahkam':
         final Map<String, String> args = settings.arguments;
         return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-                create: (context) => AhkamBloc(),
-                child: AhkamScreen(args: args)));
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                      value: _internetCubit,
+                    ),
+                    BlocProvider(
+                      create: (context) => AhkamBloc(),
+                    )
+                  ],
+                  child: AhkamScreen(args: args),
+                ));
       case '/ahkam_show':
         final Map<String, String> args = settings.arguments;
         return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-                create: (context) => AhkamDetailsBloc(),
-                child: AhkamShowScreen(args: args)));
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                      value: _internetCubit,
+                    ),
+                    BlocProvider(
+                      create: (context) => AhkamDetailsBloc(),
+                    )
+                  ],
+                  child: AhkamShowScreen(args: args),
+                ));
 
       case '/narratives_show':
         final Map<String, String> args = settings.arguments;
         return MaterialPageRoute(
             builder: (_) => FeatureDiscovery.withProvider(
                   persistenceProvider: NoPersistenceProvider(),
-                  child: BlocProvider(
-                      create: (context) => NarrativesDetailsBloc(),
-                      child: NarrativesShowScreen(args: args)),
+                  child: MultiBlocProvider(
+                    providers: [
+                      BlocProvider.value(
+                        value: _internetCubit,
+                      ),
+                      BlocProvider(
+                        create: (context) => NarrativesDetailsBloc(),
+                      )
+                    ],
+                    child: NarrativesShowScreen(args: args),
+                  ),
                 ));
       case '/shohada_details':
         final Map<String, String> args = settings.arguments;
         return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-                create: (context) => ShohadaDetailsBloc(),
-                child: ShohadaShowScreen(args: args)));
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                      value: _internetCubit,
+                    ),
+                    BlocProvider(
+                      create: (context) => ShohadaDetailsBloc(),
+                    )
+                  ],
+                  child: ShohadaShowScreen(args: args),
+                ));
       case '/videos':
         final Map<String, String> args = settings.arguments;
         return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-                create: (cotnext) => VideoBloc(), child: VideosScreen()));
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                      value: _internetCubit,
+                    ),
+                    BlocProvider(create: (cotnext) => VideoBloc())
+                  ],
+                  child: VideosScreen(),
+                ));
       case '/videos_details':
         final Map<String, String> args = settings.arguments;
         return MaterialPageRoute(
@@ -97,7 +182,9 @@ class AppRouter {
                   args: args,
                 )));
       default:
-        return MaterialPageRoute(builder: (_) => IntroScreen());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
+                value: _internetCubit, child: IntroScreen()));
     }
   }
 }

@@ -4,9 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/logic/bloc/video_bloc.dart';
+import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/presentation/widget/back_button_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/narratives_item.dart';
+import 'package:namaz_app/presentation/widget/no_network_flare.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 import 'package:namaz_app/presentation/widget/video_item.dart';
 import 'package:namaz_app/presentation/widget/videos_item.dart';
@@ -40,22 +42,34 @@ class _VideosScreenState extends State<VideosScreen> {
     return Scaffold(
       backgroundColor: IColors.lightBrown,
       body: SafeArea(
-        child: BlocBuilder<VideoBloc, VideoState>(
+        child: BlocConsumer<InternetCubit, InternetState>(
+          listener: (context, state) {
+            // if
+          },
           builder: (context, state) {
-            if (state is VideoInitial) {
+            if (state is InternetConnected) {
+              return BlocBuilder<VideoBloc, VideoState>(
+                builder: (context, state) {
+                  if (state is VideoInitial) {
+                    return Container();
+                  } else if (state is VideoLoading) {
+                    return LoadingBar();
+                  } else if (state is VideoLazyLoading) {
+                    return getVideoUI(state);
+                  } else if (state is VideoListCompleted) {
+                    lazyLoading = false;
+                    return getVideoUI(state);
+                  } else if (state is VideoSuccess) {
+                    return getVideoUI(state);
+                  } else if (state is VideoFailure) {
+                    return ServerFailureFlare();
+                  }
+                },
+              );
+            } else if (state is InternetDisconnected) {
+              return NoNetworkFlare();
+            } else {
               return Container();
-            } else if (state is VideoLoading) {
-              return LoadingBar();
-            } else if (state is VideoLazyLoading) {
-              return getVideoUI(state);
-            } else if (state is VideoListCompleted) {
-              lazyLoading = false;
-              return getVideoUI(state); 
-                      
-            } else if (state is VideoSuccess) {
-              return getVideoUI(state);
-            } else if (state is VideoFailure) {
-              return ServerFailureFlare();
             }
           },
         ),
@@ -102,8 +116,7 @@ class _VideosScreenState extends State<VideosScreen> {
                 itemCount: state.videoModel.video.length,
                 itemBuilder: (contet, index) {
                   return VideosItem(
-                    
-                    video_id: state.videoModel.video[index].id,
+                      video_id: state.videoModel.video[index].id,
                       onTap: () => Navigator.pushNamed(
                               context, '/videos_details',
                               arguments: <String, String>{
