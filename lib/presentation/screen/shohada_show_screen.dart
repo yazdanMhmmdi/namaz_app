@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
+import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/logic/bloc/shohada_details_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/networking/api_provider.dart';
@@ -60,14 +61,14 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
           });
         } else if (state is ShohadaDetailsSuccess) {
           if (state.featureDiscovery) {
-            Timer(Duration(seconds: 10), () {
-              // FeatureDiscovery.discoverFeatures(
-              //   context,
-              //   const <String>{
-              //     // Feature ids for every feature that you want to showcase in order.
-              //     'favorite',
-              //   },
-              // );
+            Timer(Duration(seconds: 2), () {
+              FeatureDiscovery.discoverFeatures(
+                context,
+                <String>{
+                  // Feature ids for every feature that you want to showcase in order.
+                  Strings.discoverFeatureShohada,
+                },
+              );
             });
           }
         }
@@ -148,7 +149,7 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
                 },
                 child: DescribedFeatureOverlay(
                   featureId:
-                      'favorite', // Unique id that identifies this overlay.
+                      '${Strings.discoverFeatureShohada}', // Unique id that identifies this overlay.
                   tapTarget: Icon(Icons
                       .favorite_border), // The widget that will be displayed as the tap target.
                   title: Align(

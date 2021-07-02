@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
+import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/logic/bloc/narratives_details_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/presentation/widget/back_button_widget.dart';
@@ -68,9 +69,9 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
             Timer(Duration(seconds: 2), () {
               FeatureDiscovery.discoverFeatures(
                 context,
-                const <String>{
+                <String>{
                   // Feature ids for every feature that you want to showcase in order.
-                  'favorite',
+                  Strings.discoverFeatureNarratives,
                 },
               );
             });
@@ -184,7 +185,7 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                 },
                 child: DescribedFeatureOverlay(
                   featureId:
-                      'favorite', // Unique id that identifies this overlay.
+                      '${Strings.discoverFeatureNarratives}', // Unique id that identifies this overlay.
                   tapTarget: Icon(Icons
                       .favorite_border), // The widget that will be displayed as the tap target.
                   title: Align(

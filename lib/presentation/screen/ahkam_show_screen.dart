@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
+import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/logic/bloc/ahkam_details_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/networking/api_provider.dart';
@@ -60,13 +61,13 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
         } else if (state is AhkamDetailsSuccess) {
           if (state.featureDiscovery) {
             Timer(Duration(seconds: 2), () {
-              // FeatureDiscovery.discoverFeatures(
-              //   context,
-              //   const <String>{
-              //     // Feature ids for every feature that you want to showcase in order.
-              //     'favorite',
-              //   },
-              // );
+              FeatureDiscovery.discoverFeatures(
+                context,
+                <String>{
+                  // Feature ids for every feature that you want to showcase in order.
+                  Strings.discoverFeatureAhkam,
+                },
+              );
             });
           }
         }
@@ -191,7 +192,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                 },
                 child: DescribedFeatureOverlay(
                   featureId:
-                      'ahkam_favorite', // Unique id that identifies this overlay.
+                      '${Strings.discoverFeatureAhkam}', // Unique id that identifies this overlay.
                   tapTarget: Icon(Icons
                       .favorite_border), // The widget that will be displayed as the tap target.
                   title: Align(
