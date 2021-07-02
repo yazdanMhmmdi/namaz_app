@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/networking/api_provider.dart';
+import 'package:octo_image/octo_image.dart';
 
 class MarjaeLargeItem extends StatelessWidget {
   String largePicture;
@@ -18,10 +20,6 @@ class MarjaeLargeItem extends StatelessWidget {
         width: 150,
         height: 170,
         decoration: BoxDecoration(
-            image: DecorationImage(
-                image: NetworkImage(ApiProvider.IMAGE_PROVIDER + largePicture),
-                colorFilter: ColorFilter.mode(
-                    IColors.purpleCrimson65, BlendMode.srcOver)),
             borderRadius: BorderRadius.circular(20),
             color: IColors.brown,
             boxShadow: [
@@ -31,36 +29,58 @@ class MarjaeLargeItem extends StatelessWidget {
                 color: IColors.purpleCrimson25,
               )
             ]),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            splashColor: Colors.white10,
-            borderRadius: BorderRadius.circular(20),
-            onTap: () {
-              print("Hello");
-              Navigator.pushNamed(context, '/ahkam',
-                  arguments: <String, String>{
-                    'marjae_id': "${marjae_id}",
-                  });
-            },
-            child: Stack(
-              children: [
-                Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(bottom: 16, left: 8, right: 8),
-                      child: Text(
-                        "${title}",
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: IColors.white85,
-                          fontSize: 14,
-                        ),
-                      ),
-                    )),
-              ],
-            ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Stack(
+            children: [
+              OctoImage(
+                image: CachedNetworkImageProvider(
+                  ApiProvider.IMAGE_PROVIDER + largePicture,
+                ),
+                placeholderBuilder: OctoPlaceholder.blurHash(
+                  'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+                ),
+                errorBuilder: OctoError.icon(color: Colors.red),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: IColors.purpleCrimson65,
+                ),
+              ),
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  splashColor: Colors.white10,
+                  borderRadius: BorderRadius.circular(20),
+                  onTap: () {
+                    print("Hello");
+                    Navigator.pushNamed(context, '/ahkam',
+                        arguments: <String, String>{
+                          'marjae_id': "${marjae_id}",
+                        });
+                  },
+                  child: Stack(
+                    children: [
+                      Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                bottom: 16, left: 8, right: 8),
+                            child: Text(
+                              "${title}",
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: IColors.white85,
+                                fontSize: 14,
+                              ),
+                            ),
+                          )),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/networking/api_provider.dart';
+import 'package:octo_image/octo_image.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class MarjaeSmallItem extends StatelessWidget {
   bool delete;
@@ -22,18 +24,19 @@ class MarjaeSmallItem extends StatelessWidget {
           Container(
             width: 104,
             height: 104,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: IColors.brown,
-                image: DecorationImage(
-                    image: NetworkImage(
-                        ApiProvider.IMAGE_PROVIDER + thumbPicture)),
-                boxShadow: [
-                  BoxShadow(
-                      blurRadius: 10,
-                      offset: Offset(4, 6),
-                      color: IColors.purpleCrimson25)
-                ]),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: OctoImage(
+                image: CachedNetworkImageProvider(
+                  ApiProvider.IMAGE_PROVIDER + thumbPicture,
+                ),
+                placeholderBuilder: OctoPlaceholder.blurHash(
+                  'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+                ),
+                errorBuilder: OctoError.icon(color: Colors.red),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
           Container(
             width: 104,

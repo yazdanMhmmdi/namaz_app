@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:namaz_app/constants/colors.dart';
@@ -5,6 +6,7 @@ import 'package:namaz_app/logic/bloc/favorite_bloc.dart';
 import 'package:namaz_app/networking/api_provider.dart';
 import 'package:namaz_app/presentation/widget/global_widget.dart';
 import 'package:namaz_app/presentation/widget/my_slide_action.dart';
+import 'package:octo_image/octo_image.dart';
 
 class ShohadaItem extends StatelessWidget {
   // bool delete = false;
@@ -31,11 +33,6 @@ class ShohadaItem extends StatelessWidget {
         width: 150,
         height: 170,
         decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(ApiProvider.IMAGE_PROVIDER + largePicture),
-              colorFilter:
-                  ColorFilter.mode(IColors.purpleCrimson65, BlendMode.srcOver),
-            ),
             borderRadius: BorderRadius.circular(20),
             color: IColors.brown,
             boxShadow: [
@@ -45,57 +42,80 @@ class ShohadaItem extends StatelessWidget {
                 color: IColors.purpleCrimson25,
               )
             ]),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            splashColor: Colors.white12,
-            onTap: onTap,
-            borderRadius: BorderRadius.circular(20),
-            child: Stack(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    favoriteBloc.add(DeleteShohadaItem(
-                        user_id: GlobalWidget.user_id, shohada_id: shohada_id));
-                    favoriteBloc
-                        .add(GetFavoriteItems(user_id: GlobalWidget.user_id));
-                  },
-                  child: deleteSlidable
-                      ? Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.delete,
-                              color: IColors.white85,
-                            ),
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(8),
-                              topRight: Radius.circular(8),
-                            ),
-                            color: Colors.red,
-                          ),
-                        )
-                      : Container(),
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: OctoImage(
+                image: CachedNetworkImageProvider(
+                  ApiProvider.IMAGE_PROVIDER + largePicture,
                 ),
-                Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(bottom: 16, left: 8, right: 8),
-                      child: Text(
-                        "${title}",
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: IColors.white85,
-                          fontSize: 14,
-                        ),
-                      ),
-                    )),
-              ],
+                placeholderBuilder: OctoPlaceholder.blurHash(
+                  'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+                ),
+                errorBuilder: OctoError.icon(color: Colors.red),
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
+            Container(
+                decoration: BoxDecoration(
+              color: IColors.purpleCrimson65,
+              borderRadius: BorderRadius.circular(20),
+            )),
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                splashColor: Colors.white12,
+                onTap: onTap,
+                borderRadius: BorderRadius.circular(20),
+                child: Stack(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        favoriteBloc.add(DeleteShohadaItem(
+                            user_id: GlobalWidget.user_id,
+                            shohada_id: shohada_id));
+                        favoriteBloc.add(
+                            GetFavoriteItems(user_id: GlobalWidget.user_id));
+                      },
+                      child: deleteSlidable
+                          ? Container(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Icon(
+                                  Icons.delete,
+                                  color: IColors.white85,
+                                ),
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(8),
+                                  topRight: Radius.circular(8),
+                                ),
+                                color: Colors.red,
+                              ),
+                            )
+                          : Container(),
+                    ),
+                    Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              bottom: 16, left: 8, right: 8),
+                          child: Text(
+                            "${title}",
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: IColors.white85,
+                              fontSize: 14,
+                            ),
+                          ),
+                        )),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
