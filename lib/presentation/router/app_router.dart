@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
@@ -26,10 +28,13 @@ import 'package:namaz_app/presentation/screen/shohada_show_screen.dart';
 import 'package:namaz_app/presentation/screen/sign_up_screen.dart';
 import 'package:namaz_app/presentation/screen/video_details_screen.dart';
 import 'package:namaz_app/presentation/screen/videos_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AppRouter {
   final InternetCubit _internetCubit =
       new InternetCubit(connectivity: Connectivity());
+  final _url = 'https://flutter.dev';
+
   Route onGeneratedRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
@@ -175,16 +180,23 @@ class AppRouter {
                 ));
       case '/videos_details':
         final Map<String, String> args = settings.arguments;
-        return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-                create: (context) => VideoDetailsBloc(),
-                child: VideoDetailsScreen(
-                  args: args,
-                )));
+        if (Platform.isWindows) _launchURL();
+        return (Platform.isWindows)
+            ? Container()
+            : MaterialPageRoute(
+                builder: (_) => BlocProvider(
+                    create: (context) => VideoDetailsBloc(),
+                    child: VideoDetailsScreen(
+                      args: args,
+                    )));
       default:
         return MaterialPageRoute(
             builder: (_) => BlocProvider.value(
                 value: _internetCubit, child: IntroScreen()));
     }
   }
+
+  void _launchURL() async => await canLaunch(_url)
+      ? await launch(_url)
+      : throw 'Could not launch $_url';
 }
