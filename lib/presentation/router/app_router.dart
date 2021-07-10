@@ -33,7 +33,7 @@ import 'package:url_launcher/url_launcher.dart';
 class AppRouter {
   final InternetCubit _internetCubit =
       new InternetCubit(connectivity: Connectivity());
-  final _url = 'https://flutter.dev';
+  final _url = 'http://localhost/namaz/v1/web/?video=';
 
   Route onGeneratedRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -180,7 +180,7 @@ class AppRouter {
                 ));
       case '/videos_details':
         final Map<String, String> args = settings.arguments;
-        if (Platform.isWindows) _launchURL();
+        if (Platform.isWindows) _launchURL(args["video_id"]);
         return (Platform.isWindows)
             ? Container()
             : MaterialPageRoute(
@@ -196,7 +196,7 @@ class AppRouter {
     }
   }
 
-  void _launchURL() async => await canLaunch(_url)
-      ? await launch(_url)
+  void _launchURL(String video_id) async => await canLaunch(_url + video_id)
+      ? await launch(_url + video_id)
       : throw 'Could not launch $_url';
 }
