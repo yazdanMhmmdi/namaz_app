@@ -295,13 +295,11 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
+                                            fontFamily: "nabi",
                                             fontSize: 16,
                                             fontWeight: FontWeight.w700,
                                             color: IColors.black70),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
                                     ),
                                     Flexible(
                                       child: Text(
@@ -326,8 +324,9 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                             "${state.narrativesDetailsModel.data.quote}",
                             // overflow: TextOverflow.ellipsis,
                             style: TextStyle(
+                                fontFamily: "nabi",
                                 fontSize: 16,
-                                fontWeight: FontWeight.normal,
+                                fontWeight: FontWeight.w700,
                                 color: IColors.black45),
                           ),
                           SizedBox(

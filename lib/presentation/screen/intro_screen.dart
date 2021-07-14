@@ -49,6 +49,7 @@ class _IntroScreenState extends State<IntroScreen> {
           },
           builder: (context, state) {
             if (state is InternetConnected) {
+              print("tst");
               return Stack(
                 children: [
                   BackgroundShapes(),

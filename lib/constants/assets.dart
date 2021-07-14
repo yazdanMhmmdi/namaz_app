@@ -13,4 +13,5 @@ class Assets {
   static final String narrativesBackground = "assets/images/narratives_background.png";
 
   static final String basicFont = "IranSans";
+  static final String nabiFont = "nabi";
 }
