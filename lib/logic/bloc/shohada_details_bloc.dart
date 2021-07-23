@@ -81,7 +81,6 @@ class ShohadaDetailsBloc
     } else {
       featureDiscovery = false;
       print("defined");
-      prefs.clear();
     }
   }
 }
