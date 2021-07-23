@@ -16,6 +16,7 @@ import 'package:namaz_app/logic/bloc/sign_up_bloc.dart';
 import 'package:namaz_app/logic/bloc/video_bloc.dart';
 import 'package:namaz_app/logic/bloc/video_details_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
+import 'package:namaz_app/networking/api_provider.dart';
 import 'package:namaz_app/presentation/screen/ahkam_screen.dart';
 import 'package:namaz_app/presentation/screen/ahkam_show_screen.dart';
 import 'package:namaz_app/presentation/screen/home_screen.dart';
@@ -33,7 +34,8 @@ import 'package:url_launcher/url_launcher.dart';
 class AppRouter {
   final InternetCubit _internetCubit =
       new InternetCubit(connectivity: Connectivity());
-  final _url = 'http://localhost/namaz/v1/web/?video=';
+      
+  final _url = ApiProvider.VIDEO_PLAYER_PROVIDER;
 
   Route onGeneratedRoute(RouteSettings settings) {
     switch (settings.name) {
