@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/assets.dart';
@@ -10,6 +12,7 @@ import 'package:namaz_app/presentation/widget/back_button_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/marjae_large_item.dart';
 import 'package:namaz_app/presentation/widget/no_network_flare.dart';
+import 'package:namaz_app/presentation/widget/search_button_widget.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 import 'package:namaz_app/presentation/widget/shohada_item.dart';
 import 'package:namaz_app/presentation/widget/videos_item.dart';
@@ -22,13 +25,21 @@ class AhkamScreen extends StatefulWidget {
   _AhkamScreenState createState() => _AhkamScreenState();
 }
 
-class _AhkamScreenState extends State<AhkamScreen> {
+class _AhkamScreenState extends State<AhkamScreen>
+    with SingleTickerProviderStateMixin {
   ScrollController _controller = ScrollController();
 
   Map<String, String> arguments;
   String marjae_id;
   AhkamBloc _ahkamBloc;
   bool lazyLoading = true;
+  bool searchVisibility = true;
+  Animation<double> animation;
+  AnimationController animationController;
+  bool isForward = false;
+  bool _clickProtectorSearch =
+      true; // clickProtectors prevent user from click multiple times and distrupt animation
+
   @override
   void initState() {
     arguments = widget.args;
@@ -42,6 +53,17 @@ class _AhkamScreenState extends State<AhkamScreen> {
       }
     });
     super.initState();
+    animationController = AnimationController(
+        duration: Duration(milliseconds: 1000), vsync: this);
+    final curvedAnimation =
+        CurvedAnimation(parent: animationController, curve: Curves.easeOutExpo);
+
+    animation = Tween<double>(
+            begin: 0, end: window.physicalSize.width / window.devicePixelRatio)
+        .animate(curvedAnimation)
+          ..addListener(() {
+            setState(() {});
+          });
   }
 
   @override
@@ -109,11 +131,63 @@ class _AhkamScreenState extends State<AhkamScreen> {
                       ),
                     ),
                   ),
-                  Container(
-                    width: 25,
-                    height: 25,
-                  ),
+
+                  SearchButtonWidget(
+                      onTap: !_clickProtectorSearch
+                          ? null
+                          : () {
+                              _clickProtectorSearch = false;
+                              Timer(Duration(milliseconds: 1000), () {
+                                _clickProtectorSearch = true;
+                              });
+                              setState(() {
+                                if (!isForward) {
+                                  animationController.forward();
+                                  isForward = true;
+                                } else {
+                                  animationController.reverse();
+                                  Timer(Duration(milliseconds: 1000), () {
+                                    isForward = false;
+                                  });
+                                }
+                              });
+                            }),
+
+                  // Container(
+                  //   width: 25,
+                  //   height: 25,
+                  // ),
                 ],
+              ),
+            ),
+            SizedBox(height: 8),
+            Visibility(
+              visible: isForward,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Container(
+                  width: animation.value,
+                  height: 45,
+                  decoration: BoxDecoration(
+                    color: IColors.black15,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: TextField(keyboardType: TextInputType.text,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontFamily: Assets.basicFont,
+                      ),
+                      textDirection: TextDirection.rtl,
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: '${Strings.searchHint}',
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
             SizedBox(height: 16),

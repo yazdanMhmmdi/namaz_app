@@ -24,4 +24,6 @@ class Strings {
   static final String discoverFeatureShohada = "shohada_favorite";
   static final String discoverFeatureNarratives = "narratives_favorite";
   static final String discoverFeatureAhkam = "ahkam_favorite";
+
+  static final String searchHint = "متنی را جستجو کنید...";
 }
