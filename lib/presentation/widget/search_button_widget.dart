@@ -3,7 +3,8 @@ import 'package:namaz_app/constants/colors.dart';
 
 class SearchButtonWidget extends StatelessWidget {
   Function onTap;
-  SearchButtonWidget({@required this.onTap});
+  bool isSearching = false;
+  SearchButtonWidget({@required this.onTap, @required this.isSearching});
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -19,7 +20,7 @@ class SearchButtonWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(
-            Icons.search,
+            isSearching ? Icons.close : Icons.search,
             color: IColors.white85,
             size: 16,
           ),

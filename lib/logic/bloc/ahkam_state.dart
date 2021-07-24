@@ -32,4 +32,13 @@ class AhkamListCompleted extends AhkamState {
   List<Object> get props => [this.ahkamModel];
 }
 
+class AhkamSearchEmpty extends AhkamState {
+  AhkamModel ahkamModel;
+  AhkamSearchEmpty({this.ahkamModel});
+  @override
+  List<Object> get props => [this.ahkamModel];
+}
+
+class AhkamSearchLoading extends AhkamState {}
+
 class AhkamFailure extends AhkamState {}

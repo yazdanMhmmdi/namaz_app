@@ -39,17 +39,20 @@ class _AhkamScreenState extends State<AhkamScreen>
   bool isForward = false;
   bool _clickProtectorSearch =
       true; // clickProtectors prevent user from click multiple times and distrupt animation
-
+  TextEditingController searchTextController = new TextEditingController();
+  bool searchLoading = true;
+  bool emptyList = false;
   @override
   void initState() {
     arguments = widget.args;
     _getArguments();
     _ahkamBloc = BlocProvider.of<AhkamBloc>(context);
-    _ahkamBloc.add(GetAhkamItems(marjae_id: marjae_id));
+    _ahkamBloc.add(GetAhkamItems(marjae_id: marjae_id, search: ""));
     _controller.addListener(() {
       if (_controller.position.pixels == _controller.position.maxScrollExtent) {
-        print('end of page');
-        _ahkamBloc.add(GetAhkamItems(marjae_id: marjae_id));
+        print('end of page ${searchTextController.text}');
+        _ahkamBloc.add(GetAhkamItems(
+            marjae_id: marjae_id, search: searchTextController.text));
       }
     });
     super.initState();
@@ -81,13 +84,25 @@ class _AhkamScreenState extends State<AhkamScreen>
                 if (state is AhkamInitial) {
                   return Container();
                 } else if (state is AhkamLoading) {
+                  emptyList = false;
                   return LoadingBar();
                 } else if (state is AhkamSuccess) {
+                  emptyList = false;
+                  searchLoading = false;
                   return getAhkamUI(state);
                 } else if (state is AhkamLazyLoading) {
                   return getAhkamUI(state);
                 } else if (state is AhkamListCompleted) {
                   lazyLoading = false;
+                  return getAhkamUI(state);
+                } else if (state is AhkamSearchEmpty) {
+                  lazyLoading = false;
+                  searchLoading = false;
+                  emptyList = true;
+                  return getAhkamUI(state);
+                } else if (state is AhkamSearchLoading) {
+                  searchLoading = true;
+                  emptyList = false;
                   return getAhkamUI(state);
                 } else if (state is AhkamFailure) {
                   return ServerFailureFlare();
@@ -133,6 +148,7 @@ class _AhkamScreenState extends State<AhkamScreen>
                   ),
 
                   SearchButtonWidget(
+                      isSearching: isForward,
                       onTap: !_clickProtectorSearch
                           ? null
                           : () {
@@ -174,7 +190,14 @@ class _AhkamScreenState extends State<AhkamScreen>
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: TextField(keyboardType: TextInputType.text,
+                    child: TextField(
+                      keyboardType: TextInputType.text,
+                      controller: searchTextController,
+                      onChanged: (text) {
+                        print("searched text: ${text}");
+                        _ahkamBloc.add(SearchAhkamItems(
+                            marjae_id: marjae_id, search: text));
+                      },
                       style: TextStyle(
                         fontSize: 14,
                         fontFamily: Assets.basicFont,
@@ -191,28 +214,43 @@ class _AhkamScreenState extends State<AhkamScreen>
               ),
             ),
             SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Align(
-                alignment: Alignment.topRight,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: state.ahkamModel.ahkam.length,
-                  itemBuilder: (context, index) {
-                    return AhkamItem(
-                      title: state.ahkamModel.ahkam[index].title,
-                      id: state.ahkamModel.ahkam[index].id,
-                      deleteSlidable: false,
-                      onTap: () => Navigator.pushNamed(context, '/ahkam_show',
-                          arguments: <String, String>{
-                            'ahkam_id': state.ahkamModel.ahkam[index].id,
-                          }),
-                    );
-                  },
-                ),
-              ),
-            ),
+            !emptyList
+                ? searchLoading
+                    ? Container(
+                        height: MediaQuery.of(context).size.height - 180,
+                        child: LoadingBar())
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Align(
+                          alignment: Alignment.topRight,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: state.ahkamModel.ahkam.length,
+                            itemBuilder: (context, index) {
+                              return AhkamItem(
+                                title: state.ahkamModel.ahkam[index].title,
+                                id: state.ahkamModel.ahkam[index].id,
+                                deleteSlidable: false,
+                                searchedText: "${searchTextController.text}",
+                                onTap: () => Navigator.pushNamed(
+                                    context, '/ahkam_show',
+                                    arguments: <String, String>{
+                                      'ahkam_id':
+                                          state.ahkamModel.ahkam[index].id,
+                                    }),
+                              );
+                            },
+                          ),
+                        ),
+                      )
+                : Container(
+                    height: MediaQuery.of(context).size.height - 180,
+                    child: Center(child: Text("نتیجه ای یافت نشد",
+                    style: TextStyle(
+                      color: IColors.black45
+                    ),
+                    ))),
             SizedBox(
               height: 8,
             ),

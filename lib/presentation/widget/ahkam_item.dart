@@ -11,12 +11,14 @@ class AhkamItem extends StatelessWidget {
   String title, id;
   Function onTap;
   FavoriteBloc favoriteBloc;
+  String searchedText;
   AhkamItem({
     @required this.deleteSlidable,
     @required this.title,
     @required this.id,
     @required this.onTap,
     this.favoriteBloc,
+    this.searchedText,
   });
   @override
   Widget build(BuildContext context) {
@@ -81,15 +83,10 @@ class AhkamItem extends StatelessWidget {
                     Flexible(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8, right: 8),
-                        child: Text(
-                          '${title}',
+                        child: RichText(
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: IColors.black70,
-                            fontWeight: FontWeight.normal,
-                          ),
+                          text: searchMatch('${title}'),
                         ),
                       ),
                     )
@@ -100,6 +97,68 @@ class AhkamItem extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  TextStyle posRes = TextStyle(
+        backgroundColor: IColors.brown,
+        fontSize: 16,
+        color: IColors.black70,
+        fontWeight: FontWeight.normal,
+        fontFamily: "IranSans",
+      ),
+      negRes = TextStyle(
+        backgroundColor: Colors.white,
+        fontSize: 16,
+        color: IColors.black70,
+        fontWeight: FontWeight.normal,
+        fontFamily: "IranSans",
+      );
+  TextSpan searchMatch(String match) {
+    if (searchedText == null || searchedText == "")
+      return TextSpan(text: match, style: negRes);
+    var refinedMatch = match.toLowerCase();
+    var refinedSearch = searchedText.toLowerCase();
+    if (refinedMatch.contains(refinedSearch)) {
+      if (refinedMatch.substring(0, refinedSearch.length) == refinedSearch) {
+        return TextSpan(
+          style: posRes,
+          text: match.substring(0, refinedSearch.length),
+          children: [
+            searchMatch(
+              match.substring(
+                refinedSearch.length,
+              ),
+            ),
+          ],
+        );
+      } else if (refinedMatch.length == refinedSearch.length) {
+        return TextSpan(text: match, style: posRes);
+      } else {
+        return TextSpan(
+          style: negRes,
+          text: match.substring(
+            0,
+            refinedMatch.indexOf(refinedSearch),
+          ),
+          children: [
+            searchMatch(
+              match.substring(
+                refinedMatch.indexOf(refinedSearch),
+              ),
+            ),
+          ],
+        );
+      }
+    } else if (!refinedMatch.contains(refinedSearch)) {
+      return TextSpan(text: match, style: negRes);
+    }
+    return TextSpan(
+      text: match.substring(0, refinedMatch.indexOf(refinedSearch)),
+      style: negRes,
+      children: [
+        searchMatch(match.substring(refinedMatch.indexOf(refinedSearch)))
+      ],
     );
   }
 }
