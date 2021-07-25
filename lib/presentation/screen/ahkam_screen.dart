@@ -103,7 +103,7 @@ class _AhkamScreenState extends State<AhkamScreen>
                 } else if (state is AhkamSearchLoading) {
                   searchLoading = true;
                   emptyList = false;
-                  lazyLoading=false;
+                  lazyLoading = false;
                   return getAhkamUI(state);
                 } else if (state is AhkamFailure) {
                   return ServerFailureFlare();
@@ -165,6 +165,10 @@ class _AhkamScreenState extends State<AhkamScreen>
                                   animationController.reverse();
                                   Timer(Duration(milliseconds: 1000), () {
                                     isForward = false;
+                                    searchTextController.text = "";
+                                    _ahkamBloc.add(SearchAhkamItems(
+                                        marjae_id: marjae_id,
+                                        search: searchTextController.text));
                                   });
                                 }
                               });
@@ -247,10 +251,10 @@ class _AhkamScreenState extends State<AhkamScreen>
                       )
                 : Container(
                     height: MediaQuery.of(context).size.height - 180,
-                    child: Center(child: Text("نتیجه ای یافت نشد",
-                    style: TextStyle(
-                      color: IColors.black45
-                    ),
+                    child: Center(
+                        child: Text(
+                      "نتیجه ای یافت نشد",
+                      style: TextStyle(color: IColors.black45),
                     ))),
             SizedBox(
               height: 8,

@@ -144,6 +144,9 @@ class _NarrativesScreenState extends State<NarrativesScreen>
                                   animationController.reverse();
                                   Timer(Duration(milliseconds: 1000), () {
                                     isForward = false;
+                                    searchTextController.text = "";
+                                    _narrativesBloc.add(SearchNarrativesItems(
+                                        search: searchTextController.text));
                                   });
                                 }
                               });
