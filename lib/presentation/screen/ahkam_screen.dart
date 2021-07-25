@@ -103,6 +103,7 @@ class _AhkamScreenState extends State<AhkamScreen>
                 } else if (state is AhkamSearchLoading) {
                   searchLoading = true;
                   emptyList = false;
+                  lazyLoading=false;
                   return getAhkamUI(state);
                 } else if (state is AhkamFailure) {
                   return ServerFailureFlare();
