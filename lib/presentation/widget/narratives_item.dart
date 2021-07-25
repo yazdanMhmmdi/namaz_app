@@ -13,14 +13,15 @@ class NarrativesItem extends StatelessWidget {
   String id;
   Function onTap;
   FavoriteBloc favoriteBloc;
-  NarrativesItem({
-    @required this.deleteSlidable,
-    @required this.title,
-    @required this.subTitle,
-    @required this.id,
-    @required this.onTap,
-    this.favoriteBloc,
-  });
+  String searchedText;
+  NarrativesItem(
+      {@required this.deleteSlidable,
+      @required this.title,
+      @required this.subTitle,
+      @required this.id,
+      @required this.onTap,
+      this.favoriteBloc,
+      this.searchedText});
 
   @override
   Widget build(BuildContext context) {
@@ -68,23 +69,15 @@ class NarrativesItem extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "${title}",
+                            RichText(
+                              text: searchTitleMatch('${title}'),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: IColors.black70,
-                                fontWeight: FontWeight.w700,
-                              ),
                             ),
-                            Text("${subTitle}",
+                            RichText(
+                                text: searchSubTitleMatch("${subTitle}"),
                                 overflow: TextOverflow.ellipsis,
-                                maxLines: 3,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: IColors.black45,
-                                )),
+                                maxLines: 3),
                           ],
                         ),
                       ),
@@ -127,6 +120,133 @@ class NarrativesItem extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  TextStyle posTitleRes = TextStyle(
+        backgroundColor: IColors.brown,
+        fontSize: 16,
+        color: IColors.black70,
+        fontWeight: FontWeight.w700,
+        fontFamily: "IranSans",
+      ),
+      negTitleRes = TextStyle(
+        backgroundColor: Colors.transparent,
+        fontSize: 16,
+        color: IColors.black70,
+        fontWeight: FontWeight.w700,
+        fontFamily: "IranSans",
+      );
+  TextStyle posSubTitleRes = TextStyle(
+        backgroundColor: IColors.brown,
+        fontSize: 14,
+        color: IColors.black45,
+        fontFamily: "IranSans",
+      ),
+      negSubTitleRes = TextStyle(
+        backgroundColor: Colors.transparent,
+        fontSize: 14,
+        color: IColors.black45,
+        fontFamily: "IranSans",
+      );
+  TextSpan searchTitleMatch(
+    String match,
+  ) {
+    if (searchedText == null || searchedText == "")
+      return TextSpan(text: match, style: negTitleRes);
+    var refinedMatch = match.toLowerCase();
+    var refinedSearch = searchedText.toLowerCase();
+    if (refinedMatch.contains(refinedSearch)) {
+      if (refinedMatch.substring(0, refinedSearch.length) == refinedSearch) {
+        return TextSpan(
+          style: posTitleRes,
+          text: match.substring(0, refinedSearch.length),
+          children: [
+            searchTitleMatch(
+              match.substring(
+                refinedSearch.length,
+              ),
+            ),
+          ],
+        );
+      } else if (refinedMatch.length == refinedSearch.length) {
+        return TextSpan(text: match, style: posTitleRes);
+      } else {
+        return TextSpan(
+          style: negTitleRes,
+          text: match.substring(
+            0,
+            refinedMatch.indexOf(refinedSearch),
+          ),
+          children: [
+            searchTitleMatch(
+              match.substring(
+                refinedMatch.indexOf(refinedSearch),
+              ),
+            ),
+          ],
+        );
+      }
+    } else if (!refinedMatch.contains(refinedSearch)) {
+      return TextSpan(text: match, style: negTitleRes);
+    }
+    return TextSpan(
+      text: match.substring(0, refinedMatch.indexOf(refinedSearch)),
+      style: negTitleRes,
+      children: [
+        searchTitleMatch(match.substring(refinedMatch.indexOf(refinedSearch)))
+      ],
+    );
+  }
+
+  TextSpan searchSubTitleMatch(
+    String match,
+  ) {
+    if (searchedText == null || searchedText == "")
+      return TextSpan(text: match, style: negSubTitleRes);
+    var refinedMatch = match.toLowerCase();
+    var refinedSearch = searchedText.toLowerCase();
+    if (refinedMatch.contains(refinedSearch)) {
+      if (refinedMatch.substring(0, refinedSearch.length) == refinedSearch) {
+        return TextSpan(
+          style: posSubTitleRes,
+          text: match.substring(0, refinedSearch.length),
+          children: [
+            searchSubTitleMatch(
+              match.substring(
+                refinedSearch.length,
+              ),
+            ),
+          ],
+        );
+      } else if (refinedMatch.length == refinedSearch.length) {
+        return TextSpan(text: match, style: posSubTitleRes);
+      } else {
+        return TextSpan(
+          style: negSubTitleRes,
+          text: match.substring(
+            0,
+            refinedMatch.indexOf(refinedSearch),
+          ),
+          children: [
+            searchSubTitleMatch(
+              match.substring(
+                refinedMatch.indexOf(refinedSearch),
+              ),
+            ),
+          ],
+        );
+      }
+    } else if (!refinedMatch.contains(refinedSearch)) {
+      return TextSpan(text: match, style: negSubTitleRes);
+    }
+    return TextSpan(
+      text: match.substring(0, refinedMatch.indexOf(refinedSearch)),
+      style: negSubTitleRes,
+      children: [
+        searchSubTitleMatch(
+            match.substring(refinedMatch.indexOf(refinedSearch)))
+      ],
     );
   }
 }

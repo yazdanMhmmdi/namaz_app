@@ -23,7 +23,6 @@ class NarrativesLazyLoading extends NarrativesState {
   NarrativesModel narrativesModel;
   NarrativesLazyLoading({this.narrativesModel});
   @override
-  // TODO: implement props
   List<Object> get props => [this.narrativesModel];
 }
 
@@ -33,5 +32,14 @@ class NarrativesListCompleted extends NarrativesState {
   @override
   List<Object> get props => [this.narrativesModel];
 }
+
+class NarrativesSearchEmpty extends NarrativesState {
+  NarrativesModel narrativesModel;
+  NarrativesSearchEmpty({this.narrativesModel});
+  @override
+  List<Object> get props => [this.narrativesModel];
+}
+
+class NarrativesSearchLoading extends NarrativesState {}
 
 class NarrativesFailure extends NarrativesState {}
