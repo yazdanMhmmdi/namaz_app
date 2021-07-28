@@ -194,7 +194,7 @@ class _AhkamScreenState extends State<AhkamScreen>
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.only(right: 16.0, bottom: 2),
                     child: TextField(
                       keyboardType: TextInputType.text,
                       controller: searchTextController,

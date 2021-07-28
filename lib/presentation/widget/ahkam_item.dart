@@ -108,7 +108,7 @@ class AhkamItem extends StatelessWidget {
         fontFamily: "IranSans",
       ),
       negRes = TextStyle(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         fontSize: 16,
         color: IColors.black70,
         fontWeight: FontWeight.normal,

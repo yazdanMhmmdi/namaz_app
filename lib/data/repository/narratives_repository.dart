@@ -7,7 +7,7 @@ class NarrativesRepository {
 
   Future<NarrativesModel> getShohadaItems(String page,String search) async {
     final response = await _apiProvider
-        .get('client_get_narratives_api?page=${page}&search=${search}');
+        .get('client_get_narratives_api.php?page=${page}&search=${search}');
     return NarrativesModel.fromJson(response);
   }
 }
