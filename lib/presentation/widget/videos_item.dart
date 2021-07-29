@@ -15,6 +15,8 @@ class VideosItem extends StatelessWidget {
   Function onTap;
   FavoriteBloc favoriteBloc;
   String video_id;
+  String searchedText;
+
   VideosItem({
     @required this.video_id,
     @required this.deleteSlidable,
@@ -22,6 +24,7 @@ class VideosItem extends StatelessWidget {
     @required this.thumbnail,
     @required this.onTap,
     this.favoriteBloc,
+    this.searchedText,
   });
   @override
   Widget build(BuildContext context) {
@@ -123,14 +126,9 @@ class VideosItem extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.only(right: 102),
                           child: Container(
-                            child: Text(
-                              "${title}",
+                            child: RichText(
+                              text: searchMatch("${title}"),
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                color: IColors.black70,
-                              ),
                             ),
                           ),
                         ),
@@ -143,6 +141,68 @@ class VideosItem extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  TextStyle posRes = TextStyle(
+        backgroundColor: IColors.brown,
+        fontSize: 14,
+        fontWeight: FontWeight.w700,
+        color: IColors.black70,
+        fontFamily: "IranSans",
+      ),
+      negRes = TextStyle(
+        backgroundColor: Colors.transparent,
+        fontSize: 14,
+        fontWeight: FontWeight.w700,
+        color: IColors.black70,
+        fontFamily: "IranSans",
+      );
+  TextSpan searchMatch(String match) {
+    if (searchedText == null || searchedText == "")
+      return TextSpan(text: match, style: negRes);
+    var refinedMatch = match.toLowerCase();
+    var refinedSearch = searchedText.toLowerCase();
+    if (refinedMatch.contains(refinedSearch)) {
+      if (refinedMatch.substring(0, refinedSearch.length) == refinedSearch) {
+        return TextSpan(
+          style: posRes,
+          text: match.substring(0, refinedSearch.length),
+          children: [
+            searchMatch(
+              match.substring(
+                refinedSearch.length,
+              ),
+            ),
+          ],
+        );
+      } else if (refinedMatch.length == refinedSearch.length) {
+        return TextSpan(text: match, style: posRes);
+      } else {
+        return TextSpan(
+          style: negRes,
+          text: match.substring(
+            0,
+            refinedMatch.indexOf(refinedSearch),
+          ),
+          children: [
+            searchMatch(
+              match.substring(
+                refinedMatch.indexOf(refinedSearch),
+              ),
+            ),
+          ],
+        );
+      }
+    } else if (!refinedMatch.contains(refinedSearch)) {
+      return TextSpan(text: match, style: negRes);
+    }
+    return TextSpan(
+      text: match.substring(0, refinedMatch.indexOf(refinedSearch)),
+      style: negRes,
+      children: [
+        searchMatch(match.substring(refinedMatch.indexOf(refinedSearch)))
+      ],
     );
   }
 }

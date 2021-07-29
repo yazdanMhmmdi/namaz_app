@@ -32,4 +32,13 @@ class VideoSuccess extends VideoState {
   List<Object> get props => [this.videoModel];
 }
 
+class VideoSearchEmpty extends VideoState {
+  VideoModel videoModel;
+  VideoSearchEmpty({this.videoModel});
+  @override
+  List<Object> get props => [this.videoModel];
+}
+
+class VideoSearchLoading extends VideoState {}
+
 class VideoFailure extends VideoState {}

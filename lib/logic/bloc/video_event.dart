@@ -8,5 +8,15 @@ abstract class VideoEvent extends Equatable {
 }
 
 class GetVideoItems extends VideoEvent {
+  String search;
+  GetVideoItems({@required this.search});
+  @override
+  List<Object> get props => [this.search];
+}
 
+class SearchVideoItems extends VideoEvent {
+  String search;
+  SearchVideoItems({@required this.search});
+  @override
+  List<Object> get props => [this.search];
 }
