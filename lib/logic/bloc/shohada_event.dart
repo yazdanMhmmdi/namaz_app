@@ -8,5 +8,15 @@ abstract class ShohadaEvent extends Equatable {
 }
 
 class GetShohadaList extends ShohadaEvent {
-  
+  String search;
+  GetShohadaList({@required this.search});
+  @override
+  List<Object> get props => [this.search];
+}
+
+class SearchShohadaItems extends ShohadaEvent {
+  String search;
+  SearchShohadaItems({@required this.search});
+  @override
+  List<Object> get props => [this.search];
 }

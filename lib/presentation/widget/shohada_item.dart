@@ -17,6 +17,8 @@ class ShohadaItem extends StatelessWidget {
   bool deleteSlidable = false;
   FavoriteBloc favoriteBloc;
   String shohada_id;
+  String searchedText;
+
   ShohadaItem({
     @required this.title,
     @required this.largePicture,
@@ -24,6 +26,7 @@ class ShohadaItem extends StatelessWidget {
     @required this.deleteSlidable,
     this.favoriteBloc,
     @required this.shohada_id,
+    this.searchedText,
   });
   @override
   Widget build(BuildContext context) {
@@ -102,13 +105,9 @@ class ShohadaItem extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.only(
                               bottom: 16, left: 8, right: 8),
-                          child: Text(
-                            "${title}",
+                          child: RichText(
+                            text: searchMatch("${title}"),
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: IColors.white85,
-                              fontSize: 14,
-                            ),
                           ),
                         )),
                   ],
@@ -118,6 +117,68 @@ class ShohadaItem extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  TextStyle posRes = TextStyle(
+        backgroundColor: IColors.brown,
+        color: IColors.white85,
+        fontSize: 14,
+        fontWeight: FontWeight.w700,
+        fontFamily: "IranSans",
+      ),
+      negRes = TextStyle(
+        backgroundColor: Colors.transparent,
+        color: IColors.white85,
+        fontSize: 14,
+        fontWeight: FontWeight.w700,
+        fontFamily: "IranSans",
+      );
+  TextSpan searchMatch(String match) {
+    if (searchedText == null || searchedText == "")
+      return TextSpan(text: match, style: negRes);
+    var refinedMatch = match.toLowerCase();
+    var refinedSearch = searchedText.toLowerCase();
+    if (refinedMatch.contains(refinedSearch)) {
+      if (refinedMatch.substring(0, refinedSearch.length) == refinedSearch) {
+        return TextSpan(
+          style: posRes,
+          text: match.substring(0, refinedSearch.length),
+          children: [
+            searchMatch(
+              match.substring(
+                refinedSearch.length,
+              ),
+            ),
+          ],
+        );
+      } else if (refinedMatch.length == refinedSearch.length) {
+        return TextSpan(text: match, style: posRes);
+      } else {
+        return TextSpan(
+          style: negRes,
+          text: match.substring(
+            0,
+            refinedMatch.indexOf(refinedSearch),
+          ),
+          children: [
+            searchMatch(
+              match.substring(
+                refinedMatch.indexOf(refinedSearch),
+              ),
+            ),
+          ],
+        );
+      }
+    } else if (!refinedMatch.contains(refinedSearch)) {
+      return TextSpan(text: match, style: negRes);
+    }
+    return TextSpan(
+      text: match.substring(0, refinedMatch.indexOf(refinedSearch)),
+      style: negRes,
+      children: [
+        searchMatch(match.substring(refinedMatch.indexOf(refinedSearch)))
+      ],
     );
   }
 }

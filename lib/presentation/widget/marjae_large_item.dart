@@ -35,7 +35,7 @@ class MarjaeLargeItem extends StatelessWidget {
             children: [
               OctoImage(
                 image: CachedNetworkImageProvider(
-                  ApiProvider.IMAGE_PROVIDER + largePicture,
+                  ApiProvider.IMAGE_PROVIDER + largePicture.trim(),
                 ),
                 placeholderBuilder: OctoPlaceholder.blurHash(
                   'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
@@ -73,6 +73,7 @@ class MarjaeLargeItem extends StatelessWidget {
                               style: TextStyle(
                                 color: IColors.white85,
                                 fontSize: 14,
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
                           )),

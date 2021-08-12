@@ -28,7 +28,7 @@ class MarjaeSmallItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               child: OctoImage(
                 image: CachedNetworkImageProvider(
-                  ApiProvider.IMAGE_PROVIDER + thumbPicture,
+                  ApiProvider.IMAGE_PROVIDER + thumbPicture.trim(),
                 ),
                 placeholderBuilder: OctoPlaceholder.blurHash(
                   'LEHV6nWB2yk8pyo0adR*.7kCMdnj',

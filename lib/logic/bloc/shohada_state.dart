@@ -20,6 +20,26 @@ class ShohadaSuccess extends ShohadaState {
   ShohadaModel shohadaModel;
 
   ShohadaSuccess({this.shohadaModel});
+  @override
+  List<Object> get props => [this.shohadaModel];
+}
+
+class ShohadaListCompleted extends ShohadaState {
+  ShohadaModel shohadaModel;
+  ShohadaListCompleted({this.shohadaModel});
+  @override
+  List<Object> get props => [this.shohadaModel];
+}
+
+class ShohadaSearchEmpty extends ShohadaState {
+  ShohadaModel shohadaModel;
+  ShohadaSearchEmpty({this.shohadaModel});
+  @override
+  List<Object> get props => [this.shohadaModel];
+}
+
+class ShohadaSearchLoading extends ShohadaState {
+
 }
 
 class ShohadaFailure extends ShohadaState {}
