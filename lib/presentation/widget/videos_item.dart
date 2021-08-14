@@ -16,6 +16,7 @@ class VideosItem extends StatelessWidget {
   FavoriteBloc favoriteBloc;
   String video_id;
   String searchedText;
+  String blurhash;
 
   VideosItem({
     @required this.video_id,
@@ -23,6 +24,7 @@ class VideosItem extends StatelessWidget {
     @required this.title,
     @required this.thumbnail,
     @required this.onTap,
+    @required this.blurhash,
     this.favoriteBloc,
     this.searchedText,
   });
@@ -87,7 +89,7 @@ class VideosItem extends StatelessWidget {
                                 ApiProvider.IMAGE_PROVIDER + thumbnail,
                               ),
                               placeholderBuilder: OctoPlaceholder.blurHash(
-                                'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+                                blurhash,
                               ),
                               errorBuilder: OctoError.icon(color: Colors.red),
                               fit: BoxFit.cover,

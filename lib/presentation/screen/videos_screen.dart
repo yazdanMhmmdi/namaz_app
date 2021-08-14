@@ -179,6 +179,8 @@ class _VideosScreenState extends State<VideosScreen>
                             return VideosItem(
                                 video_id: state.videoModel.video[index].id,
                                 searchedText: searchTextController.text,
+                                blurhash:
+                                    state.videoModel.video[index].blurhash,
                                 onTap: () => Navigator.pushNamed(
                                         context, '/videos_details',
                                         arguments: <String, String>{

@@ -37,14 +37,16 @@ class Video {
   String thumbnail;
   String video;
   String title;
+  String blurhash;
 
-  Video({this.id, this.thumbnail, this.video, this.title});
+  Video({this.id, this.thumbnail, this.video, this.title, this.blurhash});
 
   Video.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     thumbnail = json['thumbnail'];
     video = json['video'];
     title = json['title'];
+    blurhash = json['blurhash'];
   }
 
   Map<String, dynamic> toJson() {
@@ -53,6 +55,7 @@ class Video {
     data['thumbnail'] = this.thumbnail;
     data['video'] = this.video;
     data['title'] = this.title;
+    data['blurhash'] = this.blurhash;
     return data;
   }
 }

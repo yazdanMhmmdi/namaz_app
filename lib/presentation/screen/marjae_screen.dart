@@ -35,6 +35,7 @@ class MarjaeScreen extends StatelessWidget {
                     list.add(MarjaeLargeItem(
                         marjae_id: state.marjaeModel.data[i].id,
                         title: state.marjaeModel.data[i].name,
+                        hash: state.marjaeModel.data[i].blurhash,
                         largePicture:
                             state.marjaeModel.data[i].pictureSizeLarge));
                   }

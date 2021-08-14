@@ -9,11 +9,13 @@ class MarjaeSmallItem extends StatelessWidget {
   String title;
   String thumbPicture;
   Function onTap;
+  String hash;
   MarjaeSmallItem({
     @required this.delete,
     @required this.title,
     @required this.thumbPicture,
     @required this.onTap,
+    @required this.hash,
   });
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class MarjaeSmallItem extends StatelessWidget {
                   ApiProvider.IMAGE_PROVIDER + thumbPicture.trim(),
                 ),
                 placeholderBuilder: OctoPlaceholder.blurHash(
-                  'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+                  hash,
                 ),
                 errorBuilder: OctoError.icon(color: Colors.red),
                 fit: BoxFit.cover,

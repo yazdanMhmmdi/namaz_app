@@ -119,6 +119,7 @@ class _ShohadaScreenState extends State<ShohadaScreen>
         list.add(ShohadaItem(
           shohada_id: state.shohadaModel.shohadaBozorgan[i].id,
           deleteSlidable: false,
+          hash: state.shohadaModel.shohadaBozorgan[i].blurhash,
           searchedText: searchTextController.text,
           onTap: () => Navigator.pushNamed(context, '/shohada_details',
               arguments: <String, String>{

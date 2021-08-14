@@ -8,10 +8,13 @@ class MarjaeLargeItem extends StatelessWidget {
   String largePicture;
   String title;
   String marjae_id;
+  String hash;
   MarjaeLargeItem(
       {@required this.largePicture,
       @required this.title,
-      @required this.marjae_id});
+      @required this.marjae_id,
+      @required this.hash
+      });
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -38,7 +41,7 @@ class MarjaeLargeItem extends StatelessWidget {
                   ApiProvider.IMAGE_PROVIDER + largePicture.trim(),
                 ),
                 placeholderBuilder: OctoPlaceholder.blurHash(
-                  'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+                  hash
                 ),
                 errorBuilder: OctoError.icon(color: Colors.red),
               ),

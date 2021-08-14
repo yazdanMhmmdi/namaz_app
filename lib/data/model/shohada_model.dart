@@ -39,31 +39,38 @@ class ShohadaBozorgan {
   String name;
   String pictureSizeSmall;
   String pictureSizeLarge;
+  String pictureSizeXLarge;
   String titleText;
+  String blurhash;
 
   ShohadaBozorgan(
       {this.id,
       this.name,
       this.pictureSizeSmall,
       this.pictureSizeLarge,
-      this.titleText});
+      this.pictureSizeXLarge,
+      this.titleText,
+      this.blurhash});
 
   ShohadaBozorgan.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     pictureSizeSmall = json['picture_size_small'];
     pictureSizeLarge = json['picture_size_large'];
+    pictureSizeXLarge = json['picture_size_x_large'];
     titleText = json['title_text'];
+    blurhash = json['blurhash'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-
     data['id'] = this.id;
     data['name'] = this.name;
     data['picture_size_small'] = this.pictureSizeSmall;
     data['picture_size_large'] = this.pictureSizeLarge;
+    data['picture_size_x_large'] = this.pictureSizeXLarge;
     data['title_text'] = this.titleText;
+    data['blurhash'] = this.blurhash;
     return data;
   }
 }

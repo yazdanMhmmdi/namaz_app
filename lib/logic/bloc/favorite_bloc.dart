@@ -153,6 +153,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
               deleteSlidable: true,
               shohada_id: _model.shohadaBozorgan[i].shohadaBozorganId,
               favoriteBloc: this,
+              // hash: _model.shohadaBozorgan[i].blurHash,
               onTap: () => Navigator.pushNamed(context, '/shohada_details',
                   arguments: <String, String>{
                     "shohada_id": _model.shohadaBozorgan[i].shohadaBozorganId,

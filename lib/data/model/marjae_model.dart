@@ -32,14 +32,24 @@ class Data {
   String name;
   String pictureSizeSmall;
   String pictureSizeLarge;
+  String pictureSizeXLarge;
+  String blurhash;
 
-  Data({this.id, this.name, this.pictureSizeSmall, this.pictureSizeLarge});
+  Data(
+      {this.id,
+      this.name,
+      this.pictureSizeSmall,
+      this.pictureSizeLarge,
+      this.pictureSizeXLarge,
+      this.blurhash});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     pictureSizeSmall = json['picture_size_small'];
     pictureSizeLarge = json['picture_size_large'];
+    pictureSizeXLarge = json['picture_size_x_large'];
+    blurhash = json['blurhash'];
   }
 
   Map<String, dynamic> toJson() {
@@ -48,6 +58,8 @@ class Data {
     data['name'] = this.name;
     data['picture_size_small'] = this.pictureSizeSmall;
     data['picture_size_large'] = this.pictureSizeLarge;
+    data['picture_size_x_large'] = this.pictureSizeXLarge;
+    data['blurhash'] = this.blurhash;
     return data;
   }
 }

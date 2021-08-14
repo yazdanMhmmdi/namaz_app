@@ -207,6 +207,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                                 title: state.homeModel.marjae[index].name,
                                 thumbPicture: state
                                     .homeModel.marjae[index].pictureSizeSmall,
+                                hash: state.homeModel.marjae[index].blurhash,
                                 delete: false,
                               );
                             },
@@ -335,6 +336,8 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                                           .homeModel.shohadaBozorgan[index].id,
                                     }),
                                 delete: false,
+                                hash: state
+                                    .homeModel.shohadaBozorgan[index].blurhash,
                                 title:
                                     state.homeModel.shohadaBozorgan[index].name,
                                 thumbPicture: state.homeModel
