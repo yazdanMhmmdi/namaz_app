@@ -89,7 +89,7 @@ class AppRouter {
                       value: _internetCubit,
                     ),
                     BlocProvider(
-                      create: (context) => ShohadaBloc()..add(GetShohadaList()),
+                      create: (context) => ShohadaBloc(),
                     )
                   ],
                   child: ShohadaScreen(),

@@ -15,6 +15,7 @@ class ShohadaBloc extends Bloc<ShohadaEvent, ShohadaState> {
   ShohadaModel _model;
   int page = 1;
   int totalPage;
+  // String blurHash;
   @override
   Stream<ShohadaState> mapEventToState(
     ShohadaEvent event,

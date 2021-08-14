@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:animate_do/animate_do.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flare_loading/flare_loading.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ import 'package:namaz_app/presentation/widget/global_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/no_network_flare.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
+import 'package:octo_image/octo_image.dart';
 
 class ShohadaShowScreen extends StatefulWidget {
   Map<String, String> args;
@@ -118,21 +120,41 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
     return Stack(
       children: [
         Container(
-          width: double.infinity,
+          width: MediaQuery.of(context).size.width,
           height: ScreenUtil().setHeight(250),
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              fit: BoxFit.fitWidth,
-              image: NetworkImage(ApiProvider.IMAGE_PROVIDER +
-                  state.shohadaDetailsModel.data.pictureSizeXLarge),
-            ),
-          ),
-          child: new BackdropFilter(
-            filter: new ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
-            child: new Container(
-              decoration:
-                  new BoxDecoration(color: Colors.white.withOpacity(0.05)),
-            ),
+          // decoration: BoxDecoration(
+          //   image: DecorationImage(
+          //     fit: BoxFit.fitWidth,
+          //     // image:
+          //     // NetworkImage(ApiProvider.IMAGE_PROVIDER +
+          //     //     state.shohadaDetailsModel.data.pictureSizeXLarge),
+          //   ),
+          // ),
+          child: Stack(
+            children: [
+              OctoImage(
+                image: CachedNetworkImageProvider(
+                  ApiProvider.IMAGE_PROVIDER +
+                      state.shohadaDetailsModel.data.pictureSizeXLarge
+                          .toString()
+                          .trim(),
+                ),
+                placeholderBuilder: OctoPlaceholder.blurHash(
+                  // 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+                  state.blurHash,
+                ),
+                errorBuilder: OctoError.icon(color: Colors.red),
+                fit: BoxFit.cover,
+                width: MediaQuery.of(context).size.width,
+              ),
+              new BackdropFilter(
+                filter: new ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
+                child: new Container(
+                  decoration:
+                      new BoxDecoration(color: Colors.white.withOpacity(0.05)),
+                ),
+              ),
+            ],
           ),
         ),
         Padding(

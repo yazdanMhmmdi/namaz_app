@@ -15,11 +15,19 @@ class ShohadaDetailsSuccess extends ShohadaDetailsState {
   ShohadaDetailsModel shohadaDetailsModel;
   String liked;
   bool featureDiscovery;
+  String blurHash;
   ShohadaDetailsSuccess(
-      {this.shohadaDetailsModel, this.liked, this.featureDiscovery});
+      {this.shohadaDetailsModel,
+      this.liked,
+      this.featureDiscovery,
+      this.blurHash});
   @override
-  List<Object> get props =>
-      [this.shohadaDetailsModel, this.liked, this.featureDiscovery];
+  List<Object> get props => [
+        this.shohadaDetailsModel,
+        this.liked,
+        this.featureDiscovery,
+        this.blurHash
+      ];
 }
 
 class ShohadaDetailsFailure extends ShohadaDetailsState {}

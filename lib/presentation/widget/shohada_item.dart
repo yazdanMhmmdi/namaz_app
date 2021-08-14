@@ -18,12 +18,14 @@ class ShohadaItem extends StatelessWidget {
   FavoriteBloc favoriteBloc;
   String shohada_id;
   String searchedText;
+  String hash;
 
   ShohadaItem({
     @required this.title,
     @required this.largePicture,
     @required this.onTap,
     @required this.deleteSlidable,
+    @required this.hash,
     this.favoriteBloc,
     @required this.shohada_id,
     this.searchedText,
@@ -54,7 +56,8 @@ class ShohadaItem extends StatelessWidget {
                   ApiProvider.IMAGE_PROVIDER + largePicture,
                 ),
                 placeholderBuilder: OctoPlaceholder.blurHash(
-                  'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+                  // 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+                  hash
                 ),
                 errorBuilder: OctoError.icon(color: Colors.red),
                 fit: BoxFit.cover,

@@ -19,6 +19,7 @@ class ShohadaDetailsBloc
   String liked = "false";
   SharedPreferences prefs;
   bool featureDiscovery = false;
+  String blurHash;
   @override
   Stream<ShohadaDetailsState> mapEventToState(
     ShohadaDetailsEvent event,
@@ -28,6 +29,7 @@ class ShohadaDetailsBloc
         yield ShohadaDetailsLoading();
         _model = await _repository.getShohadaDetails(
             event.shohada_id, GlobalWidget.user_id);
+        blurHash = await GlobalWidget.blurHashEncode(_model.data.pictureSizeXLarge);
         if (_model.error == "0") {
           liked = _model.data.liked.toString();
           await experienceFeatureDiscovery();
@@ -36,6 +38,7 @@ class ShohadaDetailsBloc
             shohadaDetailsModel: _model,
             liked: liked,
             featureDiscovery: featureDiscovery,
+            blurHash: blurHash,
           );
         } else {
           yield ShohadaDetailsFailure();
