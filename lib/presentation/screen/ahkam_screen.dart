@@ -236,6 +236,8 @@ class _AhkamScreenState extends State<AhkamScreen>
                               return AhkamItem(
                                 title: state.ahkamModel.ahkam[index].title,
                                 id: state.ahkamModel.ahkam[index].id,
+                                ahkamNumber:
+                                    state.ahkamModel.ahkam[index].ahkamNumber,
                                 deleteSlidable: false,
                                 searchedText: "${searchTextController.text}",
                                 onTap: () => Navigator.pushNamed(

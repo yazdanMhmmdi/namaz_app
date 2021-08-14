@@ -295,7 +295,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                                       height: 35,
                                       child: Center(
                                         child: Text(
-                                            '${state.ahkamDetailsModel.data.id}',
+                                            '${state.ahkamDetailsModel.data.ahkamNumber}',
                                             style: TextStyle(
                                                 fontSize: 14,
                                                 color: IColors.brown,

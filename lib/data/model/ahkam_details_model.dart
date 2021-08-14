@@ -25,6 +25,7 @@ class AhkamDetailsModel {
 class Data {
   String id;
   String marjaeId;
+  String ahkamNumber;
   String title;
   String titleText;
   String pictureSizeSmall;
@@ -36,6 +37,7 @@ class Data {
   Data(
       {this.id,
       this.marjaeId,
+      this.ahkamNumber,
       this.title,
       this.titleText,
       this.pictureSizeSmall,
@@ -47,6 +49,7 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     marjaeId = json['marjae_id'];
+    ahkamNumber = json['ahkam_number'];
     title = json['title'];
     titleText = json['title_text'];
     pictureSizeSmall = json['picture_size_small'];
@@ -60,6 +63,7 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['marjae_id'] = this.marjaeId;
+    data['ahkam_number'] = this.ahkamNumber;
     data['title'] = this.title;
     data['title_text'] = this.titleText;
     data['picture_size_small'] = this.pictureSizeSmall;

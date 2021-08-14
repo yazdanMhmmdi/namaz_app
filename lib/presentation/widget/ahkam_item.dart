@@ -12,11 +12,13 @@ class AhkamItem extends StatelessWidget {
   Function onTap;
   FavoriteBloc favoriteBloc;
   String searchedText;
+  String ahkamNumber;
   AhkamItem({
     @required this.deleteSlidable,
     @required this.title,
     @required this.id,
     @required this.onTap,
+    @required this.ahkamNumber,
     this.favoriteBloc,
     this.searchedText,
   });
@@ -68,7 +70,7 @@ class AhkamItem extends StatelessWidget {
                               height: 30,
                               child: Center(
                                 child: Text(
-                                  "${id}",
+                                  "${ahkamNumber}",
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontSize: 14,
