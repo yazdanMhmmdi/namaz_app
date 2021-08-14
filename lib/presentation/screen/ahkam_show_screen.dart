@@ -337,6 +337,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                                     'line-height': '1.6',
                                   };
                                 }
+
                                 if (element.classes.contains('foo')) {
                                   return {
                                     'color': 'red',
@@ -351,6 +352,17 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                               customWidgetBuilder: (element) {
                                 if (element.attributes['foo'] == 'bar') {
                                   return Container();
+                                }
+                                if (element.outerHtml.contains("h3")) {
+                                  return Text(
+                                    element.firstChild.text,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: IColors.black70,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: Assets.nabiFont,
+                                    ),
+                                  );
                                 }
 
                                 return null;
