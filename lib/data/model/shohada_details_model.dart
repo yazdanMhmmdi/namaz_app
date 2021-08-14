@@ -29,6 +29,7 @@ class Data {
   String pictureSizeLarge;
   String pictureSizeXLarge;
   String titleText;
+  String blurhash;
   String liked;
 
   Data(
@@ -38,6 +39,7 @@ class Data {
       this.pictureSizeLarge,
       this.pictureSizeXLarge,
       this.titleText,
+      this.blurhash,
       this.liked});
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -47,6 +49,7 @@ class Data {
     pictureSizeLarge = json['picture_size_large'];
     pictureSizeXLarge = json['picture_size_x_large'];
     titleText = json['title_text'];
+    blurhash = json['blurhash'];
     liked = json['liked'];
   }
 
@@ -58,6 +61,7 @@ class Data {
     data['picture_size_large'] = this.pictureSizeLarge;
     data['picture_size_x_large'] = this.pictureSizeXLarge;
     data['title_text'] = this.titleText;
+    data['blurhash'] = this.blurhash;
     data['liked'] = this.liked;
     return data;
   }

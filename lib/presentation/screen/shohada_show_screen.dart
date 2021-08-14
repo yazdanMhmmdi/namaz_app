@@ -96,7 +96,9 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
                     if (state is ShohadaDetailsInitial) {
                       return Container();
                     } else if (state is ShohadaDetailsLoading) {
-                      return LoadingBar();
+                      return LoadingBar(
+                        color: Colors.white,
+                      );
                     } else if (state is ShohadaDetailsSuccess) {
                       return getShohadaUI(state);
                     } else if (state is LikeShohadaSuccess) {
@@ -141,7 +143,7 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
                 ),
                 placeholderBuilder: OctoPlaceholder.blurHash(
                   // 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
-                  state.blurHash,
+                  state.shohadaDetailsModel.data.blurhash,
                 ),
                 errorBuilder: OctoError.icon(color: Colors.red),
                 fit: BoxFit.cover,
