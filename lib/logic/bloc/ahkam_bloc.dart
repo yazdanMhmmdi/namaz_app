@@ -27,6 +27,7 @@ class AhkamBloc extends Bloc<AhkamEvent, AhkamState> {
           _model = await _repository.getAhkamItems(
               event.marjae_id, page.toString(), event.search);
           if (_model.ahkam.length == 0) {
+            yield AhkamSearchEmpty(ahkamModel: _model);
           } else {
             totalPage = int.parse(_model.data.totalPages.toString());
             page++;

@@ -361,10 +361,11 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                                       color: IColors.black70,
                                       fontWeight: FontWeight.w700,
                                       fontFamily: Assets.nabiFont,
+                                      letterSpacing: 4.0,
                                     ),
                                   );
                                 }
-
+                                
                                 return null;
                               },
 
@@ -372,7 +373,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                               onTapUrl: (url) => print('tapped $url'),
 
                               // set the default styling for text
-                              textStyle: TextStyle(fontSize: 14),
+                              textStyle: TextStyle(fontSize: 16),
                             ),
                             // state.ahkamDetailsModel.data.titleText
                             // style: {
