@@ -24,8 +24,10 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
         if (page == 1) {
           yield VideoLoading();
 
-          _model = await _repository.getVideoItems(page.toString(), event.search);
+          _model =
+              await _repository.getVideoItems(page.toString(), event.search);
           if (_model.video.length == 0) {
+            yield VideoSearchEmpty(videoModel: _model);
           } else {
             totalPage = int.parse(_model.data.totalPages.toString());
             page++;

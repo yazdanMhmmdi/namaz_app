@@ -77,6 +77,7 @@ class _VideosScreenState extends State<VideosScreen>
                   } else if (state is VideoSuccess) {
                     emptyList = false;
                     searchLoading = false;
+                    lazyLoading = false; // new added
                     return getVideoUI(state);
                   } else if (state is VideoSearchEmpty) {
                     lazyLoading = false;

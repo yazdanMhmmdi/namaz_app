@@ -89,6 +89,7 @@ class _AhkamScreenState extends State<AhkamScreen>
                 } else if (state is AhkamSuccess) {
                   emptyList = false;
                   searchLoading = false;
+                  lazyLoading = false;// new added
                   return getAhkamUI(state);
                 } else if (state is AhkamLazyLoading) {
                   return getAhkamUI(state);
