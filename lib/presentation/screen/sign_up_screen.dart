@@ -180,21 +180,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
             print("name karbari nabayad kamtar az 5 raqam bashd");
             setState(() {
               _usernameStatus = false;
-              usernameWarning = "نام کاربری نباید کمتر از 5 کاراکتر باشد.";
+              usernameWarning = Strings.usernameErrorFiveCharrecter;
             });
           }
         } else {
           print("name karbari bish az 17 raqam ast");
           setState(() {
             _usernameStatus = false;
-            usernameWarning = "نام کاربری نباید بیش از 17 کارکتر باشد.";
+            usernameWarning = Strings.usernameErrorSevenTeenCharrecter;
           });
         }
       } else {
         print("name karbari nist");
         setState(() {
           _usernameStatus = false;
-          usernameWarning = "نام کاربری صحیح نیست.";
+          usernameWarning = Strings.usernameErrorIsUsername;
         });
       }
     });
@@ -208,7 +208,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             });
           } else {
             setState(() {
-              passwordWarning = "رمز عبور نباید بیشتر از 16 کارکتر باشد.";
+              passwordWarning = Strings.passwordErrorSixTeenCharrecter;
               _passwordStatus = false;
             });
           }
@@ -216,7 +216,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       } else {
         print("ramz oboor zaeiif ast");
         setState(() {
-          passwordWarning = "رمز عبور باید بیشتر از 8 کاراکتر باشد.";
+          passwordWarning = Strings.passwordErrorIsPassword;
           _passwordStatus = false;
         });
       }

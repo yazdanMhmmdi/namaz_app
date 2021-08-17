@@ -2,6 +2,15 @@ class Strings {
   static final String signUpUsername = "نام کاربری...";
   static final String signPassword = "رمز عبور...";
   static final String signUp = "ثبت نام";
+  static final String usernameErrorFiveCharrecter =
+      "نام کاربری نباید کمتر از 5 کاراکتر باشد.";
+  static final String usernameErrorSevenTeenCharrecter =
+      "نام کاربری نباید بیش از 17 کارکتر باشد.";
+  static final String usernameErrorIsUsername = "نام کاربری صحیح نیست.";
+  static final String passwordErrorSixTeenCharrecter =
+      "رمز عبور نباید بیشتر از 16 کارکتر باشد.";
+  static final String passwordErrorIsPassword =
+      "رمز عبور باید بیشتر از 8 کاراکتر باشد.";
 
   static final String homeVideos = "ویدئو های آموزشی";
   static final String homeMaraje = "مراجع تقلید و احکام نماز";
