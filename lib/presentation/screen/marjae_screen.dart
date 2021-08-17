@@ -13,7 +13,12 @@ import 'package:namaz_app/presentation/widget/no_network_flare.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 import 'package:namaz_app/presentation/widget/videos_item.dart';
 
-class MarjaeScreen extends StatelessWidget {
+class MarjaeScreen extends StatefulWidget {
+  @override
+  _MarjaeScreenState createState() => _MarjaeScreenState();
+}
+
+class _MarjaeScreenState extends State<MarjaeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
