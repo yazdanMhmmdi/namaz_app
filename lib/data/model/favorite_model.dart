@@ -69,14 +69,16 @@ class Ahkam {
   String ahkamId;
   String userId;
   String title;
+  String ahkamNumber;
 
-  Ahkam({this.id, this.ahkamId, this.userId, this.title});
+  Ahkam({this.id, this.ahkamId, this.userId, this.title, this.ahkamNumber});
 
   Ahkam.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     ahkamId = json['ahkam_id'];
     userId = json['user_id'];
     title = json['title'];
+    ahkamNumber = json['ahkam_number'];
   }
 
   Map<String, dynamic> toJson() {
@@ -85,6 +87,7 @@ class Ahkam {
     data['ahkam_id'] = this.ahkamId;
     data['user_id'] = this.userId;
     data['title'] = this.title;
+    data['ahkam_number'] = this.ahkamNumber;
     return data;
   }
 }
@@ -128,13 +131,15 @@ class ShohadaBozorgan {
   String userId;
   String pictureSizeLarge;
   String name;
+  String blurhash;
 
   ShohadaBozorgan(
       {this.id,
       this.shohadaBozorganId,
       this.userId,
       this.pictureSizeLarge,
-      this.name});
+      this.name,
+      this.blurhash});
 
   ShohadaBozorgan.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -142,6 +147,7 @@ class ShohadaBozorgan {
     userId = json['user_id'];
     pictureSizeLarge = json['picture_size_large'];
     name = json['name'];
+    blurhash = json['blurhash'];
   }
 
   Map<String, dynamic> toJson() {
@@ -151,6 +157,7 @@ class ShohadaBozorgan {
     data['user_id'] = this.userId;
     data['picture_size_large'] = this.pictureSizeLarge;
     data['name'] = this.name;
+    data['blurhash'] = this.blurhash;
     return data;
   }
 }
@@ -161,8 +168,17 @@ class Video {
   String videoId;
   String thumbnail;
   String title;
+  String video;
+  String blurhash;
 
-  Video({this.id, this.userId, this.videoId, this.thumbnail, this.title});
+  Video(
+      {this.id,
+      this.userId,
+      this.videoId,
+      this.thumbnail,
+      this.title,
+      this.video,
+      this.blurhash});
 
   Video.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -170,6 +186,8 @@ class Video {
     videoId = json['video_id'];
     thumbnail = json['thumbnail'];
     title = json['title'];
+    video = json['video'];
+    blurhash = json['blurhash'];
   }
 
   Map<String, dynamic> toJson() {
@@ -179,6 +197,8 @@ class Video {
     data['video_id'] = this.videoId;
     data['thumbnail'] = this.thumbnail;
     data['title'] = this.title;
+    data['video'] = this.video;
+    data['blurhash'] = this.blurhash;
     return data;
   }
 }

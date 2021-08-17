@@ -57,6 +57,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
                 return VideosItem(
                   video_id: _model.video[index].videoId,
                   favoriteBloc: this,
+                  blurhash: _model.video[index].blurhash,
                   onTap: () => Navigator.pushNamed(context, '/videos_details',
                       arguments: <String, String>{
                         "video_id": _model.video[index].videoId,
@@ -89,6 +90,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
               return AhkamItem(
                 id: _model.ahkam[index].ahkamId,
                 favoriteBloc: this,
+                ahkamNumber: _model.ahkam[index].ahkamNumber,
                 onTap: () => Navigator.pushNamed(context, '/ahkam_show',
                     arguments: <String, String>{
                       "ahkam_id": _model.ahkam[index].ahkamId,
@@ -151,6 +153,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
           list.add(Builder(builder: (context) {
             return ShohadaItem(
               deleteSlidable: true,
+              hash: _model.shohadaBozorgan[i].blurhash,
               shohada_id: _model.shohadaBozorgan[i].shohadaBozorganId,
               favoriteBloc: this,
               // hash: _model.shohadaBozorgan[i].blurHash,
