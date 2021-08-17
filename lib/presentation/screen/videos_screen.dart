@@ -199,7 +199,7 @@ class _VideosScreenState extends State<VideosScreen>
                     height: MediaQuery.of(context).size.height - 180,
                     child: Center(
                         child: Text(
-                      "نتیجه ای یافت نشد",
+                      Strings.noResultFound,
                       style: TextStyle(color: IColors.black45),
                     ))),
             SizedBox(

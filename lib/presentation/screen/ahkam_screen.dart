@@ -89,7 +89,7 @@ class _AhkamScreenState extends State<AhkamScreen>
                 } else if (state is AhkamSuccess) {
                   emptyList = false;
                   searchLoading = false;
-                  lazyLoading = false;// new added
+                  lazyLoading = false; // new added
                   return getAhkamUI(state);
                 } else if (state is AhkamLazyLoading) {
                   return getAhkamUI(state);
@@ -256,7 +256,7 @@ class _AhkamScreenState extends State<AhkamScreen>
                     height: MediaQuery.of(context).size.height - 180,
                     child: Center(
                         child: Text(
-                      "نتیجه ای یافت نشد",
+                      Strings.noResultFound,
                       style: TextStyle(color: IColors.black45),
                     ))),
             SizedBox(

@@ -1,7 +1,7 @@
-
 import 'package:flare_loading/flare_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:namaz_app/constants/assets.dart';
+import 'package:namaz_app/constants/strings.dart';
 
 class NoNetworkFlare extends StatelessWidget {
   @override
@@ -22,7 +22,7 @@ class NoNetworkFlare extends StatelessWidget {
               onError: (a, b) {}),
         ),
         Text(
-          '! اتصال به شبکه قطع شد',
+          Strings.noNetworkTitle,
           style: TextStyle(
               fontFamily: "IranSans",
               fontSize: 18,
@@ -30,7 +30,7 @@ class NoNetworkFlare extends StatelessWidget {
               color: Colors.black87),
         ),
         Text(
-          'لطفا اتصال به اینترنت خود را بررسی کنید',
+          Strings.noNetworkCause,
           style: TextStyle(
               fontFamily: "IranSans", fontSize: 18, color: Colors.black87),
         ),

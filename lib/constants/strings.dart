@@ -14,13 +14,13 @@ class Strings {
 
   static final String homeVideos = "ویدئو های آموزشی";
   static final String homeMaraje = "مراجع تقلید و احکام نماز";
-  static final String homeNarratives = "آیات و روایات";
+  static final String homeNarratives = "آیات و روایات درباره نماز";
   static final String homeShohadaBozorgan = "سخنان شهدا و بزرگان";
   static final String homeAccount = "حساب کاربری";
   static final String home = "خانه";
   static final String homeFavorite = "مورد علاقه";
   static final String homeMore = "بیشتر";
-  static final String narratives = "آیات و روایات";
+  static final String narratives = "آیات و روایات درباره نماز";
   static final String marjae = "مراجع تقلید و احکام نماز";
   static final String shohadaBozorgan = "سخنان شهدا و بزرگان درباره نماز";
   static final String videos = "ویدئو های آموزشی";
@@ -35,4 +35,12 @@ class Strings {
   static final String discoverFeatureAhkam = "ahkam_favorite";
 
   static final String searchHint = "متنی را جستجو کنید...";
+
+  static final String noResultFound = "نتیجه ای یافت نشد";
+  static final String serverFailure = " ! خطای سرور";
+  static final String serverFailureCause =
+      "مشکلی هنگام ارتباط با سرور پیش آمد، لطفا مجدداٌ تلاش کنید";
+  static final String noNetworkTitle = "! اتصال به شبکه قطع شد";
+  static final String noNetworkCause =
+      'لطفا اتصال دستگاه به اینترنت را بررسی کنید';
 }

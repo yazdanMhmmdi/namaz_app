@@ -1,6 +1,7 @@
 import 'package:flare_loading/flare_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:namaz_app/constants/assets.dart';
+import 'package:namaz_app/constants/strings.dart';
 
 class ServerFailureFlare extends StatelessWidget {
   String errrorMessage = "";
@@ -23,7 +24,7 @@ class ServerFailureFlare extends StatelessWidget {
           height: 4,
         ),
         Text(
-          'خطای سرور !',
+          Strings.serverFailure,
           style: TextStyle(
               fontFamily: "IranSans",
               fontSize: 18,
@@ -31,14 +32,14 @@ class ServerFailureFlare extends StatelessWidget {
               color: Colors.black87),
         ),
         Text(
-          'مشکلی هنگام ارتباط با سرور پیش آمده زود بر می گردیم',
+          Strings.serverFailureCause,
           style: TextStyle(
               fontFamily: "IranSans", fontSize: 16, color: Colors.black87),
         ),
         // Text(
         //   '${errrorMessage}',
         //   style: TextStyle(
-            
+
         //       fontFamily: "IranSans", fontSize: 10, color: Colors.black87),
         // ),
       ],
