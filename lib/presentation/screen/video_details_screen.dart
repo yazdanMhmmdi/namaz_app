@@ -107,12 +107,16 @@ class _VideoDetailsScreenState extends State<VideoDetailsScreen> {
                         SizedBox(
                           width: 16,
                         ),
-                        Text(
-                          "${state.videoDetailsModel.data.title}",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: IColors.white85,
-                            fontWeight: FontWeight.bold,
+                        Container(
+                          width: MediaQuery.of(context).size.width - 144,
+                          child: Text(
+                            "${state.videoDetailsModel.data.title}",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: IColors.white85,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],

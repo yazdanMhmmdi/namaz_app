@@ -31,6 +31,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   ButtonState buttonState = ButtonState.idle;
 
+  String usernameWarning = "";
+  String passwordWarning = "";
+
   @override
   void initState() {
     authValidatiors();
@@ -113,8 +116,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       textFieldColor: IColors.lightBrown),
                                   _usernameStatus
                                       ? Container()
-                                      : WarningBar(
-                                          text: Strings.signUpUsernameWarning),
+                                      : WarningBar(text: usernameWarning),
                                   SizedBox(height: 16),
                                   MyTextFiled(
                                       controller: passwordController,
@@ -124,8 +126,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       textFieldColor: IColors.lightBrown),
                                   _passwordStatus
                                       ? Container()
-                                      : WarningBar(
-                                          text: Strings.signUpPasswordWarning),
+                                      : WarningBar(text: passwordWarning),
                                   SizedBox(height: 16),
                                   MyButton(
                                     buttonState: buttonState,
@@ -167,30 +168,55 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void authValidatiors() {
     usernameController.addListener(() {
-      if (usernameController.text.isUsername() &&
-          usernameController.text.length < 17 &&
-          usernameController.text.length >= 5) {
-        print('ready to sign up');
-        setState(() {
-          _usernameStatus = true;
-        });
+      if (usernameController.text.isUsername()) {
+        if (usernameController.text.length < 17) {
+          if (usernameController.text.length >= 5) {
+            print('ready to sign up');
+            setState(() {
+              _usernameStatus = true;
+            });
+          } else {
+            print('no x');
+            print("name karbari nabayad kamtar az 5 raqam bashd");
+            setState(() {
+              _usernameStatus = false;
+              usernameWarning = "نام کاربری نباید کمتر از 5 کاراکتر باشد.";
+            });
+          }
+        } else {
+          print("name karbari bish az 17 raqam ast");
+          setState(() {
+            _usernameStatus = false;
+            usernameWarning = "نام کاربری نباید بیش از 17 کارکتر باشد.";
+          });
+        }
       } else {
-        print('no');
+        print("name karbari nist");
         setState(() {
           _usernameStatus = false;
+          usernameWarning = "نام کاربری صحیح نیست.";
         });
       }
     });
 
     passwordController.addListener(() {
-      if (passwordController.text.isPasswordEasy() &&
-          passwordController.text.length >= 8 &&
-          passwordController.text.length < 17) {
-        setState(() {
-          _passwordStatus = true;
-        });
+      if (passwordController.text.isPasswordEasy()) {
+        if (passwordController.text.length >= 8) {
+          if (passwordController.text.length < 17) {
+            setState(() {
+              _passwordStatus = true;
+            });
+          } else {
+            setState(() {
+              passwordWarning = "رمز عبور نباید بیشتر از 16 کارکتر باشد.";
+              _passwordStatus = false;
+            });
+          }
+        } else {}
       } else {
+        print("ramz oboor zaeiif ast");
         setState(() {
+          passwordWarning = "رمز عبور باید بیشتر از 8 کاراکتر باشد.";
           _passwordStatus = false;
         });
       }
