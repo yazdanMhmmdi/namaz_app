@@ -15,7 +15,7 @@ class Strings {
   static final String homeVideos = "ویدئو های آموزشی";
   static final String homeMaraje = "مراجع تقلید و احکام نماز";
   static final String homeNarratives = "آیات و روایات درباره نماز";
-  static final String homeShohadaBozorgan = "سخنان شهدا و بزرگان";
+  static final String homeShohadaBozorgan = "سخنان شهدا و بزرگان درباره نماز";
   static final String homeAccount = "حساب کاربری";
   static final String home = "خانه";
   static final String homeFavorite = "مورد علاقه";
@@ -23,7 +23,7 @@ class Strings {
   static final String narratives = "آیات و روایات درباره نماز";
   static final String marjae = "مراجع تقلید و احکام نماز";
   static final String shohadaBozorgan = "سخنان شهدا و بزرگان درباره نماز";
-  static final String videos = "ویدئو های آموزشی";
+  static final String videos = " ویدئو های آموزشی درباره نماز";
   static final String ahkam = "احکام مراجع";
   static final String emptyNote = "آیتمی جهت نمایش وجود ندارد";
 
@@ -43,4 +43,8 @@ class Strings {
   static final String noNetworkTitle = "! اتصال به شبکه قطع شد";
   static final String noNetworkCause =
       'لطفا اتصال دستگاه به اینترنت را بررسی کنید';
+  
+  static final String appName = "چشمه نور";
+  static final String appAuthor = "سازنده یزدان محمدی";
+  static final String authorCollege = "دانشکده فنی پسران قم";
 }
