@@ -9,20 +9,16 @@ part 'internet_state.dart';
 class InternetCubit extends Cubit<InternetState> {
   final Connectivity connectivity;
   InternetCubit({@required this.connectivity}) : super(InternetLoading()) {
-    if (!kIsWeb) {
-      connectivity.onConnectivityChanged.listen((connectivityResult) {
-        if (connectivityResult == ConnectivityResult.mobile ||
-            connectivityResult == ConnectivityResult.wifi) {
-          emitInternetConnected();
-          print('internet Connected');
-        } else {
-          emitInternetDisconnected();
-          print('internet Disconnected');
-        }
-      });
-    } else {
-      emitInternetConnected();
-    }
+    connectivity.onConnectivityChanged.listen((connectivityResult) {
+      if (connectivityResult == ConnectivityResult.mobile ||
+          connectivityResult == ConnectivityResult.wifi) {
+        emitInternetConnected();
+        print('internet Connected');
+      } else {
+        emitInternetDisconnected();
+        print('internet Disconnected');
+      }
+    });
   }
 
   void emitInternetConnected() {

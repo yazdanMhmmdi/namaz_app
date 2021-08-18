@@ -66,7 +66,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             } else if (state is InternetDisconnected) {
               return NoNetworkFlare();
             } else {
-              return Container();
+              bottomFailureStatus = false;
+              return NoNetworkFlare();
             }
           },
         ),
@@ -91,14 +92,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   Icons.favorite,
 
                   Icons.home,
-                ], 
+                ],
                 textStyle: TextStyle(
                     color: Colors.black87,
                     fontFamily: "IranSans",
                     fontSize: 16,
                     fontWeight: FontWeight.w700),
               )
-            : null, 
+            : null,
       ),
     );
   }

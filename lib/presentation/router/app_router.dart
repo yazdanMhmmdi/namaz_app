@@ -34,7 +34,7 @@ import 'package:url_launcher/url_launcher.dart';
 class AppRouter {
   final InternetCubit _internetCubit =
       new InternetCubit(connectivity: Connectivity());
-      
+
   final _url = ApiProvider.VIDEO_PLAYER_PROVIDER;
 
   Route onGeneratedRoute(RouteSettings settings) {
@@ -196,6 +196,10 @@ class AppRouter {
             builder: (_) => BlocProvider.value(
                 value: _internetCubit, child: IntroScreen()));
     }
+  }
+
+  void dispose() {
+    _internetCubit.close();
   }
 
   void _launchURL(String video_id) async => await canLaunch(_url + video_id)

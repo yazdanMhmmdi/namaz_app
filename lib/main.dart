@@ -14,7 +14,12 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   final AppRouter _appRouter = new AppRouter();
 
   @override
@@ -32,6 +37,12 @@ class MyApp extends StatelessWidget {
         onGenerateRoute: _appRouter.onGeneratedRoute,
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _appRouter.dispose();
+    super.dispose();
   }
 
   MaterialColor createMaterialColor(Color color) {
