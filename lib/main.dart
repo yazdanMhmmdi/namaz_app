@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return FeatureDiscovery(
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: Strings.appName,
         theme: ThemeData(
           primarySwatch: createMaterialColor(IColors.purpleCrimson),
           visualDensity: VisualDensity.adaptivePlatformDensity,
