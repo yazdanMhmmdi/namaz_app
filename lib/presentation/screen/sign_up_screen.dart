@@ -90,7 +90,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 if (state is InternetConnected) {
                   return Stack(
                     children: [
-                      BackgroundShapes(),
+                      Hero(tag: "backgroundShapes", child: BackgroundShapes()),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 22),
                         child: Center(

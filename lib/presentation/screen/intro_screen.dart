@@ -26,93 +26,93 @@ class _IntroScreenState extends State<IntroScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: backgroundColor,
-        body: SafeArea(
-          child: BlocConsumer<InternetCubit, InternetState>(
-            listener: (context, state) {
-              if (state is InternetConnected) {
-                setState(() {
-                  backgroundColor = IColors.purpleCrimson;
-                });
-                Timer(Duration(seconds: 3), () async {
-                  if (await getSharedPrefs() == "") {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/sign_up', (e) => false);
-                  } else {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/home', (e) => false);
-                  }
-                });
-              } else if (state is InternetDisconnected) {
-                setState(() {
-                  backgroundColor = Colors.white;
-                });
-              } else {
-                setState(() {
-                  backgroundColor = Colors.white;
-                });
-              }
-            },
-            builder: (context, state) {
-              if (state is InternetConnected) {
-                return Stack(
-                  children: [
-                    BackgroundShapes(),
-                    Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            child: Image.asset(Assets.prayerO),
+        body: BlocConsumer<InternetCubit, InternetState>(
+          listener: (context, state) {
+            if (state is InternetConnected) {
+              setState(() {
+                backgroundColor = IColors.purpleCrimson;
+              });
+              Timer(Duration(seconds: 3), () async {
+                if (await getSharedPrefs() == "") {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/sign_up', (e) => false);
+                } else {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/home', (e) => false);
+                }
+              });
+            } else if (state is InternetDisconnected) {
+              setState(() {
+                backgroundColor = Colors.white;
+              });
+            } else {
+              setState(() {
+                backgroundColor = Colors.white;
+              });
+            }
+          },
+          builder: (context, state) {
+            if (state is InternetConnected) {
+              return Stack(
+                children: [
+                  Hero(
+                    tag: "backgroundShapes",
+                    child: BackgroundShapes()),
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          child: Image.asset(Assets.prayerO),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          Strings.appName,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: IColors.lightBrown,
+                            fontWeight: FontWeight.bold,
                           ),
-                          SizedBox(
-                            height: 8,
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          Strings.appAuthor,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: IColors.lightBrown.withOpacity(0.5),
+                            fontWeight: FontWeight.bold,
                           ),
-                          Text(
-                            Strings.appName,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: IColors.lightBrown,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Text(
+                          Strings.authorCollege,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: IColors.lightBrown.withOpacity(0.5),
+                            fontWeight: FontWeight.bold,
                           ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            Strings.appAuthor,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: IColors.lightBrown.withOpacity(0.5),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-                          Text(
-                            Strings.authorCollege,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: IColors.lightBrown.withOpacity(0.5),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                );
-              } else if (state is InternetDisconnected) {
-                return NoNetworkFlare();
-              } else {
-                return Container();
-              }
-            },
-          ),
+                  ),
+                ],
+              );
+            } else if (state is InternetDisconnected) {
+              return NoNetworkFlare();
+            } else {
+              return Container();
+            }
+          },
         ));
   }
 
