@@ -43,8 +43,9 @@ class Strings {
   static final String noNetworkTitle = "! اتصال به شبکه قطع شد";
   static final String noNetworkCause =
       'لطفا اتصال دستگاه به اینترنت را بررسی کنید';
-  
+
   static final String appName = "چشمه نور";
   static final String appAuthor = "سازنده یزدان محمدی";
   static final String authorCollege = "دانشکده فنی پسران قم";
+  static final String pushPinned = "پین شده";
 }

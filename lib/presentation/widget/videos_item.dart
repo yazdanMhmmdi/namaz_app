@@ -6,6 +6,7 @@ import 'package:namaz_app/logic/bloc/favorite_bloc.dart';
 import 'package:namaz_app/networking/api_provider.dart';
 import 'package:namaz_app/presentation/widget/global_widget.dart';
 import 'package:namaz_app/presentation/widget/my_slide_action.dart';
+import 'package:namaz_app/presentation/widget/push_pinned_widget.dart';
 import 'package:octo_image/octo_image.dart';
 
 class VideosItem extends StatelessWidget {
@@ -17,6 +18,7 @@ class VideosItem extends StatelessWidget {
   String video_id;
   String searchedText;
   String blurhash;
+  bool isPinned;
 
   VideosItem({
     @required this.video_id,
@@ -25,6 +27,7 @@ class VideosItem extends StatelessWidget {
     @required this.thumbnail,
     @required this.onTap,
     @required this.blurhash,
+    @required this.isPinned,
     this.favoriteBloc,
     this.searchedText,
   });
@@ -70,78 +73,85 @@ class VideosItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 splashColor: IColors.black15,
                 onTap: onTap,
-                child: Row(
+                child: Stack(
                   children: [
-                    Container(
-                      width: 94,
-                      height: 94,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: IColors.purpleCrimson,
-                      ),
-                      child: Container(
-                        width: 94,
-                        height: 94,
-                        child: Stack(
+                    isPinned ? PushPinnedWidget() : Container(),
+                    Row(
+                      children: [
+                        Container(
+                          width: 94,
+                          height: 94,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: IColors.purpleCrimson,
+                          ),
+                          child: Container(
+                            width: 94,
+                            height: 94,
+                            child: Stack(
+                              children: [
+                                Container(
+                                  width: 94,
+                                  height: 94,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: OctoImage(
+                                      image: CachedNetworkImageProvider(
+                                        ApiProvider.IMAGE_PROVIDER + thumbnail,
+                                      ),
+                                      placeholderBuilder:
+                                          OctoPlaceholder.blurHash(
+                                        blurhash,
+                                      ),
+                                      errorBuilder:
+                                          OctoError.icon(color: Colors.red),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: 94,
+                                  height: 94,
+                                  decoration: BoxDecoration(
+                                    color: IColors.purpleCrimson65,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                                Center(
+                                  child: Container(
+                                    width: 26,
+                                    height: 26,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white54,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.play_arrow_rounded,
+                                      color: IColors.purpleCrimson,
+                                      size: 25,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Row(
                           children: [
-                            Container(
-                              width: 94,
-                              height: 94,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: OctoImage(
-                                  image: CachedNetworkImageProvider(
-                                    ApiProvider.IMAGE_PROVIDER + thumbnail,
-                                  ),
-                                  placeholderBuilder: OctoPlaceholder.blurHash(
-                                    blurhash,
-                                  ),
-                                  errorBuilder:
-                                      OctoError.icon(color: Colors.red),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              width: 94,
-                              height: 94,
-                              decoration: BoxDecoration(
-                                color: IColors.purpleCrimson65,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
                             Center(
-                              child: Container(
-                                width: 26,
-                                height: 26,
-                                decoration: BoxDecoration(
-                                  color: Colors.white54,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  Icons.play_arrow_rounded,
-                                  color: IColors.purpleCrimson,
-                                  size: 25,
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width - 134,
+                                  child: RichText(
+                                    text: searchMatch("${title}"),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                               ),
                             ),
                           ],
-                        ),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Center(
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 8),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width - 134,
-                              child: RichText(
-                                text: searchMatch("${title}"),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ),
                         ),
                       ],
                     ),

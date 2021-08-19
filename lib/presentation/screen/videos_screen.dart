@@ -76,6 +76,7 @@ class _VideosScreenState extends State<VideosScreen>
                     return getVideoUI(state);
                   } else if (state is VideoSuccess) {
                     emptyList = false;
+
                     searchLoading = false;
                     lazyLoading = false; // new added
                     return getVideoUI(state);
@@ -189,6 +190,8 @@ class _VideosScreenState extends State<VideosScreen>
                                               state.videoModel.video[index].id,
                                         }),
                                 deleteSlidable: false,
+                                isPinned:
+                                    state.videoModel.video[index].isPinned,
                                 title: state.videoModel.video[index].title,
                                 thumbnail:
                                     state.videoModel.video[index].thumbnail);

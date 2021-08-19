@@ -38,8 +38,17 @@ class Video {
   String video;
   String title;
   String blurhash;
+  String orderNumber;
+  bool isPinned;
 
-  Video({this.id, this.thumbnail, this.video, this.title, this.blurhash});
+  Video(
+      {this.id,
+      this.thumbnail,
+      this.video,
+      this.title,
+      this.blurhash,
+      this.orderNumber,
+      this.isPinned});
 
   Video.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -47,6 +56,8 @@ class Video {
     video = json['video'];
     title = json['title'];
     blurhash = json['blurhash'];
+    orderNumber = json['order_number'];
+    isPinned = json['is_pinned'];
   }
 
   Map<String, dynamic> toJson() {
@@ -56,6 +67,8 @@ class Video {
     data['video'] = this.video;
     data['title'] = this.title;
     data['blurhash'] = this.blurhash;
+    data['order_number'] = this.orderNumber;
+    data['is_pinned'] = this.isPinned;
     return data;
   }
 }
