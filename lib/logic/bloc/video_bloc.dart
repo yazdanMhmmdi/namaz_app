@@ -41,7 +41,7 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
             _model.video.add(element);
           });
           page++;
-          yield VideoSuccess(videoModel: _model);
+            yield VideoSuccess(videoModel: _model);
         } else if (page > totalPage) {
           yield VideoListCompleted(videoModel: _model);
         }

@@ -70,6 +70,7 @@ class _VideosScreenState extends State<VideosScreen>
                     emptyList = false;
                     return LoadingBar();
                   } else if (state is VideoLazyLoading) {
+                    lazyLoading = true;
                     return getVideoUI(state);
                   } else if (state is VideoListCompleted) {
                     lazyLoading = false;
@@ -78,7 +79,7 @@ class _VideosScreenState extends State<VideosScreen>
                     emptyList = false;
 
                     searchLoading = false;
-                    lazyLoading = false; // new added
+                    // lazyLoading = false; // new added
                     return getVideoUI(state);
                   } else if (state is VideoSearchEmpty) {
                     lazyLoading = false;
@@ -210,7 +211,7 @@ class _VideosScreenState extends State<VideosScreen>
             ),
             lazyLoading ? LoadingBar() : Container(),
             SizedBox(
-              height: 8,
+              height: 16,
             ),
           ],
         ),

@@ -58,6 +58,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
                   video_id: _model.video[index].videoId,
                   favoriteBloc: this,
                   blurhash: _model.video[index].blurhash,
+                  isPinned: false,
                   onTap: () => Navigator.pushNamed(context, '/videos_details',
                       arguments: <String, String>{
                         "video_id": _model.video[index].videoId,
