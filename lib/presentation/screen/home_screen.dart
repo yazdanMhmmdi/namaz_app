@@ -11,6 +11,7 @@ import 'package:namaz_app/logic/bloc/home_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/presentation/tab/favorite_tab.dart';
 import 'package:namaz_app/presentation/tab/home_tab.dart';
+import 'package:namaz_app/presentation/tab/settings_tab.dart';
 import 'package:namaz_app/presentation/widget/no_network_flare.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 
@@ -25,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     _bottomNavController =
-        new MotionTabController(initialIndex: 0, vsync: this, length: 2);
+        new MotionTabController(initialIndex: 0, vsync: this, length: 3);
     _bottomNavController.index = 1;
     super.initState();
   }
@@ -73,10 +74,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ),
         bottomNavigationBar: bottomInternetStatus && bottomFailureStatus
             ? MotionTabBar(
-                labels: [
-                  Strings.homeFavorite,
-                  Strings.home,
-                ],
+                labels: [Strings.homeFavorite, Strings.home, "تنظیمات"],
                 initialSelectedTab: Strings.home,
 
                 tabIconColor: Color(0xffA3A2A8),
@@ -92,6 +90,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   Icons.favorite,
 
                   Icons.home,
+                  Icons.settings
                 ],
                 textStyle: TextStyle(
                     color: Colors.black87,
@@ -126,6 +125,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         value: BlocProvider.of<HomeBloc>(context),
                         child: HomeTab(),
                       ),
+
+                      SettingsTab()
                     ]),
               ],
             );
