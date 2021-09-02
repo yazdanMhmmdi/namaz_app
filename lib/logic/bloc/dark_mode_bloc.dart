@@ -8,18 +8,19 @@ part 'dark_mode_event.dart';
 part 'dark_mode_state.dart';
 
 class DarkModeBloc extends Bloc<DarkModeEvent, DarkModeState> {
-  DarkModeBloc() : super(DarkModeInitial());
-
+  DarkModeBloc() : super(DarkModeInitial(isDark: false));
+  bool _isDarkMode = false;
   @override
   Stream<DarkModeState> mapEventToState(
     DarkModeEvent event,
   ) async* {
     if (event is DarkModeStatus) {
-      yield DarkModeInitial();
       if (event.darkModeStatus) {
-        yield DarkModeEnable();
+        _isDarkMode = true;
+        yield DarkModeEnable(isDark: _isDarkMode);
       } else {
-        yield DarkModeDisable();
+        _isDarkMode = false;
+        yield DarkModeDisable(isDark: _isDarkMode);
       }
     }
   }

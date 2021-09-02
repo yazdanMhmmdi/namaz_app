@@ -6,12 +6,14 @@ import 'package:motion_tab_bar/MotionTabController.dart';
 import 'package:motion_tab_bar/motiontabbar.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
 import 'package:namaz_app/logic/bloc/favorite_bloc.dart';
 import 'package:namaz_app/logic/bloc/home_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/presentation/tab/favorite_tab.dart';
 import 'package:namaz_app/presentation/tab/home_tab.dart';
 import 'package:namaz_app/presentation/tab/settings_tab.dart';
+import 'package:namaz_app/presentation/widget/my_motion_tab_bar.dart';
 import 'package:namaz_app/presentation/widget/no_network_flare.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 
@@ -23,6 +25,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   MotionTabController _bottomNavController;
   bool bottomInternetStatus = true, bottomFailureStatus = true;
+  bool _isDarkMode = false;
   @override
   void initState() {
     _bottomNavController =
@@ -39,16 +42,36 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             maxHeight: MediaQuery.of(context).size.height),
         designSize: Size(360, 690),
         orientation: Orientation.portrait);
-    return BlocListener<HomeBloc, HomeState>(
-      listener: (context, state) {
-        if (state is HomeFailure) {
-          setState(() {
-            bottomFailureStatus = false;
-          });
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<HomeBloc, HomeState>(
+          listener: (context, state) {
+            if (state is HomeFailure) {
+              setState(() {
+                bottomFailureStatus = false;
+              });
+            }
+          },
+        ),
+        BlocListener<DarkModeBloc, DarkModeState>(listener: (context, state) {
+          if (state is DarkModeInitial) {
+            setState(() {
+              _isDarkMode = state.isDark;
+            });
+          } else if (state is DarkModeEnable) {
+            setState(() {
+              _isDarkMode = state.isDark;
+            });
+          } else if (state is DarkModeDisable) {
+            setState(() {
+              _isDarkMode = state.isDark;
+            });
+          }
+        })
+      ],
       child: Scaffold(
-        backgroundColor: IColors.lightBrown,
+        backgroundColor:
+            _isDarkMode ? IColors.darkBackgroundColor : IColors.lightBrown,
         body: BlocConsumer<InternetCubit, InternetState>(
           listener: (context, state) {
             if (state is InternetConnected) {
@@ -73,12 +96,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           },
         ),
         bottomNavigationBar: bottomInternetStatus && bottomFailureStatus
-            ? MotionTabBar(
+            ? MyMotionTabBar(
                 labels: [Strings.homeFavorite, Strings.home, "تنظیمات"],
                 initialSelectedTab: Strings.home,
-
                 tabIconColor: Color(0xffA3A2A8),
-                tabSelectedColor: IColors.brown, //TODO: needs to be replace
+                backgroundColor:
+                    _isDarkMode ? IColors.darkBlack11 : Colors.white,
+                selectedIconColor:
+                    _isDarkMode ? IColors.darkBlack02 : Colors.white,
+                tabSelectedColor:
+                    _isDarkMode ? IColors.darkBrown : IColors.brown,
                 onTabItemSelected: (int value) {
                   print(value);
                   setState(() {
@@ -93,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   Icons.settings
                 ],
                 textStyle: TextStyle(
-                    color: Colors.black87,
+                    color: _isDarkMode ? IColors.darkBlack70 : IColors.black70,
                     fontFamily: "IranSans",
                     fontSize: 16,
                     fontWeight: FontWeight.w700),
@@ -120,10 +147,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       // TitleTab(),
                       BlocProvider(
                           create: (context) => FavoriteBloc(),
-                          child: FavoriteTab()),
-                      BlocProvider.value(
-                        value: BlocProvider.of<HomeBloc>(context),
-                        child: HomeTab(),
+                          child: FavoriteTab(
+                            isDarkMode: _isDarkMode,
+                          )),
+                      MultiBlocProvider(
+                        providers: [
+                          BlocProvider.value(
+                            value: BlocProvider.of<HomeBloc>(context),
+                          ),
+                        ],
+                        child: HomeTab(
+                          isDarkMode: _isDarkMode,
+                        ),
                       ),
 
                       SettingsTab()

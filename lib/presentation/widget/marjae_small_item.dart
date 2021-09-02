@@ -10,12 +10,14 @@ class MarjaeSmallItem extends StatelessWidget {
   String thumbPicture;
   Function onTap;
   String hash;
+  bool isDarkMode = false;
   MarjaeSmallItem({
     @required this.delete,
     @required this.title,
     @required this.thumbPicture,
     @required this.onTap,
     @required this.hash,
+    @required this.isDarkMode,
   });
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,9 @@ class MarjaeSmallItem extends StatelessWidget {
             height: 104,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: IColors.purpleCrimson65,
+              color: isDarkMode
+                  ? IColors.darkLightPink65
+                  : IColors.purpleCrimson65,
             ),
             child: Stack(
               children: [

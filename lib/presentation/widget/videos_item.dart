@@ -19,6 +19,7 @@ class VideosItem extends StatelessWidget {
   String searchedText;
   String blurhash;
   bool isPinned;
+  bool isDarkMode = false;
 
   VideosItem({
     @required this.video_id,
@@ -28,6 +29,7 @@ class VideosItem extends StatelessWidget {
     @required this.onTap,
     @required this.blurhash,
     @required this.isPinned,
+    @required this.isDarkMode,
     this.favoriteBloc,
     this.searchedText,
   });
@@ -59,12 +61,14 @@ class VideosItem extends StatelessWidget {
             width: double.infinity,
             decoration: BoxDecoration(
                 borderRadius: BorderRadiusDirectional.circular(20),
-                color: IColors.white85,
+                color: isDarkMode ? IColors.darkBlack07 : IColors.white85,
                 boxShadow: [
                   BoxShadow(
                     offset: Offset(4, 6),
                     blurRadius: 10,
-                    color: IColors.purpleCrimson25,
+                    color: isDarkMode
+                        ? Colors.transparent
+                        : IColors.purpleCrimson25,
                   )
                 ]),
             child: Material(
@@ -113,7 +117,9 @@ class VideosItem extends StatelessWidget {
                                   width: 94,
                                   height: 94,
                                   decoration: BoxDecoration(
-                                    color: IColors.purpleCrimson65,
+                                    color: isDarkMode
+                                        ? IColors.darkLightPink65
+                                        : IColors.purpleCrimson65,
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
@@ -127,7 +133,9 @@ class VideosItem extends StatelessWidget {
                                     ),
                                     child: Icon(
                                       Icons.play_arrow_rounded,
-                                      color: IColors.purpleCrimson,
+                                      color: isDarkMode
+                                          ? IColors.darkLightPink
+                                          : IColors.purpleCrimson,
                                       size: 25,
                                     ),
                                   ),
@@ -165,21 +173,21 @@ class VideosItem extends StatelessWidget {
     );
   }
 
-  TextStyle posRes = TextStyle(
-        backgroundColor: IColors.brown,
-        fontSize: 14,
-        fontWeight: FontWeight.w700,
-        color: IColors.black70,
-        fontFamily: "IranSans",
-      ),
-      negRes = TextStyle(
-        backgroundColor: Colors.transparent,
-        fontSize: 14,
-        fontWeight: FontWeight.w700,
-        color: IColors.black70,
-        fontFamily: "IranSans",
-      );
   TextSpan searchMatch(String match) {
+    TextStyle posRes = TextStyle(
+          backgroundColor: IColors.brown,
+          fontSize: 14,
+          fontWeight: FontWeight.w700,
+          color: isDarkMode ? IColors.darkWhite70 : IColors.black70,
+          fontFamily: "IranSans",
+        ),
+        negRes = TextStyle(
+          backgroundColor: Colors.transparent,
+          fontSize: 14,
+          fontWeight: FontWeight.w700,
+          color: isDarkMode ? IColors.darkWhite70 : IColors.black70,
+          fontFamily: "IranSans",
+        );
     if (searchedText == null || searchedText == "")
       return TextSpan(text: match, style: negRes);
     var refinedMatch = match.toLowerCase();

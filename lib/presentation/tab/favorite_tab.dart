@@ -13,16 +13,20 @@ import 'package:namaz_app/presentation/widget/title_selector.dart';
 import 'package:namaz_app/presentation/widget/videos_item.dart';
 
 class FavoriteTab extends StatefulWidget {
+  bool isDarkMode = false;
+  FavoriteTab({@required this.isDarkMode});
   @override
   _FavoriteTabState createState() => _FavoriteTabState();
 }
 
 class _FavoriteTabState extends State<FavoriteTab> with WidgetsBindingObserver {
   FavoriteBloc _favoriteBloc;
+  bool _isDarkMode;
   @override
   void initState() {
     _favoriteBloc = BlocProvider.of<FavoriteBloc>(context);
     _favoriteBloc.add(GetFavoriteItems(user_id: GlobalWidget.user_id));
+    _isDarkMode = widget.isDarkMode;
     super.initState();
   }
 
@@ -58,6 +62,7 @@ class _FavoriteTabState extends State<FavoriteTab> with WidgetsBindingObserver {
             BlocProvider.value(
               value: _favoriteBloc,
               child: TitleSelector(
+                isDarkMode: _isDarkMode,
                 titles: [
                   "ویدئو ها",
                   " احکام مراجع",

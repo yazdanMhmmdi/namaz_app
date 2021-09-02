@@ -14,13 +14,33 @@ class GetFavoriteItems extends FavoriteEvent {
   List<Object> get props => [this.user_id];
 }
 
-class GetVideosFavorite extends FavoriteEvent {}
+class GetVideosFavorite extends FavoriteEvent {
+  bool isDarkMode = false;
+  GetVideosFavorite({@required this.isDarkMode});
+  @override
+  List<Object> get props => [this.isDarkMode];
+}
 
-class GetAhkamFavorite extends FavoriteEvent {}
+class GetAhkamFavorite extends FavoriteEvent {
+  bool isDarkMode = false;
+  GetAhkamFavorite({@required this.isDarkMode});
+  @override
+  List<Object> get props => [this.isDarkMode];
+}
 
-class GetNarrativesFavorite extends FavoriteEvent {}
+class GetNarrativesFavorite extends FavoriteEvent {
+  bool isDarkMode = false;
+  GetNarrativesFavorite({@required this.isDarkMode});
+  @override
+  List<Object> get props => [this.isDarkMode];
+}
 
-class GetShohadaFavorite extends FavoriteEvent {}
+class GetShohadaFavorite extends FavoriteEvent {
+  bool isDarkMode = false;
+  GetShohadaFavorite({@required this.isDarkMode});
+  @override
+  List<Object> get props => [this.isDarkMode];
+}
 
 class DeleteVideoItem extends FavoriteEvent {
   String user_id, video_id;

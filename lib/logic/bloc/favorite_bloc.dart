@@ -43,7 +43,10 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       }
     } else if (event is GetVideosFavorite) {
       if (_model.video.length == 0) {
-        yield FavoriteIsEmpty(tab: EmptyWidget());
+        yield FavoriteIsEmpty(
+            tab: EmptyWidget(
+          isDarkMode: event.isDarkMode,
+        ));
       } else {
         yield FavoriteLoading();
         yield FavoriteSuccess(
@@ -59,11 +62,14 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
                   favoriteBloc: this,
                   blurhash: _model.video[index].blurhash,
                   isPinned: false,
+                  isDarkMode: event.isDarkMode,
                   onTap: () => Navigator.pushNamed(context, '/videos_details',
                       arguments: <String, String>{
                         "video_id": _model.video[index].videoId,
                       }).then((value) {
-                    this.add(GetFavoriteItems(user_id: GlobalWidget.user_id));
+                    this.add(GetFavoriteItems(
+                      user_id: GlobalWidget.user_id,
+                    ));
                     GlobalWidget.tabNumber = 1;
                   }),
                   deleteSlidable: true,
@@ -78,7 +84,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       }
     } else if (event is GetAhkamFavorite) {
       if (_model.ahkam.length == 0) {
-        yield FavoriteIsEmpty(tab: EmptyWidget());
+        yield FavoriteIsEmpty(tab: EmptyWidget(isDarkMode: event.isDarkMode));
       } else {
         yield FavoriteLoading();
         yield FavoriteSuccess(
@@ -102,6 +108,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
                 }),
                 title: _model.ahkam[index].title,
                 deleteSlidable: true,
+                isDarkMode: event.isDarkMode,
               );
             },
           ),
@@ -110,7 +117,10 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       }
     } else if (event is GetNarrativesFavorite) {
       if (_model.narratives.length == 0) {
-        yield FavoriteIsEmpty(tab: EmptyWidget());
+        yield FavoriteIsEmpty(
+            tab: EmptyWidget(
+          isDarkMode: event.isDarkMode,
+        ));
       } else {
         yield FavoriteLoading();
         yield FavoriteSuccess(
@@ -127,6 +137,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
                   title: _model.narratives[index].quoteeTranslation,
                   deleteSlidable: true,
                   favoriteBloc: this,
+                  isDarkMode: event.isDarkMode,
                   onTap: () {
                     Navigator.pushNamed(context, '/narratives_show',
                         arguments: <String, String>{
@@ -146,7 +157,10 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       }
     } else if (event is GetShohadaFavorite) {
       if (_model.shohadaBozorgan.length == 0) {
-        yield FavoriteIsEmpty(tab: EmptyWidget());
+        yield FavoriteIsEmpty(
+            tab: EmptyWidget(
+          isDarkMode: event.isDarkMode,
+        ));
       } else {
         yield FavoriteLoading();
         List<Widget> list = new List<Widget>();
@@ -154,6 +168,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
           list.add(Builder(builder: (context) {
             return ShohadaItem(
               deleteSlidable: true,
+              isDarkMode: event.isDarkMode,
               hash: _model.shohadaBozorgan[i].blurhash,
               shohada_id: _model.shohadaBozorgan[i].shohadaBozorganId,
               favoriteBloc: this,

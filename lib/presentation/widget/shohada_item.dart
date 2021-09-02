@@ -19,6 +19,7 @@ class ShohadaItem extends StatelessWidget {
   String shohada_id;
   String searchedText;
   String hash;
+  bool isDarkMode = false;
 
   ShohadaItem({
     @required this.title,
@@ -28,6 +29,7 @@ class ShohadaItem extends StatelessWidget {
     @required this.hash,
     this.favoriteBloc,
     @required this.shohada_id,
+    @required this.isDarkMode,
     this.searchedText,
   });
   @override
@@ -44,7 +46,9 @@ class ShohadaItem extends StatelessWidget {
               BoxShadow(
                 offset: Offset(4, 6),
                 blurRadius: 10,
-                color: IColors.purpleCrimson25,
+                color: isDarkMode
+                    ? IColors.darkLightPink25
+                    : IColors.purpleCrimson25,
               )
             ]),
         child: Stack(
@@ -56,16 +60,17 @@ class ShohadaItem extends StatelessWidget {
                   ApiProvider.IMAGE_PROVIDER + largePicture,
                 ),
                 placeholderBuilder: OctoPlaceholder.blurHash(
-                  // 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
-                  hash
-                ),
+                    // 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+                    hash),
                 errorBuilder: OctoError.icon(color: Colors.red),
                 fit: BoxFit.cover,
               ),
             ),
             Container(
                 decoration: BoxDecoration(
-              color: IColors.purpleCrimson65,
+              color: isDarkMode
+                  ? IColors.darkLightPink65
+                  : IColors.purpleCrimson65,
               borderRadius: BorderRadius.circular(20),
             )),
             Material(
@@ -123,21 +128,21 @@ class ShohadaItem extends StatelessWidget {
     );
   }
 
-  TextStyle posRes = TextStyle(
-        backgroundColor: IColors.brown,
-        color: IColors.white85,
-        fontSize: 14,
-        fontWeight: FontWeight.w700,
-        fontFamily: "IranSans",
-      ),
-      negRes = TextStyle(
-        backgroundColor: Colors.transparent,
-        color: IColors.white85,
-        fontSize: 14,
-        fontWeight: FontWeight.w700,
-        fontFamily: "IranSans",
-      );
   TextSpan searchMatch(String match) {
+    TextStyle posRes = TextStyle(
+          backgroundColor: IColors.brown,
+          color: isDarkMode ? IColors.darkBlack85 : IColors.white85,
+          fontSize: 14,
+          fontWeight: FontWeight.w700,
+          fontFamily: "IranSans",
+        ),
+        negRes = TextStyle(
+          backgroundColor: Colors.transparent,
+          color: IColors.white85,
+          fontSize: 14,
+          fontWeight: FontWeight.w700,
+          fontFamily: "IranSans",
+        );
     if (searchedText == null || searchedText == "")
       return TextSpan(text: match, style: negRes);
     var refinedMatch = match.toLowerCase();

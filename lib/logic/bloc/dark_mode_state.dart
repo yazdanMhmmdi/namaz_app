@@ -7,8 +7,23 @@ abstract class DarkModeState extends Equatable {
   List<Object> get props => [];
 }
 
-class DarkModeInitial extends DarkModeState {}
+class DarkModeInitial extends DarkModeState {
+  bool isDark = false;
+  DarkModeInitial({@required this.isDark});
+  @override
+  List<Object> get props => [this.isDark];
+}
 
-class DarkModeEnable extends DarkModeState {}
+class DarkModeEnable extends DarkModeState {
+  bool isDark = false;
+  DarkModeEnable({@required this.isDark});
+  @override
+  List<Object> get props => [this.isDark];
+}
 
-class DarkModeDisable extends DarkModeState {}
+class DarkModeDisable extends DarkModeState {
+  bool isDark = false;
+  DarkModeDisable({@required this.isDark});
+  @override
+  List<Object> get props => [this.isDark];
+}

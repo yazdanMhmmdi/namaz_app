@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/logic/bloc/favorite_bloc.dart';
 import 'package:namaz_app/presentation/tab/favorite_tab.dart';
 import 'package:namaz_app/presentation/widget/favorite_video_widget.dart';
@@ -8,7 +9,11 @@ import 'package:namaz_app/presentation/widget/global_widget.dart';
 class TitleSelector extends StatefulWidget {
   List<String> titles = new List<String>();
   int firstTab = 2;
-  TitleSelector({@required this.titles, @required this.firstTab});
+  bool isDarkMode = false;
+  TitleSelector(
+      {@required this.titles,
+      @required this.firstTab,
+      @required this.isDarkMode});
   @override
   _TitleSelectorState createState() => _TitleSelectorState();
 }
@@ -29,13 +34,15 @@ class _TitleSelectorState extends State<TitleSelector> {
   int temp = 0;
   bool sience = true, medicine = true;
   FavoriteBloc _favoriteBloc;
+  bool _isDarkMode;
   @override
   void initState() {
     _favoriteBloc = BlocProvider.of<FavoriteBloc>(context);
+    _isDarkMode = widget.isDarkMode;
     widget.firstTab = widget.firstTab - 1;
     if (widget.firstTab == 0) {
       // widget.bloc.add(FetchBooks(widget.firstTab + 1)); TODO:
-      _favoriteBloc.add(GetVideosFavorite());
+      _favoriteBloc.add(GetVideosFavorite(isDarkMode: _isDarkMode));
     } else {
       onTapping(widget.firstTab);
     }
@@ -62,7 +69,8 @@ class _TitleSelectorState extends State<TitleSelector> {
                     width: 8,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.black87,
+                      color:
+                          _isDarkMode ? IColors.darkLightPink : Colors.black87,
                     ),
                   ),
                   duration: Duration(milliseconds: 300))
@@ -107,7 +115,11 @@ class _TitleSelectorState extends State<TitleSelector> {
             Text(
               e,
               style: TextStyle(
-                color: _isSelected ? Colors.black87 : Colors.grey,
+                color: _isSelected
+                    ? _isDarkMode
+                        ? IColors.darkLightPink
+                        : Colors.black87
+                    : Colors.grey,
                 fontSize: _isSelected ? 22 : 16,
                 fontFamily: "IranSans",
                 fontWeight: FontWeight.w700,
@@ -153,13 +165,13 @@ class _TitleSelectorState extends State<TitleSelector> {
     print('index; ${blocIndex}');
     // widget.bloc.add(FetchBooks(blocIndex));TODO:
     if (blocIndex == 1) {
-      _favoriteBloc.add(GetVideosFavorite());
+      _favoriteBloc.add(GetVideosFavorite(isDarkMode: _isDarkMode));
     } else if (blocIndex == 2) {
-      _favoriteBloc.add(GetAhkamFavorite());
+      _favoriteBloc.add(GetAhkamFavorite(isDarkMode: _isDarkMode));
     } else if (blocIndex == 3) {
-      _favoriteBloc.add(GetNarrativesFavorite());
+      _favoriteBloc.add(GetNarrativesFavorite(isDarkMode: _isDarkMode));
     } else if (blocIndex == 4) {
-      _favoriteBloc.add(GetShohadaFavorite());
+      _favoriteBloc.add(GetShohadaFavorite(isDarkMode: _isDarkMode));
     }
   }
 }

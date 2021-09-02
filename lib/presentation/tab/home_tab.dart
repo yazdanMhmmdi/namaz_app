@@ -8,6 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
 import 'package:namaz_app/logic/bloc/home_bloc.dart';
 import 'package:namaz_app/networking/api_provider.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
@@ -16,6 +17,8 @@ import 'package:namaz_app/presentation/widget/narratives_item.dart';
 import 'package:namaz_app/presentation/widget/video_item.dart';
 
 class HomeTab extends StatefulWidget {
+  bool isDarkMode = false;
+  HomeTab({@required this.isDarkMode});
   @override
   _HomeTabState createState() => _HomeTabState();
 }
@@ -23,10 +26,13 @@ class HomeTab extends StatefulWidget {
 class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
   HomeBloc _homeBloc;
   bool loading = true;
+  bool _isDarkMode = false;
+
   @override
   void initState() {
     _homeBloc = BlocProvider.of<HomeBloc>(context);
     _homeBloc.add(GetHomeItemsEvent());
+    _isDarkMode = widget.isDarkMode;
 
     FeatureDiscovery.clearPreferences(context, const <String>{
       // Feature ids for every feature that you want to showcase in order.
@@ -78,12 +84,16 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                                     width: double.infinity,
                                     height: 90,
                                     decoration: BoxDecoration(
-                                      color: IColors.purpleCrimson,
+                                      color: _isDarkMode
+                                          ? IColors.darkLightPink
+                                          : IColors.purpleCrimson,
                                       borderRadius: BorderRadius.circular(30),
                                       boxShadow: [
                                         BoxShadow(
                                           offset: Offset(4, 6),
-                                          color: IColors.purpleCrimson25,
+                                          color: _isDarkMode
+                                              ? IColors.darkLightPink25
+                                              : IColors.purpleCrimson25,
                                           blurRadius: 10,
                                         ),
                                       ],
@@ -108,7 +118,9 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                                                   style: TextStyle(
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.w700,
-                                                    color: IColors.white85,
+                                                    color: _isDarkMode
+                                                        ? IColors.darkBlack70
+                                                        : IColors.white85,
                                                   ),
                                                 ),
                                               ),
@@ -123,7 +135,9 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                               Align(
                                 alignment: Alignment.centerRight,
                                 child: Container(
-                                  child: Image.asset(Assets.prayerO),
+                                  child: Image.asset(_isDarkMode
+                                      ? Assets.prayerODark
+                                      : Assets.prayerO),
                                 ),
                               ),
                               Positioned(
@@ -139,7 +153,9 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                                   ),
                                   child: Icon(
                                     Icons.play_arrow_rounded,
-                                    color: IColors.purpleCrimson,
+                                    color: _isDarkMode
+                                        ? IColors.darkLightPink
+                                        : IColors.purpleCrimson,
                                     size: 25,
                                   ),
                                 ),
@@ -165,7 +181,9 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
-                          color: IColors.black70,
+                          color: _isDarkMode
+                              ? IColors.darkWhite70
+                              : IColors.black70,
                         ),
                       ),
                       GestureDetector(
@@ -209,6 +227,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                                     .homeModel.marjae[index].pictureSizeSmall,
                                 hash: state.homeModel.marjae[index].blurhash,
                                 delete: false,
+                                isDarkMode: _isDarkMode,
                               );
                             },
                           ),
@@ -231,7 +250,9 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
-                          color: IColors.black70,
+                          color: _isDarkMode
+                              ? IColors.darkWhite70
+                              : IColors.black70,
                         ),
                       ),
                     ],
@@ -256,6 +277,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                                     });
                               },
                               deleteSlidable: false,
+                              isDarkMode: _isDarkMode,
                               title: state.homeModel.narratives[index]
                                   .quoteeTranslation,
                               subTitle: state
@@ -299,7 +321,9 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
-                          color: IColors.black70,
+                          color: _isDarkMode
+                              ? IColors.darkWhite70
+                              : IColors.black70,
                         ),
                       ),
                       GestureDetector(
@@ -342,6 +366,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                                     state.homeModel.shohadaBozorgan[index].name,
                                 thumbPicture: state.homeModel
                                     .shohadaBozorgan[index].pictureSizeSmall,
+                                isDarkMode: _isDarkMode,
                               );
                             },
                           ),
@@ -359,7 +384,8 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
           ),
         );
       } else if (state is HomeLoading) {
-        return LoadingBar();
+        return LoadingBar(
+            color: _isDarkMode ? IColors.darkLightPink : IColors.purpleCrimson);
       } else {
         return Container();
       }

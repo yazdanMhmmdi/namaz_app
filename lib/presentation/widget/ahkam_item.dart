@@ -13,12 +13,14 @@ class AhkamItem extends StatelessWidget {
   FavoriteBloc favoriteBloc;
   String searchedText;
   String ahkamNumber;
+  bool isDarkMode = false;
   AhkamItem({
     @required this.deleteSlidable,
     @required this.title,
     @required this.id,
     @required this.onTap,
     @required this.ahkamNumber,
+    @required this.isDarkMode,
     this.favoriteBloc,
     this.searchedText,
   });
@@ -47,12 +49,15 @@ class AhkamItem extends StatelessWidget {
           width: MediaQuery.of(context).size.width - 32,
           height: 46,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20), color: Colors.white),
+              borderRadius: BorderRadius.circular(20),
+              color: isDarkMode ? IColors.darkBlack07 : Colors.white),
           child: Material(
             color: Colors.transparent,
             child: InkWell(
               onTap: onTap,
-              splashColor: IColors.purpleCrimson25,
+              splashColor: isDarkMode
+                  ? IColors.darkLightPink10
+                  : IColors.purpleCrimson25,
               borderRadius: BorderRadius.circular(20),
               child: Padding(
                 padding: const EdgeInsets.only(right: 8),
@@ -102,21 +107,21 @@ class AhkamItem extends StatelessWidget {
     );
   }
 
-  TextStyle posRes = TextStyle(
-        backgroundColor: IColors.brown,
-        fontSize: 16,
-        color: IColors.black70,
-        fontWeight: FontWeight.normal,
-        fontFamily: "IranSans",
-      ),
-      negRes = TextStyle(
-        backgroundColor: Colors.transparent,
-        fontSize: 16,
-        color: IColors.black70,
-        fontWeight: FontWeight.normal,
-        fontFamily: "IranSans",
-      );
   TextSpan searchMatch(String match) {
+    TextStyle posRes = TextStyle(
+          backgroundColor: IColors.brown,
+          fontSize: 16,
+          color: isDarkMode ? IColors.darkWhite70 : IColors.black70,
+          fontWeight: FontWeight.normal,
+          fontFamily: "IranSans",
+        ),
+        negRes = TextStyle(
+          backgroundColor: Colors.transparent,
+          fontSize: 16,
+          color: isDarkMode ? IColors.darkWhite70 : IColors.black70,
+          fontWeight: FontWeight.normal,
+          fontFamily: "IranSans",
+        );
     if (searchedText == null || searchedText == "")
       return TextSpan(text: match, style: negRes);
     var refinedMatch = match.toLowerCase();

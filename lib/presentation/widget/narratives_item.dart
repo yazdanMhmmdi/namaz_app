@@ -14,12 +14,14 @@ class NarrativesItem extends StatelessWidget {
   Function onTap;
   FavoriteBloc favoriteBloc;
   String searchedText;
+  bool isDarkMode = false;
   NarrativesItem(
       {@required this.deleteSlidable,
       @required this.title,
       @required this.subTitle,
       @required this.id,
       @required this.onTap,
+      @required this.isDarkMode,
       this.favoriteBloc,
       this.searchedText});
 
@@ -55,13 +57,15 @@ class NarrativesItem extends StatelessWidget {
                   height: 123,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
+                    color: isDarkMode ? IColors.darkBlack07 : Colors.white,
                   ),
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
                       borderRadius: BorderRadius.circular(20),
-                      splashColor: IColors.black15,
+                      splashColor: isDarkMode
+                          ? IColors.darkLightPink10
+                          : IColors.black15,
                       onTap: onTap,
                       child: Padding(
                         padding: const EdgeInsets.only(
@@ -100,7 +104,9 @@ class NarrativesItem extends StatelessWidget {
                         BoxShadow(
                           offset: Offset(4, 6),
                           blurRadius: 10,
-                          color: IColors.purpleCrimson25,
+                          color: isDarkMode
+                              ? IColors.darkLightPink25
+                              : IColors.purpleCrimson25,
                         )
                       ]),
                 ),
@@ -112,7 +118,9 @@ class NarrativesItem extends StatelessWidget {
                   height: 94,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: IColors.purpleCrimson65,
+                    color: isDarkMode
+                        ? IColors.darkLightPink65
+                        : IColors.purpleCrimson65,
                   ),
                 ),
               ),
@@ -123,35 +131,24 @@ class NarrativesItem extends StatelessWidget {
     );
   }
 
-  TextStyle posTitleRes = TextStyle(
-        backgroundColor: IColors.brown,
-        fontSize: 16,
-        color: IColors.black70,
-        fontWeight: FontWeight.w700,
-        fontFamily: "IranSans",
-      ),
-      negTitleRes = TextStyle(
-        backgroundColor: Colors.transparent,
-        fontSize: 16,
-        color: IColors.black70,
-        fontWeight: FontWeight.w700,
-        fontFamily: "IranSans",
-      );
-  TextStyle posSubTitleRes = TextStyle(
-        backgroundColor: IColors.brown,
-        fontSize: 14,
-        color: IColors.black45,
-        fontFamily: "IranSans",
-      ),
-      negSubTitleRes = TextStyle(
-        backgroundColor: Colors.transparent,
-        fontSize: 14,
-        color: IColors.black45,
-        fontFamily: "IranSans",
-      );
   TextSpan searchTitleMatch(
     String match,
   ) {
+    TextStyle posTitleRes = TextStyle(
+          backgroundColor: IColors.brown,
+          fontSize: 16,
+          color: isDarkMode ? IColors.darkWhite70 : IColors.black70,
+          fontWeight: FontWeight.w700,
+          fontFamily: "IranSans",
+        ),
+        negTitleRes = TextStyle(
+          backgroundColor: Colors.transparent,
+          fontSize: 16,
+          color: isDarkMode ? IColors.darkWhite70 : IColors.black70,
+          fontWeight: FontWeight.w700,
+          fontFamily: "IranSans",
+        );
+
     if (searchedText == null || searchedText == "")
       return TextSpan(text: match, style: negTitleRes);
     var refinedMatch = match.toLowerCase();
@@ -202,6 +199,18 @@ class NarrativesItem extends StatelessWidget {
   TextSpan searchSubTitleMatch(
     String match,
   ) {
+    TextStyle posSubTitleRes = TextStyle(
+          backgroundColor: IColors.brown,
+          fontSize: 14,
+          color: isDarkMode ? IColors.darkWhite45 : IColors.black45,
+          fontFamily: "IranSans",
+        ),
+        negSubTitleRes = TextStyle(
+          backgroundColor: Colors.transparent,
+          fontSize: 14,
+          color: isDarkMode ? IColors.darkWhite45 : IColors.black45,
+          fontFamily: "IranSans",
+        );
     if (searchedText == null || searchedText == "")
       return TextSpan(text: match, style: negSubTitleRes);
     var refinedMatch = match.toLowerCase();

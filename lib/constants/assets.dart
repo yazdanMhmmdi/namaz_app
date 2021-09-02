@@ -12,6 +12,9 @@ class Assets {
   static final String prayerO = "assets/images/prayer_o.png";
   static final String narrativesBackground = "assets/images/narratives_background.png";
 
+    static final String prayerODark = "assets/images/prayer_o_dark.png";
+
+
   static final String basicFont = "IranSans";
   static final String nabiFont = "nabi";
 }

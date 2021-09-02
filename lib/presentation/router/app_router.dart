@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/logic/bloc/ahkam_bloc.dart';
 import 'package:namaz_app/logic/bloc/ahkam_details_bloc.dart';
+import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
 import 'package:namaz_app/logic/bloc/home_bloc.dart';
 import 'package:namaz_app/logic/bloc/marjae_bloc.dart';
 import 'package:namaz_app/logic/bloc/narratives_bloc.dart';
@@ -34,6 +35,7 @@ import 'package:url_launcher/url_launcher.dart';
 class AppRouter {
   final InternetCubit _internetCubit =
       new InternetCubit(connectivity: Connectivity());
+  DarkModeBloc _darkModeBloc = new DarkModeBloc();
 
   final _url = ApiProvider.VIDEO_PLAYER_PROVIDER;
 
@@ -47,9 +49,8 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => MultiBlocProvider(
             providers: [
-              BlocProvider.value(
-                value: _internetCubit,
-              ),
+              BlocProvider.value(value: _darkModeBloc),
+              BlocProvider.value(value: _internetCubit),
               BlocProvider(
                 create: (context) => HomeBloc(),
               ),

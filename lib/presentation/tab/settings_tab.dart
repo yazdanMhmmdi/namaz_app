@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
 
 class SettingsTab extends StatefulWidget {
   @override
@@ -9,9 +11,28 @@ class SettingsTab extends StatefulWidget {
 }
 
 class _SettingsTabState extends State<SettingsTab> {
-  bool _isDark = false;
+  bool _isDarkMode = false;
+  DarkModeBloc _darkModeBloc;
+  @override
+  void initState() {
+    _darkModeBloc = BlocProvider.of<DarkModeBloc>(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<DarkModeBloc, DarkModeState>(builder: (cotnext, state) {
+      if (state is DarkModeInitial) {
+        return getSettingsUI(isDark: false);
+      } else if (state is DarkModeDisable) {
+        return getSettingsUI(isDark: false);
+      } else if (state is DarkModeEnable) {
+        return getSettingsUI(isDark: true);
+      }
+    });
+  }
+
+  Widget getSettingsUI({bool isDark}) {
     return Container(
       child: Directionality(
         textDirection: TextDirection.rtl,
@@ -27,15 +48,15 @@ class _SettingsTabState extends State<SettingsTab> {
                     style: TextStyle(
                       fontFamily: Assets.basicFont,
                       fontSize: 16,
-                      color: IColors.black70,
+                      color: isDark ? IColors.darkWhite70 : IColors.black70,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                   Switch(
-                    value: _isDark,
+                    value: _isDarkMode,
                     onChanged: (bool value) {
                       print(value);
-                      isDarkState();
+                      isDarkState(value);
                     },
                   ),
                 ],
@@ -53,15 +74,16 @@ class _SettingsTabState extends State<SettingsTab> {
     );
   }
 
-  void isDarkState() {
-    if (_isDark) {
+  void isDarkState(value) {
+    if (value) {
       setState(() {
-        _isDark = false;
+        _isDarkMode = true;
       });
     } else {
       setState(() {
-        _isDark = true;
+        _isDarkMode = false;
       });
     }
+    _darkModeBloc.add(DarkModeStatus(darkModeStatus: _isDarkMode));
   }
 }
