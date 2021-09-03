@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
 import 'package:namaz_app/logic/bloc/video_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/presentation/widget/back_button_widget.dart';
@@ -28,6 +29,7 @@ class _VideosScreenState extends State<VideosScreen>
   bool lazyLoading = true;
   ScrollController _controller = ScrollController();
   VideoBloc _videoBloc;
+  DarkModeBloc _darkModeBloc;
   bool searchVisibility = true;
   Animation<double> animation;
   AnimationController animationController;
@@ -37,9 +39,11 @@ class _VideosScreenState extends State<VideosScreen>
   TextEditingController searchTextController = new TextEditingController();
   bool searchLoading = true;
   bool emptyList = false;
+  bool _isDarkMode = false;
   @override
   void initState() {
     _videoBloc = BlocProvider.of<VideoBloc>(context);
+    _darkModeBloc = BlocProvider.of<DarkModeBloc>(context);
     _videoBloc.add(GetVideoItems(search: ""));
     _controller.addListener(() {
       if (_controller.position.pixels == _controller.position.maxScrollExtent) {
@@ -48,60 +52,86 @@ class _VideosScreenState extends State<VideosScreen>
       }
     });
     super.initState();
+    _darkModeBloc.add(GetDarkModeStatus());
+
     searchFieldAnimation();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: IColors.lightBrown,
-      body: SafeArea(
-        child: BlocConsumer<InternetCubit, InternetState>(
-          listener: (context, state) {
-            // if
-          },
-          builder: (context, state) {
-            if (state is InternetConnected) {
-              return BlocBuilder<VideoBloc, VideoState>(
-                builder: (context, state) {
-                  if (state is VideoInitial) {
-                    return Container();
-                  } else if (state is VideoLoading) {
-                    emptyList = false;
-                    return LoadingBar();
-                  } else if (state is VideoLazyLoading) {
-                    lazyLoading = true;
-                    return getVideoUI(state);
-                  } else if (state is VideoListCompleted) {
-                    lazyLoading = false;
-                    return getVideoUI(state);
-                  } else if (state is VideoSuccess) {
-                    emptyList = false;
+    return BlocListener<DarkModeBloc, DarkModeState>(
+      listener: (context, state) {
+        // if (state is DarkModeInitial) {
+        //   setState(() {
+        //     _isDarkMode = state.isDark;
+        //   });
+        // }
+        if (state is DarkModeEnable) {
+          setState(() {
+            _isDarkMode = state.isDark;
+          });
+        }
+        // else if (state is DarkModeDisable) {
+        //   setState(() {
+        //     _isDarkMode = state.isDark;
+        //   });
+        // }
+      },
+      child: Scaffold(
+        backgroundColor:
+            _isDarkMode ? IColors.darkBackgroundColor : IColors.lightBrown,
+        body: SafeArea(
+          child: BlocConsumer<InternetCubit, InternetState>(
+            listener: (context, state) {
+              // if
+            },
+            builder: (context, state) {
+              if (state is InternetConnected) {
+                return BlocBuilder<VideoBloc, VideoState>(
+                  builder: (context, state) {
+                    if (state is VideoInitial) {
+                      return Container();
+                    } else if (state is VideoLoading) {
+                      emptyList = false;
+                      return LoadingBar(
+                        color: _isDarkMode
+                            ? IColors.darkLightPink
+                            : IColors.purpleCrimson,
+                      );
+                    } else if (state is VideoLazyLoading) {
+                      lazyLoading = true;
+                      return getVideoUI(state);
+                    } else if (state is VideoListCompleted) {
+                      lazyLoading = false;
+                      return getVideoUI(state);
+                    } else if (state is VideoSuccess) {
+                      emptyList = false;
 
-                    searchLoading = false;
-                    // lazyLoading = false; // new added
-                    return getVideoUI(state);
-                  } else if (state is VideoSearchEmpty) {
-                    lazyLoading = false;
-                    searchLoading = false;
-                    emptyList = true;
-                    return getVideoUI(state);
-                  } else if (state is VideoSearchLoading) {
-                    searchLoading = true;
-                    emptyList = false;
-                    lazyLoading = false;
-                    return getVideoUI(state);
-                  } else if (state is VideoFailure) {
-                    return ServerFailureFlare();
-                  }
-                },
-              );
-            } else if (state is InternetDisconnected) {
-              return NoNetworkFlare();
-            } else {
-              return Container();
-            }
-          },
+                      searchLoading = false;
+                      // lazyLoading = false; // new added
+                      return getVideoUI(state);
+                    } else if (state is VideoSearchEmpty) {
+                      lazyLoading = false;
+                      searchLoading = false;
+                      emptyList = true;
+                      return getVideoUI(state);
+                    } else if (state is VideoSearchLoading) {
+                      searchLoading = true;
+                      emptyList = false;
+                      lazyLoading = false;
+                      return getVideoUI(state);
+                    } else if (state is VideoFailure) {
+                      return ServerFailureFlare();
+                    }
+                  },
+                );
+              } else if (state is InternetDisconnected) {
+                return NoNetworkFlare();
+              } else {
+                return Container();
+              }
+            },
+          ),
         ),
       ),
     );
@@ -126,7 +156,8 @@ class _VideosScreenState extends State<VideosScreen>
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w800,
-                        color: IColors.black70,
+                        color:
+                            _isDarkMode ? IColors.darkWhite70 : IColors.black70,
                       ),
                     ),
                   ),
@@ -162,6 +193,7 @@ class _VideosScreenState extends State<VideosScreen>
                 isForward: isForward,
                 animation: animation,
                 searchTextController: searchTextController,
+                isDarkMode: _isDarkMode,
                 onChanged: (text) {
                   print("searched text: ${text}");
                   _videoBloc.add(SearchVideoItems(search: text));
@@ -171,7 +203,11 @@ class _VideosScreenState extends State<VideosScreen>
                 ? searchLoading
                     ? Container(
                         height: MediaQuery.of(context).size.height - 180,
-                        child: LoadingBar())
+                        child: LoadingBar(
+                          color: _isDarkMode
+                              ? IColors.darkLightPink
+                              : IColors.purpleCrimson,
+                        ))
                     : Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: ListView.builder(
@@ -191,6 +227,7 @@ class _VideosScreenState extends State<VideosScreen>
                                               state.videoModel.video[index].id,
                                         }),
                                 deleteSlidable: false,
+                                isDarkMode: _isDarkMode,
                                 isPinned:
                                     state.videoModel.video[index].isPinned,
                                 title: state.videoModel.video[index].title,
@@ -204,12 +241,21 @@ class _VideosScreenState extends State<VideosScreen>
                     child: Center(
                         child: Text(
                       Strings.noResultFound,
-                      style: TextStyle(color: IColors.black45),
+                      style: TextStyle(
+                          color: _isDarkMode
+                              ? IColors.darkWhite45
+                              : IColors.black45),
                     ))),
             SizedBox(
               height: 8,
             ),
-            lazyLoading ? LoadingBar() : Container(),
+            lazyLoading
+                ? LoadingBar(
+                    color: _isDarkMode
+                        ? IColors.darkLightPink
+                        : IColors.purpleCrimson,
+                  )
+                : Container(),
             SizedBox(
               height: 16,
             ),
@@ -232,4 +278,6 @@ class _VideosScreenState extends State<VideosScreen>
             setState(() {});
           });
   }
+
+  void isDarkModeCondition(DarkModeState state) {}
 }

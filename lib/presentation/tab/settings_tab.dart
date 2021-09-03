@@ -84,6 +84,6 @@ class _SettingsTabState extends State<SettingsTab> {
         _isDarkMode = false;
       });
     }
-    _darkModeBloc.add(DarkModeStatus(darkModeStatus: _isDarkMode));
+    _darkModeBloc.add(SetDarkModeStatus(darkModeStatus: _isDarkMode));
   }
 }

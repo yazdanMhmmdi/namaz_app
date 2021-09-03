@@ -177,6 +177,9 @@ class AppRouter {
                     BlocProvider.value(
                       value: _internetCubit,
                     ),
+                    BlocProvider.value(
+                      value: _darkModeBloc,
+                    ),
                     BlocProvider(create: (cotnext) => VideoBloc())
                   ],
                   child: VideosScreen(),

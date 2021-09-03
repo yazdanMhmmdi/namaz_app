@@ -142,9 +142,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 MotionTabBarView(
                     controller: _bottomNavController,
                     children: <Widget>[
-                      // ChatListTab(),
-
-                      // TitleTab(),
                       BlocProvider(
                           create: (context) => FavoriteBloc(),
                           child: FavoriteTab(
@@ -160,7 +157,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           isDarkMode: _isDarkMode,
                         ),
                       ),
-
                       SettingsTab()
                     ]),
               ],

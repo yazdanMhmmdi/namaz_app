@@ -7,10 +7,14 @@ abstract class DarkModeEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class DarkModeStatus extends DarkModeEvent {
+class SetDarkModeStatus extends DarkModeEvent {
   bool darkModeStatus;
-  DarkModeStatus({@required this.darkModeStatus});
+  SetDarkModeStatus({@required this.darkModeStatus});
 
   @override
   List<Object> get props => [this.darkModeStatus];
+}
+
+class GetDarkModeStatus extends DarkModeEvent {
+
 }

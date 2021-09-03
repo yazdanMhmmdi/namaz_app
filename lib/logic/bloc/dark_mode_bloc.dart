@@ -14,7 +14,7 @@ class DarkModeBloc extends Bloc<DarkModeEvent, DarkModeState> {
   Stream<DarkModeState> mapEventToState(
     DarkModeEvent event,
   ) async* {
-    if (event is DarkModeStatus) {
+    if (event is SetDarkModeStatus) {
       if (event.darkModeStatus) {
         _isDarkMode = true;
         yield DarkModeEnable(isDark: _isDarkMode);
@@ -22,6 +22,13 @@ class DarkModeBloc extends Bloc<DarkModeEvent, DarkModeState> {
         _isDarkMode = false;
         yield DarkModeDisable(isDark: _isDarkMode);
       }
+    } else if (event is GetDarkModeStatus) {
+      yield DarkModeInitial(isDark: _isDarkMode);
+
+      if (_isDarkMode)
+        yield DarkModeEnable(isDark: _isDarkMode);
+      else
+        yield DarkModeDisable(isDark: _isDarkMode);
     }
   }
 }

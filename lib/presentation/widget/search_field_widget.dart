@@ -8,11 +8,13 @@ class SearchFieldWidget extends StatelessWidget {
   Animation<double> animation;
   TextEditingController searchTextController;
   Function(String) onChanged;
+  bool isDarkMode = false;
   SearchFieldWidget({
     @required this.isForward,
     @required this.animation,
     @required this.searchTextController,
     @required this.onChanged,
+    @required this.isDarkMode,
   });
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class SearchFieldWidget extends StatelessWidget {
           width: animation.value,
           height: 45,
           decoration: BoxDecoration(
-            color: IColors.black15,
+            color: isDarkMode ? IColors.darkWhite15 : IColors.black15,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Padding(
@@ -34,13 +36,15 @@ class SearchFieldWidget extends StatelessWidget {
               controller: searchTextController,
               onChanged: onChanged,
               style: TextStyle(
-                fontSize: 14,
-                fontFamily: Assets.basicFont,
-              ),
+                  fontSize: 14,
+                  fontFamily: Assets.basicFont,
+                  color: isDarkMode ? IColors.darkWhite70 : IColors.black70),
               textDirection: TextDirection.rtl,
               maxLines: 1,
               decoration: InputDecoration(
                 border: InputBorder.none,
+                hintStyle: TextStyle(
+                    color: isDarkMode ? IColors.darkWhite70 : IColors.black70),
                 hintText: '${Strings.searchHint}',
               ),
             ),

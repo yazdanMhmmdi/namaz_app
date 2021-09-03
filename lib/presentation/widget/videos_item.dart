@@ -75,11 +75,16 @@ class VideosItem extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 borderRadius: BorderRadius.circular(20),
-                splashColor: IColors.black15,
+                splashColor:
+                    isDarkMode ? IColors.darkLightPink10 : IColors.black15,
                 onTap: onTap,
                 child: Stack(
                   children: [
-                    isPinned ? PushPinnedWidget() : Container(),
+                    isPinned
+                        ? PushPinnedWidget(
+                            isDarkMode: isDarkMode,
+                          )
+                        : Container(),
                     Row(
                       children: [
                         Container(

@@ -3,6 +3,8 @@ import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
 
 class PushPinnedWidget extends StatelessWidget {
+  bool isDarkMode = false;
+  PushPinnedWidget({@required this.isDarkMode});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -14,7 +16,7 @@ class PushPinnedWidget extends StatelessWidget {
             // borderRadius: BorderRadiusDirectional.only(
             //     topEnd: Radius.circular(20)),
             borderRadius: BorderRadius.circular(20),
-            color: IColors.purpleCrimson,
+            color: isDarkMode ? IColors.darkLightPink : IColors.purpleCrimson,
           ),
           child: Padding(
             padding: const EdgeInsets.all(5.0),
