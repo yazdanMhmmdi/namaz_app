@@ -79,6 +79,9 @@ class AppRouter {
                     BlocProvider.value(
                       value: _internetCubit,
                     ),
+                    BlocProvider.value(
+                      value: _darkModeBloc,
+                    ),
                   ],
                   child: MarjaeScreen(),
                 ));

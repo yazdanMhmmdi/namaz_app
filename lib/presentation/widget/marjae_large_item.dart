@@ -9,11 +9,13 @@ class MarjaeLargeItem extends StatelessWidget {
   String title;
   String marjae_id;
   String hash;
+  bool isDarkMode = false;
   MarjaeLargeItem(
       {@required this.largePicture,
       @required this.title,
       @required this.marjae_id,
-      @required this.hash
+      @required this.hash,
+      @required this.isDarkMode,
       });
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class MarjaeLargeItem extends StatelessWidget {
               BoxShadow(
                 offset: Offset(4, 6),
                 blurRadius: 10,
-                color: IColors.purpleCrimson25,
+                color: isDarkMode ?IColors.darkLightPink25 : IColors.purpleCrimson25,
               )
             ]),
         child: ClipRRect(
@@ -48,13 +50,13 @@ class MarjaeLargeItem extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: IColors.purpleCrimson65,
+                  color: isDarkMode ?IColors.darkLightPink65 : IColors.purpleCrimson65,
                 ),
               ),
               Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  splashColor: Colors.white10,
+                  splashColor:isDarkMode ?IColors.darkLightPink10 : Colors.white10,
                   borderRadius: BorderRadius.circular(20),
                   onTap: () {
                     print("Hello");
