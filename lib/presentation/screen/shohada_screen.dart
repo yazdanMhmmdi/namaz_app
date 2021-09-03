@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
 import 'package:namaz_app/logic/bloc/shohada_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/networking/api_provider.dart';
@@ -27,6 +28,7 @@ class ShohadaScreen extends StatefulWidget {
 class _ShohadaScreenState extends State<ShohadaScreen>
     with SingleTickerProviderStateMixin {
   ShohadaBloc _shohadaBloc;
+  DarkModeBloc _darkModeBloc;
   ScrollController _controller = ScrollController();
   bool lazyLoading = true;
   Animation<double> animation;
@@ -37,10 +39,13 @@ class _ShohadaScreenState extends State<ShohadaScreen>
   TextEditingController searchTextController = new TextEditingController();
   bool searchLoading = true;
   bool emptyList = false;
+  bool _isDarkMode = false;
   @override
   void initState() {
     _shohadaBloc = BlocProvider.of<ShohadaBloc>(context);
+    _darkModeBloc = BlocProvider.of<DarkModeBloc>(context);
     _shohadaBloc.add(GetShohadaList(search: ""));
+    _darkModeBloc.add(GetDarkModeStatus());
     _controller.addListener(() {
       if (_controller.position.pixels == _controller.position.maxScrollExtent) {
         print('end of page');
@@ -55,16 +60,26 @@ class _ShohadaScreenState extends State<ShohadaScreen>
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ShohadaBloc, ShohadaState>(
-      listener: (context, state) {
-        if (state is ShohadaLazyLoading) {
-          lazyLoading = true;
-        } else if (state is ShohadaSuccess) {
-          lazyLoading = false;
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<ShohadaBloc, ShohadaState>(
+          listener: (context, state) {
+            if (state is ShohadaLazyLoading) {
+              lazyLoading = true;
+            } else if (state is ShohadaSuccess) {
+              lazyLoading = false;
+            }
+          },
+        ),
+        BlocListener<DarkModeBloc, DarkModeState>(
+          listener: (context, state) {
+            darkModeStateFunction(state);
+          },
+        ),
+      ],
       child: Scaffold(
-        backgroundColor: backgroundColor,
+        backgroundColor:
+            _isDarkMode ? IColors.darkBackgroundColor : backgroundColor,
         body: SafeArea(
             child: BlocConsumer<InternetCubit, InternetState>(
           listener: (context, state) {},
@@ -74,7 +89,11 @@ class _ShohadaScreenState extends State<ShohadaScreen>
                 builder: (context, state) {
                   if (state is ShohadaLoading) {
                     emptyList = false;
-                    return LoadingBar();
+                    return LoadingBar(
+                      color: _isDarkMode
+                          ? IColors.darkLightPink
+                          : IColors.purpleCrimson,
+                    );
                   } else if (state is ShohadaSuccess) {
                     emptyList = false;
                     searchLoading = false;
@@ -119,6 +138,7 @@ class _ShohadaScreenState extends State<ShohadaScreen>
         list.add(ShohadaItem(
           shohada_id: state.shohadaModel.shohadaBozorgan[i].id,
           deleteSlidable: false,
+          isDarkMode: _isDarkMode,
           hash: state.shohadaModel.shohadaBozorgan[i].blurhash,
           searchedText: searchTextController.text,
           onTap: () => Navigator.pushNamed(context, '/shohada_details',
@@ -147,7 +167,8 @@ class _ShohadaScreenState extends State<ShohadaScreen>
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
-                      color: IColors.black70,
+                      color:
+                          _isDarkMode ? IColors.darkWhite70 : IColors.black70,
                     ),
                   ),
                   SearchButtonWidget(
@@ -184,6 +205,7 @@ class _ShohadaScreenState extends State<ShohadaScreen>
                 isForward: isForward,
                 animation: animation,
                 searchTextController: searchTextController,
+                isDarkMode: _isDarkMode,
                 onChanged: (text) {
                   print("searched text: ${text}");
                   _shohadaBloc.add(SearchShohadaItems(search: text));
@@ -195,7 +217,10 @@ class _ShohadaScreenState extends State<ShohadaScreen>
                 ? searchLoading
                     ? Container(
                         height: MediaQuery.of(context).size.height - 180,
-                        child: LoadingBar())
+                        child: LoadingBar(
+                            color: _isDarkMode
+                                ? IColors.darkLightPink
+                                : IColors.purpleCrimson))
                     : Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Align(
@@ -212,11 +237,19 @@ class _ShohadaScreenState extends State<ShohadaScreen>
                     child: Center(
                         child: Text(
                       Strings.noResultFound,
-                      style: TextStyle(color: IColors.black45),
+                      style: TextStyle(
+                          color: _isDarkMode
+                              ? IColors.darkWhite45
+                              : IColors.black45),
                     ))),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
-              child: lazyLoading ? LoadingBar() : Container(),
+              child: lazyLoading
+                  ? LoadingBar(
+                      color: _isDarkMode
+                          ? IColors.darkLightPink
+                          : IColors.purpleCrimson)
+                  : Container(),
             ),
           ],
         ),
@@ -236,5 +269,22 @@ class _ShohadaScreenState extends State<ShohadaScreen>
           ..addListener(() {
             setState(() {});
           });
+  }
+
+  void darkModeStateFunction(DarkModeState state) {
+    if (state is DarkModeInitial) {
+      setState(() {
+        _isDarkMode = state.isDark;
+      });
+    }
+    if (state is DarkModeEnable) {
+      setState(() {
+        _isDarkMode = state.isDark;
+      });
+    } else if (state is DarkModeDisable) {
+      setState(() {
+        _isDarkMode = state.isDark;
+      });
+    }
   }
 }
