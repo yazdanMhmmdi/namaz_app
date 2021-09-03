@@ -43,8 +43,17 @@ class AppRouter {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(
-            builder: (_) => BlocProvider.value(
-                value: _internetCubit, child: IntroScreen()));
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                      value: _internetCubit,
+                    ),
+                    BlocProvider.value(
+                      value: _darkModeBloc,
+                    ),
+                  ],
+                  child: IntroScreen(),
+                ));
       case '/home':
         return MaterialPageRoute(
           builder: (_) => MultiBlocProvider(

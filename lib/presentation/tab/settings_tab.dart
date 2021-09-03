@@ -21,15 +21,17 @@ class _SettingsTabState extends State<SettingsTab> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DarkModeBloc, DarkModeState>(builder: (cotnext, state) {
-      if (state is DarkModeInitial) {
-        return getSettingsUI(isDark: false);
-      } else if (state is DarkModeDisable) {
-        return getSettingsUI(isDark: false);
-      } else if (state is DarkModeEnable) {
-        return getSettingsUI(isDark: true);
-      }
-    });
+    return BlocConsumer<DarkModeBloc, DarkModeState>(
+        listener: (context, state) {},
+        builder: (cotnext, state) {
+          if (state is DarkModeInitial) {
+            return getSettingsUI(isDark: false);
+          } else if (state is DarkModeDisable) {
+            return getSettingsUI(isDark: false);
+          } else if (state is DarkModeEnable) {
+            return getSettingsUI(isDark: true);
+          }
+        });
   }
 
   Widget getSettingsUI({bool isDark}) {

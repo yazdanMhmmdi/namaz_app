@@ -15,6 +15,6 @@ class SetDarkModeStatus extends DarkModeEvent {
   List<Object> get props => [this.darkModeStatus];
 }
 
-class GetDarkModeStatus extends DarkModeEvent {
+class GetDarkModestatusFromLocalStorage extends DarkModeEvent {}
 
-}
+class GetDarkModeStatus extends DarkModeEvent {}
