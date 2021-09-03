@@ -11,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
 import 'package:namaz_app/logic/bloc/shohada_details_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/networking/api_provider.dart';
@@ -32,6 +33,7 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
   Map<String, String> arguments;
   String shohada_id;
   ShohadaDetailsBloc _shohadaDetailsBloc;
+  DarkModeBloc _darkModeBloc;
   final maxBorderRadius = 50.0;
   var borderRadius;
   bool elc = false;
@@ -39,6 +41,7 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
   Icon iconState =
       Icon(Icons.favorite_border, size: 30, color: IColors.white85);
   Color backgroundColor = IColors.purpleCrimson;
+  bool _isDarkMode = false;
 
   @override
   void initState() {
@@ -48,44 +51,59 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
 
     print("Shohada_id=${shohada_id}");
     _shohadaDetailsBloc = BlocProvider.of<ShohadaDetailsBloc>(context);
+    _darkModeBloc = BlocProvider.of<DarkModeBloc>(context);
     _shohadaDetailsBloc.add(GetShohadaDetails(shohada_id: shohada_id));
-
+    _darkModeBloc.add(GetDarkModeStatus());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ShohadaDetailsBloc, ShohadaDetailsState>(
-      listener: (context, state) {
-        if (state is ShohadaDetailsFailure) {
-          setState(() {
-            backgroundColor = Colors.white;
-          });
-        } else if (state is ShohadaDetailsSuccess) {
-          if (state.featureDiscovery) {
-            Timer(Duration(seconds: 2), () {
-              FeatureDiscovery.discoverFeatures(
-                context,
-                <String>{
-                  // Feature ids for every feature that you want to showcase in order.
-                  Strings.discoverFeatureShohada,
-                },
-              );
-            });
-          }
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<ShohadaDetailsBloc, ShohadaDetailsState>(
+          listener: (context, state) {
+            if (state is ShohadaDetailsFailure) {
+              setState(() {
+                backgroundColor =
+                    _isDarkMode ? IColors.darkBackgroundColor : Colors.white;
+              });
+            } else if (state is ShohadaDetailsSuccess) {
+              if (state.featureDiscovery) {
+                Timer(Duration(seconds: 2), () {
+                  FeatureDiscovery.discoverFeatures(
+                    context,
+                    <String>{
+                      // Feature ids for every feature that you want to showcase in order.
+                      Strings.discoverFeatureShohada,
+                    },
+                  );
+                });
+              }
+            }
+          },
+        ),
+        BlocListener<DarkModeBloc, DarkModeState>(
+          listener: (context, state) {
+            darkModeStateFunction(state);
+          },
+        )
+      ],
       child: Scaffold(
-          backgroundColor: backgroundColor,
+          backgroundColor:
+              _isDarkMode ? IColors.darkBackgroundColor : backgroundColor,
           body: BlocConsumer<InternetCubit, InternetState>(
             listener: (context, state) {
               if (state is InternetConnected) {
                 setState(() {
-                  backgroundColor = IColors.purpleCrimson;
+                  backgroundColor = _isDarkMode
+                      ? IColors.darkBackgroundColor
+                      : IColors.purpleCrimson;
                 });
               } else if (state is InternetDisconnected) {
                 setState(() {
-                  backgroundColor = Colors.white;
+                  backgroundColor =
+                      _isDarkMode ? IColors.darkBackgroundColor : Colors.white;
                 });
               }
             },
@@ -97,7 +115,8 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
                       return Container();
                     } else if (state is ShohadaDetailsLoading) {
                       return LoadingBar(
-                        color: Colors.white,
+                        color:
+                            _isDarkMode ? IColors.darkLightPink : Colors.white,
                       );
                     } else if (state is ShohadaDetailsSuccess) {
                       return getShohadaUI(state);
@@ -238,7 +257,7 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
                       topRight: Radius.circular(
                           double.parse(borderRadius.toString()))),
                   child: Container(
-                    color: Colors.white,
+                    color: _isDarkMode ? IColors.darkBlack07 : Colors.white,
                     child: Directionality(
                       textDirection: TextDirection.rtl,
                       child: ListView(
@@ -276,7 +295,9 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
-                                      color: IColors.black70),
+                                      color: _isDarkMode
+                                          ? IColors.darkWhite70
+                                          : IColors.black70),
                                 ),
                               )
                             ],
@@ -287,7 +308,9 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
                             style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.normal,
-                                color: IColors.black45),
+                                color: _isDarkMode
+                                    ? IColors.darkWhite45
+                                    : IColors.black45),
                           )
                         ],
                       ),
@@ -324,6 +347,23 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
       setState(() {
         iconState =
             Icon(Icons.favorite_border, size: 30, color: IColors.white85);
+      });
+    }
+  }
+
+  void darkModeStateFunction(DarkModeState state) {
+    if (state is DarkModeInitial) {
+      setState(() {
+        _isDarkMode = state.isDark;
+      });
+    }
+    if (state is DarkModeEnable) {
+      setState(() {
+        _isDarkMode = state.isDark;
+      });
+    } else if (state is DarkModeDisable) {
+      setState(() {
+        _isDarkMode = state.isDark;
       });
     }
   }
