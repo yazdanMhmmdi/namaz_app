@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
 import 'package:namaz_app/logic/bloc/narratives_details_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/presentation/widget/back_button_widget.dart';
@@ -33,6 +34,7 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
   String narratives_id;
 
   NarrativesDetailsBloc _narrativesDetailsBloc;
+  DarkModeBloc _darkModeBloc;
 
   final maxBorderRadius = 50.0;
 
@@ -42,6 +44,7 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
   Color backgroundColor = IColors.purpleCrimson;
   Icon iconState =
       Icon(Icons.favorite_border, size: 30, color: IColors.white85);
+  bool _isDarkMode = false;
   @override
   void initState() {
     arguments = widget.args;
@@ -49,46 +52,61 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
     borderRadius = maxBorderRadius;
 
     _narrativesDetailsBloc = BlocProvider.of<NarrativesDetailsBloc>(context);
+    _darkModeBloc = BlocProvider.of<DarkModeBloc>(context);
     _narrativesDetailsBloc
         .add(GetNarrativesDetails(narratives_id: narratives_id));
-
+    _darkModeBloc.add(GetDarkModeStatus());
     print(narratives_id);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<NarrativesDetailsBloc, NarrativesDetailsState>(
-      listener: (context, state) {
-        if (state is NarrativesDetailsFailure) {
-          setState(() {
-            backgroundColor = Colors.white;
-          });
-        } else if (state is NarrativesDetailsSuccess) {
-          if (state.featureDiscovery) {
-            Timer(Duration(seconds: 2), () {
-              FeatureDiscovery.discoverFeatures(
-                context,
-                <String>{
-                  // Feature ids for every feature that you want to showcase in order.
-                  Strings.discoverFeatureNarratives,
-                },
-              );
-            });
-          }
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<NarrativesDetailsBloc, NarrativesDetailsState>(
+          listener: (context, state) {
+            if (state is NarrativesDetailsFailure) {
+              setState(() {
+                backgroundColor =
+                    _isDarkMode ? IColors.darkBackgroundColor : Colors.white;
+              });
+            } else if (state is NarrativesDetailsSuccess) {
+              if (state.featureDiscovery) {
+                Timer(Duration(seconds: 2), () {
+                  FeatureDiscovery.discoverFeatures(
+                    context,
+                    <String>{
+                      // Feature ids for every feature that you want to showcase in order.
+                      Strings.discoverFeatureNarratives,
+                    },
+                  );
+                });
+              }
+            }
+          },
+        ),
+        BlocListener<DarkModeBloc, DarkModeState>(
+          listener: (context, state) {
+            darkModeStateFunction(state);
+          },
+        )
+      ],
       child: Scaffold(
-          backgroundColor: backgroundColor,
+          backgroundColor:
+              _isDarkMode ? IColors.darkBackgroundColor : backgroundColor,
           body: BlocConsumer<InternetCubit, InternetState>(
             listener: (context, state) {
               if (state is InternetConnected) {
                 setState(() {
-                  backgroundColor = IColors.purpleCrimson;
+                  backgroundColor = _isDarkMode
+                      ? IColors.darkBackgroundColor
+                      : IColors.purpleCrimson;
                 });
               } else if (state is InternetDisconnected) {
                 setState(() {
-                  backgroundColor = Colors.white;
+                  backgroundColor =
+                      _isDarkMode ? IColors.darkBackgroundColor : Colors.white;
                 });
               }
             },
@@ -101,7 +119,9 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                       return Container();
                     } else if (state is NarrativesDetailsLoading) {
                       return LoadingBar(
-                        color: IColors.lightBrown,
+                        color: _isDarkMode
+                            ? IColors.darkLightPink
+                            : IColors.lightBrown,
                       );
                     } else if (state is NarrativesDetailsSuccess) {
                       return getNarrativesShowUI(state);
@@ -250,7 +270,7 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                       topRight: Radius.circular(
                           double.parse(borderRadius.toString()))),
                   child: Container(
-                    color: Colors.white,
+                    color: _isDarkMode ? IColors.darkBlack07 : Colors.white,
                     child: Directionality(
                       textDirection: TextDirection.rtl,
                       child: ListView(
@@ -298,7 +318,9 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                                             fontFamily: "nabi",
                                             fontSize: 16,
                                             fontWeight: FontWeight.w700,
-                                            color: IColors.black70),
+                                            color: _isDarkMode
+                                                ? IColors.darkWhite70
+                                                : IColors.black70),
                                       ),
                                     ),
                                     Flexible(
@@ -309,7 +331,9 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w700,
-                                            color: IColors.black70),
+                                            color: _isDarkMode
+                                                ? IColors.darkWhite70
+                                                : IColors.black70),
                                       ),
                                     )
                                   ],
@@ -327,7 +351,9 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                                 fontFamily: "nabi",
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
-                                color: IColors.black45),
+                                color: _isDarkMode
+                                    ? IColors.darkWhite70
+                                    : IColors.black45),
                           ),
                           SizedBox(
                             height: 16,
@@ -338,7 +364,9 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                             style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.normal,
-                                color: IColors.black45),
+                                color: _isDarkMode
+                                    ? IColors.darkWhite45
+                                    : IColors.black45),
                           ),
                           SizedBox(
                             height: 8,
@@ -353,7 +381,9 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
-                                      color: IColors.black70),
+                                      color: _isDarkMode
+                                          ? IColors.darkWhite70
+                                          : IColors.black70),
                                 ),
                               ),
                               Flexible(
@@ -364,7 +394,9 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w700,
-                                      color: IColors.black70),
+                                      color: _isDarkMode
+                                          ? IColors.darkWhite70
+                                          : IColors.black70),
                                 ),
                               ),
                             ],
@@ -378,6 +410,23 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
         ),
       ],
     );
+  }
+
+  void darkModeStateFunction(DarkModeState state) {
+    if (state is DarkModeInitial) {
+      setState(() {
+        _isDarkMode = state.isDark;
+      });
+    }
+    if (state is DarkModeEnable) {
+      setState(() {
+        _isDarkMode = state.isDark;
+      });
+    } else if (state is DarkModeDisable) {
+      setState(() {
+        _isDarkMode = state.isDark;
+      });
+    }
   }
 
   @override

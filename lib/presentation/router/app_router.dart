@@ -143,11 +143,11 @@ class AppRouter {
                     BlocProvider.value(
                       value: _internetCubit,
                     ),
-                    BlocProvider(
-                      create: (context) => AhkamDetailsBloc(),
-                    ),
                     BlocProvider.value(
                       value: _darkModeBloc,
+                    ),
+                    BlocProvider(
+                      create: (context) => AhkamDetailsBloc(),
                     ),
                   ],
                   child: AhkamShowScreen(args: args),
@@ -162,6 +162,9 @@ class AppRouter {
                     providers: [
                       BlocProvider.value(
                         value: _internetCubit,
+                      ),
+                      BlocProvider.value(
+                        value: _darkModeBloc,
                       ),
                       BlocProvider(
                         create: (context) => NarrativesDetailsBloc(),
