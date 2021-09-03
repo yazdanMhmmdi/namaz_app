@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
 import 'package:namaz_app/logic/bloc/narratives_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/presentation/widget/back_button_widget.dart';
@@ -22,6 +23,7 @@ class NarrativesScreen extends StatefulWidget {
 class _NarrativesScreenState extends State<NarrativesScreen>
     with SingleTickerProviderStateMixin {
   NarrativesBloc _narrativesBloc;
+  DarkModeBloc _darkModeBloc;
   ScrollController _controller = ScrollController();
   bool lazyLoading = true;
   Animation<double> animation;
@@ -32,10 +34,13 @@ class _NarrativesScreenState extends State<NarrativesScreen>
   TextEditingController searchTextController = new TextEditingController();
   bool searchLoading = true;
   bool emptyList = false;
+  bool _isDarkMode = false;
   @override
   void initState() {
     _narrativesBloc = BlocProvider.of<NarrativesBloc>(context);
+    _darkModeBloc = BlocProvider.of<DarkModeBloc>(context);
     _narrativesBloc.add(GetNarrativesList(search: ""));
+    _darkModeBloc.add(GetDarkModeStatus());
     _controller.addListener(() {
       if (_controller.position.pixels == _controller.position.maxScrollExtent) {
         print('end of page');
@@ -49,16 +54,26 @@ class _NarrativesScreenState extends State<NarrativesScreen>
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<NarrativesBloc, NarrativesState>(
-      listener: (context, state) {
-        if (state is NarrativesLazyLoading) {
-          lazyLoading = true;
-        } else if (state is NarrativesSuccess) {
-          lazyLoading = false;
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<NarrativesBloc, NarrativesState>(
+          listener: (context, state) {
+            if (state is NarrativesLazyLoading) {
+              lazyLoading = true;
+            } else if (state is NarrativesSuccess) {
+              lazyLoading = false;
+            }
+          },
+        ),
+        BlocListener<DarkModeBloc, DarkModeState>(
+          listener: (context, state) {
+            darkModeStateFunction(state);
+          },
+        )
+      ],
       child: Scaffold(
-        backgroundColor: IColors.lightBrown,
+        backgroundColor:
+            _isDarkMode ? IColors.darkBackgroundColor : IColors.lightBrown,
         body: SafeArea(
             child: BlocConsumer<InternetCubit, InternetState>(
           listener: (context, state) {},
@@ -70,7 +85,10 @@ class _NarrativesScreenState extends State<NarrativesScreen>
                     return Container();
                   } else if (state is NarrativesLoading) {
                     emptyList = false;
-                    return LoadingBar();
+                    return LoadingBar(
+                        color: _isDarkMode
+                            ? IColors.darkLightPink
+                            : IColors.purpleCrimson);
                   } else if (state is NarrativesLazyLoading) {
                     return narrativesUI(state);
                   } else if (state is NarrativesSuccess) {
@@ -124,7 +142,8 @@ class _NarrativesScreenState extends State<NarrativesScreen>
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
-                      color: IColors.black70,
+                      color:
+                          _isDarkMode ? IColors.darkWhite70 : IColors.black70,
                     ),
                   ),
                   SearchButtonWidget(
@@ -159,6 +178,7 @@ class _NarrativesScreenState extends State<NarrativesScreen>
                 isForward: isForward,
                 animation: animation,
                 searchTextController: searchTextController,
+                isDarkMode: _isDarkMode,
                 onChanged: (text) {
                   print("searched text: ${text}");
                   _narrativesBloc.add(SearchNarrativesItems(search: text));
@@ -168,7 +188,10 @@ class _NarrativesScreenState extends State<NarrativesScreen>
                 ? searchLoading
                     ? Container(
                         height: MediaQuery.of(context).size.height - 180,
-                        child: LoadingBar())
+                        child: LoadingBar(
+                            color: _isDarkMode
+                                ? IColors.darkLightPink
+                                : IColors.purpleCrimson))
                     : Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: ListView.builder(
@@ -186,6 +209,7 @@ class _NarrativesScreenState extends State<NarrativesScreen>
                                         .narrativesModel.narratives[index].id,
                                   }),
                               deleteSlidable: false,
+                              isDarkMode: _isDarkMode,
                               title: state.narrativesModel.narratives[index]
                                   .quoteeTranslation,
                               subTitle: state.narrativesModel.narratives[index]
@@ -199,12 +223,20 @@ class _NarrativesScreenState extends State<NarrativesScreen>
                     child: Center(
                         child: Text(
                       Strings.noResultFound,
-                      style: TextStyle(color: IColors.black45),
+                      style: TextStyle(
+                          color: _isDarkMode
+                              ? IColors.darkWhite45
+                              : IColors.black45),
                     ))),
             SizedBox(
               height: 8,
             ),
-            lazyLoading ? LoadingBar() : Container(),
+            lazyLoading
+                ? LoadingBar(
+                    color: _isDarkMode
+                        ? IColors.darkLightPink
+                        : IColors.purpleCrimson)
+                : Container(),
             SizedBox(
               height: 8,
             ),
@@ -226,5 +258,22 @@ class _NarrativesScreenState extends State<NarrativesScreen>
           ..addListener(() {
             setState(() {});
           });
+  }
+
+  void darkModeStateFunction(DarkModeState state) {
+    if (state is DarkModeInitial) {
+      setState(() {
+        _isDarkMode = state.isDark;
+      });
+    }
+    if (state is DarkModeEnable) {
+      setState(() {
+        _isDarkMode = state.isDark;
+      });
+    } else if (state is DarkModeDisable) {
+      setState(() {
+        _isDarkMode = state.isDark;
+      });
+    }
   }
 }
