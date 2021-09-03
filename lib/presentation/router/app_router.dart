@@ -145,7 +145,10 @@ class AppRouter {
                     ),
                     BlocProvider(
                       create: (context) => AhkamDetailsBloc(),
-                    )
+                    ),
+                    BlocProvider.value(
+                      value: _darkModeBloc,
+                    ),
                   ],
                   child: AhkamShowScreen(args: args),
                 ));

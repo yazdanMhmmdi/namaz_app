@@ -12,6 +12,7 @@ import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/logic/bloc/ahkam_details_bloc.dart';
+import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/networking/api_provider.dart';
 import 'package:namaz_app/presentation/widget/global_widget.dart';
@@ -32,6 +33,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
   Map<String, String> arguments;
   String ahkam_id;
   AhkamDetailsBloc _ahkamDetailsBloc;
+  DarkModeBloc _darkModeBloc;
   final maxBorderRadius = 50.0;
   var borderRadius;
   AnimationController _animationController;
@@ -39,6 +41,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
   Color backgroundColor = IColors.purpleCrimson;
   Icon iconState =
       Icon(Icons.favorite_border, size: 30, color: IColors.white85);
+  bool _isDarkMode = false;
   @override
   void initState() {
     arguments = widget.args;
@@ -46,45 +49,58 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
     borderRadius = maxBorderRadius;
 
     _ahkamDetailsBloc = BlocProvider.of<AhkamDetailsBloc>(context);
+    _darkModeBloc = BlocProvider.of<DarkModeBloc>(context);
     _ahkamDetailsBloc.add(
         GetAhkamDetails(ahkam_id: ahkam_id, user_id: GlobalWidget.user_id));
-
+    _darkModeBloc.add(GetDarkModeStatus());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AhkamDetailsBloc, AhkamDetailsState>(
-      listener: (context, state) {
-        if (state is AhkamDetailsFailure) {
-          setState(() {
-            backgroundColor = Colors.white;
-          });
-        } else if (state is AhkamDetailsSuccess) {
-          if (state.featureDiscovery) {
-            Timer(Duration(seconds: 2), () {
-              FeatureDiscovery.discoverFeatures(
-                context,
-                <String>{
-                  // Feature ids for every feature that you want to showcase in order.
-                  Strings.discoverFeatureAhkam,
-                },
-              );
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<AhkamDetailsBloc, AhkamDetailsState>(
+            listener: (context, state) {
+          if (state is AhkamDetailsFailure) {
+            setState(() {
+              backgroundColor = Colors.white;
             });
+          } else if (state is AhkamDetailsSuccess) {
+            if (state.featureDiscovery) {
+              Timer(Duration(seconds: 2), () {
+                FeatureDiscovery.discoverFeatures(
+                  context,
+                  <String>{
+                    // Feature ids for every feature that you want to showcase in order.
+                    Strings.discoverFeatureAhkam,
+                  },
+                );
+              });
+            }
           }
-        }
-      },
+        }),
+        BlocListener<DarkModeBloc, DarkModeState>(
+          listener: (context, state) {
+            darkModeStateFunction(state);
+          },
+        )
+      ],
       child: Scaffold(
-          backgroundColor: backgroundColor,
+          backgroundColor:
+              _isDarkMode ? IColors.darkBackgroundColor : backgroundColor,
           body: BlocConsumer<InternetCubit, InternetState>(
             listener: (context, state) {
               if (state is InternetConnected) {
                 setState(() {
-                  backgroundColor = IColors.purpleCrimson;
+                  backgroundColor = _isDarkMode
+                      ? IColors.darkBackgroundColor
+                      : IColors.purpleCrimson;
                 });
               } else if (state is InternetDisconnected) {
                 setState(() {
-                  backgroundColor = Colors.white;
+                  backgroundColor =
+                      _isDarkMode ? IColors.darkBackgroundColor : Colors.white;
                 });
               }
             },
@@ -95,7 +111,10 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                     if (state is AhkamDetailsInitial) {
                       return Container();
                     } else if (state is AhkamDetailsLoading) {
-                      return LoadingBar(color: IColors.lightBrown);
+                      return LoadingBar(
+                          color: _isDarkMode
+                              ? IColors.darkLightPink
+                              : IColors.lightBrown);
                     } else if (state is AhkamDetailsSuccess) {
                       return getAhkamShowUI(state);
                     } else if (state is LikeAhkamSuccess) {
@@ -277,7 +296,9 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                       topRight: Radius.circular(
                           double.parse(borderRadius.toString()))),
                   child: Container(
-                    color: Colors.white,
+                    color: _isDarkMode
+                        ? IColors.darkBlack07
+                        : Colors.white,
                     child: Padding(
                       padding: const EdgeInsets.only(top: 30, bottom: 16),
                       child: Directionality(
@@ -316,7 +337,9 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
-                                        color: IColors.black70),
+                                        color: _isDarkMode
+                                            ? IColors.darkWhite70
+                                            : IColors.black70),
                                   ),
                                 )
                               ],
@@ -358,14 +381,16 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                                     element.firstChild.text,
                                     style: TextStyle(
                                       fontSize: 16,
-                                      color: IColors.black70,
+                                      color: _isDarkMode
+                                          ? IColors.darkWhite70
+                                          : IColors.black70,
                                       fontWeight: FontWeight.w700,
                                       fontFamily: Assets.nabiFont,
                                       letterSpacing: 4.0,
                                     ),
                                   );
                                 }
-                                
+
                                 return null;
                               },
 
@@ -373,7 +398,11 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                               onTapUrl: (url) => print('tapped $url'),
 
                               // set the default styling for text
-                              textStyle: TextStyle(fontSize: 16),
+                              textStyle: TextStyle(
+                                  fontSize: 16,
+                                  color: _isDarkMode
+                                      ? IColors.darkWhite70
+                                      : IColors.black70),
                             ),
                             // state.ahkamDetailsModel.data.titleText
                             // style: {
@@ -425,5 +454,22 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
         ),
       ],
     );
+  }
+
+  void darkModeStateFunction(DarkModeState state) {
+    if (state is DarkModeInitial) {
+      setState(() {
+        _isDarkMode = state.isDark;
+      });
+    }
+    if (state is DarkModeEnable) {
+      setState(() {
+        _isDarkMode = state.isDark;
+      });
+    } else if (state is DarkModeDisable) {
+      setState(() {
+        _isDarkMode = state.isDark;
+      });
+    }
   }
 }
