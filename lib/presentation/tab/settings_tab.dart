@@ -16,22 +16,24 @@ class _SettingsTabState extends State<SettingsTab> {
   @override
   void initState() {
     _darkModeBloc = BlocProvider.of<DarkModeBloc>(context);
+    _darkModeBloc.add(GetDarkModeStatus());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<DarkModeBloc, DarkModeState>(
-        listener: (context, state) {},
-        builder: (cotnext, state) {
-          if (state is DarkModeInitial) {
-            return getSettingsUI(isDark: false);
-          } else if (state is DarkModeDisable) {
-            return getSettingsUI(isDark: false);
-          } else if (state is DarkModeEnable) {
-            return getSettingsUI(isDark: true);
-          }
-        });
+        listener: (context, state) {
+      darkModeStateFunction(state);
+    }, builder: (cotnext, state) {
+      if (state is DarkModeInitial) {
+        return getSettingsUI(isDark: false);
+      } else if (state is DarkModeDisable) {
+        return getSettingsUI(isDark: false);
+      } else if (state is DarkModeEnable) {
+        return getSettingsUI(isDark: true);
+      }
+    });
   }
 
   Widget getSettingsUI({bool isDark}) {
@@ -89,5 +91,22 @@ class _SettingsTabState extends State<SettingsTab> {
       });
     }
     _darkModeBloc.add(SetDarkModeStatus(darkModeStatus: _isDarkMode));
+  }
+
+  void darkModeStateFunction(DarkModeState state) {
+    if (state is DarkModeInitial) {
+      setState(() {
+        _isDarkMode = state.isDark;
+      });
+    }
+    if (state is DarkModeEnable) {
+      setState(() {
+        _isDarkMode = state.isDark;
+      });
+    } else if (state is DarkModeDisable) {
+      setState(() {
+        _isDarkMode = state.isDark;
+      });
+    }
   }
 }
