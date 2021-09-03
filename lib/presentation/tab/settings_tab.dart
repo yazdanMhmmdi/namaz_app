@@ -65,7 +65,9 @@ class _SettingsTabState extends State<SettingsTab> {
 
             Padding(
               padding: const EdgeInsets.only(left: 16, right: 16),
-              child: Divider(),
+              child: Divider(
+                color: _isDarkMode ? IColors.darkWhite25 : IColors.black25,
+              ),
             ),
             //other vertical items place here.
           ],
