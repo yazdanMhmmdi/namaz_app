@@ -6,6 +6,7 @@ import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/logic/bloc/ahkam_bloc.dart';
+import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/presentation/widget/ahkam_item.dart';
 import 'package:namaz_app/presentation/widget/back_button_widget.dart';
@@ -13,6 +14,7 @@ import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/marjae_large_item.dart';
 import 'package:namaz_app/presentation/widget/no_network_flare.dart';
 import 'package:namaz_app/presentation/widget/search_button_widget.dart';
+import 'package:namaz_app/presentation/widget/search_field_widget.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 import 'package:namaz_app/presentation/widget/shohada_item.dart';
 import 'package:namaz_app/presentation/widget/videos_item.dart';
@@ -32,6 +34,7 @@ class _AhkamScreenState extends State<AhkamScreen>
   Map<String, String> arguments;
   String marjae_id;
   AhkamBloc _ahkamBloc;
+  DarkModeBloc _darkModeBloc;
   bool lazyLoading = true;
   bool searchVisibility = true;
   Animation<double> animation;
@@ -42,12 +45,15 @@ class _AhkamScreenState extends State<AhkamScreen>
   TextEditingController searchTextController = new TextEditingController();
   bool searchLoading = true;
   bool emptyList = false;
+  bool _isDarkMode = false;
   @override
   void initState() {
     arguments = widget.args;
     _getArguments();
     _ahkamBloc = BlocProvider.of<AhkamBloc>(context);
+    _darkModeBloc = BlocProvider.of<DarkModeBloc>(context);
     _ahkamBloc.add(GetAhkamItems(marjae_id: marjae_id, search: ""));
+    _darkModeBloc.add(GetDarkModeStatus());
     _controller.addListener(() {
       if (_controller.position.pixels == _controller.position.maxScrollExtent) {
         print('end of page ${searchTextController.text}');
@@ -71,53 +77,62 @@ class _AhkamScreenState extends State<AhkamScreen>
 
   @override
   Widget build(BuildContext context) {
-    print(marjae_id);
-    return Scaffold(
-      backgroundColor: IColors.lightBrown,
-      body: SafeArea(
-          child: BlocConsumer<InternetCubit, InternetState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          if (state is InternetConnected) {
-            return BlocBuilder<AhkamBloc, AhkamState>(
-              builder: (context, state) {
-                if (state is AhkamInitial) {
-                  return Container();
-                } else if (state is AhkamLoading) {
-                  emptyList = false;
-                  return LoadingBar();
-                } else if (state is AhkamSuccess) {
-                  emptyList = false;
-                  searchLoading = false;
-                  lazyLoading = false; // new added
-                  return getAhkamUI(state);
-                } else if (state is AhkamLazyLoading) {
-                  return getAhkamUI(state);
-                } else if (state is AhkamListCompleted) {
-                  lazyLoading = false;
-                  return getAhkamUI(state);
-                } else if (state is AhkamSearchEmpty) {
-                  lazyLoading = false;
-                  searchLoading = false;
-                  emptyList = true;
-                  return getAhkamUI(state);
-                } else if (state is AhkamSearchLoading) {
-                  searchLoading = true;
-                  emptyList = false;
-                  lazyLoading = false;
-                  return getAhkamUI(state);
-                } else if (state is AhkamFailure) {
-                  return ServerFailureFlare();
-                }
-              },
-            );
-          } else if (state is InternetDisconnected) {
-            return NoNetworkFlare();
-          } else {
-            return Container();
-          }
-        },
-      )),
+    return BlocListener<DarkModeBloc, DarkModeState>(
+      listener: (context, state) {
+        darkModeStateFunction(state);
+      },
+      child: Scaffold(
+        backgroundColor:
+            _isDarkMode ? IColors.darkBackgroundColor : IColors.lightBrown,
+        body: SafeArea(
+            child: BlocConsumer<InternetCubit, InternetState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            if (state is InternetConnected) {
+              return BlocBuilder<AhkamBloc, AhkamState>(
+                builder: (context, state) {
+                  if (state is AhkamInitial) {
+                    return Container();
+                  } else if (state is AhkamLoading) {
+                    emptyList = false;
+                    return LoadingBar(
+                      color: _isDarkMode
+                          ? IColors.darkLightPink
+                          : IColors.purpleCrimson,
+                    );
+                  } else if (state is AhkamSuccess) {
+                    emptyList = false;
+                    searchLoading = false;
+                    lazyLoading = false; // new added
+                    return getAhkamUI(state);
+                  } else if (state is AhkamLazyLoading) {
+                    return getAhkamUI(state);
+                  } else if (state is AhkamListCompleted) {
+                    lazyLoading = false;
+                    return getAhkamUI(state);
+                  } else if (state is AhkamSearchEmpty) {
+                    lazyLoading = false;
+                    searchLoading = false;
+                    emptyList = true;
+                    return getAhkamUI(state);
+                  } else if (state is AhkamSearchLoading) {
+                    searchLoading = true;
+                    emptyList = false;
+                    lazyLoading = false;
+                    return getAhkamUI(state);
+                  } else if (state is AhkamFailure) {
+                    return ServerFailureFlare();
+                  }
+                },
+              );
+            } else if (state is InternetDisconnected) {
+              return NoNetworkFlare();
+            } else {
+              return Container();
+            }
+          },
+        )),
+      ),
     );
   }
 
@@ -144,7 +159,8 @@ class _AhkamScreenState extends State<AhkamScreen>
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w800,
-                        color: IColors.black70,
+                        color:
+                            _isDarkMode ? IColors.darkWhite70 : IColors.black70,
                       ),
                     ),
                   ),
@@ -183,48 +199,27 @@ class _AhkamScreenState extends State<AhkamScreen>
               ),
             ),
             SizedBox(height: 8),
-            Visibility(
-              visible: isForward,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Container(
-                  width: animation.value,
-                  height: 45,
-                  decoration: BoxDecoration(
-                    color: IColors.black15,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 16.0, bottom: 2),
-                    child: TextField(
-                      keyboardType: TextInputType.text,
-                      controller: searchTextController,
-                      onChanged: (text) {
-                        print("searched text: ${text}");
-                        _ahkamBloc.add(SearchAhkamItems(
-                            marjae_id: marjae_id, search: text));
-                      },
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontFamily: Assets.basicFont,
-                      ),
-                      textDirection: TextDirection.rtl,
-                      maxLines: 1,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: '${Strings.searchHint}',
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            SearchFieldWidget(
+              isForward: isForward,
+              animation: animation,
+              searchTextController: searchTextController,
+              isDarkMode: _isDarkMode,
+              onChanged: (text) {
+                print("searched text: ${text}");
+                _ahkamBloc
+                    .add(SearchAhkamItems(marjae_id: marjae_id, search: text));
+              },
             ),
             SizedBox(height: 16),
             !emptyList
                 ? searchLoading
                     ? Container(
                         height: MediaQuery.of(context).size.height - 180,
-                        child: LoadingBar())
+                        child: LoadingBar(
+                          color: _isDarkMode
+                              ? IColors.darkLightPink
+                              : IColors.purpleCrimson,
+                        ))
                     : Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Align(
@@ -240,6 +235,7 @@ class _AhkamScreenState extends State<AhkamScreen>
                                 ahkamNumber:
                                     state.ahkamModel.ahkam[index].ahkamNumber,
                                 deleteSlidable: false,
+                                isDarkMode: _isDarkMode,
                                 searchedText: "${searchTextController.text}",
                                 onTap: () => Navigator.pushNamed(
                                     context, '/ahkam_show',
@@ -257,12 +253,21 @@ class _AhkamScreenState extends State<AhkamScreen>
                     child: Center(
                         child: Text(
                       Strings.noResultFound,
-                      style: TextStyle(color: IColors.black45),
+                      style: TextStyle(
+                          color: _isDarkMode
+                              ? IColors.darkWhite45
+                              : IColors.black45),
                     ))),
             SizedBox(
               height: 8,
             ),
-            lazyLoading ? LoadingBar() : Container(),
+            lazyLoading
+                ? LoadingBar(
+                    color: _isDarkMode
+                        ? IColors.darkLightPink
+                        : IColors.purpleCrimson,
+                  )
+                : Container(),
             SizedBox(
               height: 8,
             ),
@@ -270,5 +275,22 @@ class _AhkamScreenState extends State<AhkamScreen>
         ),
       ),
     );
+  }
+
+  void darkModeStateFunction(DarkModeState state) {
+    if (state is DarkModeInitial) {
+      setState(() {
+        _isDarkMode = state.isDark;
+      });
+    }
+    if (state is DarkModeEnable) {
+      setState(() {
+        _isDarkMode = state.isDark;
+      });
+    } else if (state is DarkModeDisable) {
+      setState(() {
+        _isDarkMode = state.isDark;
+      });
+    }
   }
 }
