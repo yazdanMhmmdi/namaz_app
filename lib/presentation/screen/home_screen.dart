@@ -91,10 +91,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             if (state is InternetConnected) {
               return getHomeScreenUI();
             } else if (state is InternetDisconnected) {
-              return NoNetworkFlare();
+              return NoNetworkFlare(
+                isDarkMode: _isDarkMode,
+              );
             } else {
               bottomFailureStatus = false;
-              return NoNetworkFlare();
+              return NoNetworkFlare(
+                isDarkMode: _isDarkMode,
+              );
             }
           },
         ),

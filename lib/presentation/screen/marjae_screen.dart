@@ -118,7 +118,7 @@ class _MarjaeScreenState extends State<MarjaeScreen> {
                 },
               );
             } else if (state is InternetDisconnected) {
-              return NoNetworkFlare();
+              return NoNetworkFlare(isDarkMode: _isDarkMode,);
             } else {
               return Container();
             }

@@ -114,7 +114,7 @@ class _NarrativesScreenState extends State<NarrativesScreen>
                 },
               );
             } else if (state is InternetDisconnected) {
-              return NoNetworkFlare();
+              return NoNetworkFlare(isDarkMode: _isDarkMode,);
             } else {
               return Container();
             }

@@ -125,7 +125,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                   },
                 );
               } else if (state is InternetDisconnected) {
-                return NoNetworkFlare();
+                return NoNetworkFlare(isDarkMode: _isDarkMode,);
               } else {
                 return Container();
               }
