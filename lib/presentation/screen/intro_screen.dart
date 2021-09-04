@@ -71,14 +71,20 @@ class _IntroScreenState extends State<IntroScreen> {
               if (state is InternetConnected) {
                 return Stack(
                   children: [
-                    Hero(tag: "backgroundShapes", child: BackgroundShapes()),
+                    Hero(
+                        tag: "backgroundShapes",
+                        child: BackgroundShapes(
+                          isDarkMode: _isDarkMode,
+                        )),
                     Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            child: Image.asset(Assets.prayerO),
+                            child: Image.asset(_isDarkMode
+                                ? Assets.prayerODark
+                                : Assets.prayerO),
                           ),
                           SizedBox(
                             height: 8,
