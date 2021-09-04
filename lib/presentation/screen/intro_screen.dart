@@ -8,6 +8,7 @@ import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/presentation/widget/background_shapes.dart';
+import 'package:namaz_app/presentation/widget/global_widget.dart';
 import 'package:namaz_app/presentation/widget/no_network_flare.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -128,7 +129,9 @@ class _IntroScreenState extends State<IntroScreen> {
                   ],
                 );
               } else if (state is InternetDisconnected) {
-                return NoNetworkFlare(isDarkMode: _isDarkMode,);
+                return NoNetworkFlare(
+                  isDarkMode: _isDarkMode,
+                );
               } else {
                 return Container();
               }
@@ -142,8 +145,7 @@ class _IntroScreenState extends State<IntroScreen> {
     String id = "";
 
     id = (prefs.getString('id') == null ? "" : prefs.getString('id'));
-    print('sharedPrefs : $id');
-
+    GlobalWidget.user_id = id; //add user id to global var.
     return id;
   }
 
