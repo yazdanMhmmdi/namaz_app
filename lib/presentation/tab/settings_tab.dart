@@ -58,8 +58,8 @@ class _SettingsTabState extends State<SettingsTab> {
                   ),
                   Switch(
                     value: _isDarkMode,
+                    activeColor: IColors.darkLightPink,
                     onChanged: (bool value) {
-                      print(value);
                       isDarkState(value);
                     },
                   ),
