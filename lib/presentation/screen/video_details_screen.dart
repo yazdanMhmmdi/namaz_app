@@ -76,7 +76,7 @@ class _VideoDetailsScreenState extends State<VideoDetailsScreen> {
               } else if (state is LikeSuccess) {
                 return getVideoDetailsUI(state);
               } else if (state is VideoDetailsFailure) {
-                return ServerFailureFlare();
+                return ServerFailureFlare(isDarkMode: _isDarkMode);
               }
             },
           )),

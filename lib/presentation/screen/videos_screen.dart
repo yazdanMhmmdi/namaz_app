@@ -121,12 +121,16 @@ class _VideosScreenState extends State<VideosScreen>
                       lazyLoading = false;
                       return getVideoUI(state);
                     } else if (state is VideoFailure) {
-                      return ServerFailureFlare();
+                      return ServerFailureFlare(
+                        isDarkMode: _isDarkMode,
+                      );
                     }
                   },
                 );
               } else if (state is InternetDisconnected) {
-                return NoNetworkFlare(isDarkMode: _isDarkMode,);
+                return NoNetworkFlare(
+                  isDarkMode: _isDarkMode,
+                );
               } else {
                 return Container();
               }

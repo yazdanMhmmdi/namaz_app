@@ -123,12 +123,16 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
                     } else if (state is LikeShohadaSuccess) {
                       return getShohadaUI(state);
                     } else if (state is ShohadaDetailsFailure) {
-                      return ServerFailureFlare();
+                      return ServerFailureFlare(
+                        isDarkMode: _isDarkMode,
+                      );
                     }
                   },
                 );
               } else if (state is InternetDisconnected) {
-                return NoNetworkFlare(isDarkMode: _isDarkMode,);
+                return NoNetworkFlare(
+                  isDarkMode: _isDarkMode,
+                );
               } else {
                 return Container();
               }

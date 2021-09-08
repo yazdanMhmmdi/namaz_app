@@ -121,7 +121,7 @@ class _AhkamScreenState extends State<AhkamScreen>
                     lazyLoading = false;
                     return getAhkamUI(state);
                   } else if (state is AhkamFailure) {
-                    return ServerFailureFlare();
+                    return ServerFailureFlare(isDarkMode: _isDarkMode,);
                   }
                 },
               );

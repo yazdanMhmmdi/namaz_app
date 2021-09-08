@@ -128,12 +128,16 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                     } else if (state is LikeNarrativesSuccess) {
                       return getNarrativesShowUI(state);
                     } else if (state is NarrativesDetailsFailure) {
-                      return ServerFailureFlare();
+                      return ServerFailureFlare(
+                        isDarkMode: _isDarkMode,
+                      );
                     }
                   },
                 );
               } else if (state is InternetDisconnected) {
-                return NoNetworkFlare(isDarkMode: _isDarkMode,);
+                return NoNetworkFlare(
+                  isDarkMode: _isDarkMode,
+                );
               } else {
                 return Container();
               }

@@ -120,7 +120,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                     } else if (state is LikeAhkamSuccess) {
                       return getAhkamShowUI(state);
                     } else if (state is AhkamDetailsFailure) {
-                      return ServerFailureFlare();
+                      return ServerFailureFlare(isDarkMode: _isDarkMode,);
                     }
                   },
                 );

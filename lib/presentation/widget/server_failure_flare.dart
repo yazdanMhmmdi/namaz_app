@@ -1,11 +1,13 @@
 import 'package:flare_loading/flare_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:namaz_app/constants/assets.dart';
+import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
 
 class ServerFailureFlare extends StatelessWidget {
   String errrorMessage = "";
-  ServerFailureFlare({this.errrorMessage});
+  bool isDarkMode = false;
+  ServerFailureFlare({this.errrorMessage, @required this.isDarkMode});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -29,12 +31,14 @@ class ServerFailureFlare extends StatelessWidget {
               fontFamily: "IranSans",
               fontSize: 18,
               fontWeight: FontWeight.w700,
-              color: Colors.black87),
+              color: isDarkMode ? IColors.darkWhite70 : Colors.black87),
         ),
         Text(
           Strings.serverFailureCause,
           style: TextStyle(
-              fontFamily: "IranSans", fontSize: 16, color: Colors.black87),
+              fontFamily: "IranSans",
+              fontSize: 16,
+              color: isDarkMode ? IColors.darkWhite70 : Colors.black87),
         ),
         // Text(
         //   '${errrorMessage}',

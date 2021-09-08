@@ -113,6 +113,7 @@ class _MarjaeScreenState extends State<MarjaeScreen> {
                   } else if (state is MarjaeFailure) {
                     return ServerFailureFlare(
                       errrorMessage: state.errrorMessage,
+                      isDarkMode: _isDarkMode,
                     );
                   }
                 },

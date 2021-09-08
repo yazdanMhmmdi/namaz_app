@@ -43,7 +43,9 @@ class _FavoriteTabState extends State<FavoriteTab> with WidgetsBindingObserver {
         } else if (state is FavoriteIsEmpty) {
           return getFavoriteTabUI(state);
         } else if (state is FavoriteFailure) {
-          return ServerFailureFlare();
+          return ServerFailureFlare(
+            isDarkMode: _isDarkMode,
+          );
         }
       },
     );

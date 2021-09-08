@@ -109,7 +109,9 @@ class _NarrativesScreenState extends State<NarrativesScreen>
                     lazyLoading = false;
                     return narrativesUI(state);
                   } else if (state is NarrativesFailure) {
-                    return ServerFailureFlare();
+                    return ServerFailureFlare(
+                      isDarkMode: _isDarkMode,
+                    );
                   }
                 },
               );

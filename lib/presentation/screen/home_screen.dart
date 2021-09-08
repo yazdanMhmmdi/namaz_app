@@ -142,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           if (state is HomeFailure) {
-            return ServerFailureFlare();
+            return ServerFailureFlare(isDarkMode: _isDarkMode,);
           } else {
             return Stack(
               children: [
