@@ -223,11 +223,19 @@ class AppRouter {
         return (Platform.isWindows)
             ? Container()
             : MaterialPageRoute(
-                builder: (_) => BlocProvider(
-                    create: (context) => VideoDetailsBloc(),
-                    child: VideoDetailsScreen(
-                      args: args,
-                    )));
+                builder: (_) => MultiBlocProvider(
+                      providers: [
+                        BlocProvider(
+                          create: (context) => VideoDetailsBloc(),
+                        ),
+                        BlocProvider.value(
+                          value: _darkModeBloc,
+                        )
+                      ],
+                      child: VideoDetailsScreen(
+                        args: args,
+                      ),
+                    ));
       default:
         return MaterialPageRoute(
             builder: (_) => BlocProvider.value(

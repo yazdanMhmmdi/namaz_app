@@ -3,6 +3,7 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/colors.dart';
+import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
 import 'package:namaz_app/logic/bloc/video_details_bloc.dart';
 import 'package:namaz_app/presentation/widget/global_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
@@ -21,35 +22,47 @@ class _VideoDetailsScreenState extends State<VideoDetailsScreen> {
   Map<String, String> arguments;
 
   VideoDetailsBloc _videoDetailsBloc;
+  DarkModeBloc _darkModeBloc;
   String video_id;
   AnimationController _animationController;
   Icon iconState =
       Icon(Icons.favorite_border, size: 30, color: IColors.white85);
   var chewieController;
   Color backgroundColor = Colors.grey[600];
+  bool _isDarkMode = false;
   @override
   void initState() {
     super.initState();
     arguments = widget.args;
     _getArguments();
     _videoDetailsBloc = BlocProvider.of<VideoDetailsBloc>(context);
+    _darkModeBloc = BlocProvider.of<DarkModeBloc>(context);
     _videoDetailsBloc.add(GetVideoDetails(video_id: video_id));
+    _darkModeBloc.add(GetDarkModeStatus());
   }
 
   final _url = 'https://flutter.dev';
   @override
   Widget build(BuildContext context) {
     print(video_id);
-    return BlocListener<VideoDetailsBloc, VideoDetailsState>(
-      listener: (context, state) {
-        if (state is VideoDetailsFailure) {
-          setState(() {
-            backgroundColor = Colors.white;
-          });
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<VideoDetailsBloc, VideoDetailsState>(
+          listener: (context, state) {
+            if (state is VideoDetailsFailure) {
+              setState(() {
+                backgroundColor = Colors.white;
+              });
+            }
+          },
+        ),
+        BlocListener<DarkModeBloc, DarkModeState>(listener: (context, state) {
+          darkModeStateFunction(state);
+        }),
+      ],
       child: Scaffold(
-          backgroundColor: backgroundColor,
+          backgroundColor:
+              _isDarkMode ? IColors.darkBackgroundColor : backgroundColor,
           body: BlocBuilder<VideoDetailsBloc, VideoDetailsState>(
             builder: (context, state) {
               if (state is VideoDetailsInitial) {
@@ -164,6 +177,23 @@ class _VideoDetailsScreenState extends State<VideoDetailsScreen> {
       setState(() {
         iconState =
             Icon(Icons.favorite_border, size: 30, color: IColors.white85);
+      });
+    }
+  }
+
+  void darkModeStateFunction(DarkModeState state) {
+    if (state is DarkModeInitial) {
+      setState(() {
+        _isDarkMode = state.isDark;
+      });
+    }
+    if (state is DarkModeEnable) {
+      setState(() {
+        _isDarkMode = state.isDark;
+      });
+    } else if (state is DarkModeDisable) {
+      setState(() {
+        _isDarkMode = state.isDark;
       });
     }
   }
