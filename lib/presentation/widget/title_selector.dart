@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/colors.dart';
@@ -35,8 +37,13 @@ class _TitleSelectorState extends State<TitleSelector> {
   bool sience = true, medicine = true;
   FavoriteBloc _favoriteBloc;
   bool _isDarkMode;
+  final List<GlobalObjectKey<FormState>> formKeyList =
+      List.generate(4, (index) => GlobalObjectKey<FormState>(index));
+  List<double> titleSizes = List<double>();
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
+
     _favoriteBloc = BlocProvider.of<FavoriteBloc>(context);
     _isDarkMode = widget.isDarkMode;
     widget.firstTab = widget.firstTab - 1;
@@ -110,22 +117,30 @@ class _TitleSelectorState extends State<TitleSelector> {
             //     break;
             // }
           },
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            Text(
-              e,
-              style: TextStyle(
-                color: _isSelected
-                    ? _isDarkMode
-                        ? IColors.darkLightPink
-                        : Colors.black87
-                    : Colors.grey,
-                fontSize: _isSelected ? 22 : 16,
-                fontFamily: "IranSans",
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ]),
+          child: Container(
+            color: Colors.transparent,
+            key: formKeyList[index],
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  AnimatedDefaultTextStyle(
+                    duration: Duration(milliseconds: 300),
+                    style: TextStyle(
+                      color: _isSelected
+                          ? _isDarkMode
+                              ? IColors.darkLightPink
+                              : Colors.black87
+                          : Colors.grey,
+                      fontSize: _isSelected ? 22 : 16,
+                      fontFamily: "IranSans",
+                      fontWeight: FontWeight.w700,
+                    ),
+                    child: Text(
+                      e,
+                    ),
+                  ),
+                ]),
+          ),
         ),
       );
     }).toList();
@@ -139,24 +154,39 @@ class _TitleSelectorState extends State<TitleSelector> {
       int c = index;
       print(c);
 
-      if (temp > index) {
-        c = temp - c;
-        if (c <= 0) {
-          _rightPadding -= 100; //increase and decrease right padding
-        } else {
-          _rightPadding =
-              _rightPadding - (c * 100); //increase and decrease right padding
-        }
-      } else {
-        c = c - temp;
-        print(c);
-        if (c <= 0) {
-          _rightPadding += 100; //increase and decrease right padding
-        } else {
-          _rightPadding =
-              (c * 100) + _rightPadding; //increase and decrease right padding
-        }
+      switch (index) {
+        case 0:
+          _rightPadding = 30;
+          break;
+        case 1:
+          _rightPadding = 130;
+          break;
+        case 2:
+          _rightPadding = 240;
+          break;
+        case 3:
+          _rightPadding = 350;
+          break;
       }
+
+      // if (temp > index) {
+      //   c = temp - c;
+      //   if (c <= 0) {
+      //     _rightPadding -= 100; //increase and decrease right padding
+      //   } else {
+      //     _rightPadding =
+      //         _rightPadding - (c * 100); //increase and decrease right padding
+      //   }
+      // } else {
+      //   c = c - temp;
+      //   print(c);
+      //   if (c <= 0) {
+      //     _rightPadding += 100; //increase and decrease right padding
+      //   } else {
+      //     _rightPadding =
+      //         (c * 100) + _rightPadding; //increase and decrease right padding
+      //   }
+      // }
       temp = index;
       // TitleDetailsScreen.currentTab = _currentIndex.toString();
     });
@@ -173,5 +203,19 @@ class _TitleSelectorState extends State<TitleSelector> {
     } else if (blocIndex == 4) {
       _favoriteBloc.add(GetShohadaFavorite(isDarkMode: _isDarkMode));
     }
+  }
+
+  Size _getSize(int index) {
+    print("called index : ${index}");
+    final RenderBox renderBoxRed =
+        formKeyList[index].currentContext.findRenderObject();
+    final sizeRed = renderBoxRed.size;
+    print("SIZE of Red: $sizeRed");
+
+    return sizeRed;
+  }
+
+  _afterLayout(_) {
+    // _getSize(GlobalWidget.tabNumber - 1);
   }
 }
