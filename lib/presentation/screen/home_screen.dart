@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 backgroundColor:
                     _isDarkMode ? IColors.darkBlack11 : Colors.white,
                 selectedIconColor:
-                    _isDarkMode ? IColors.darkBlack02 : Colors.white,
+                    _isDarkMode ? IColors.darkBlack11 : Colors.white,
                 tabSelectedColor:
                     _isDarkMode ? IColors.darkBrown : IColors.brown,
                 onTabItemSelected: (int value) {

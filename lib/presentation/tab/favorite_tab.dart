@@ -37,7 +37,9 @@ class _FavoriteTabState extends State<FavoriteTab> with WidgetsBindingObserver {
         if (state is FavoriteInitial) {
           return Container();
         } else if (state is FavoriteLoading) {
-          return LoadingBar();
+          return LoadingBar(
+            color: IColors.darkLightPink,
+          );
         } else if (state is FavoriteSuccess) {
           return getFavoriteTabUI(state);
         } else if (state is FavoriteIsEmpty) {
