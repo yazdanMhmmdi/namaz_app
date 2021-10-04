@@ -20,18 +20,18 @@ class MarjaeScreen extends StatefulWidget {
 }
 
 class _MarjaeScreenState extends State<MarjaeScreen> {
-  DarkModeBloc _darkModeBloc;
+  ThemeBloc _themeBloc;
   bool _isDarkMode = false;
   @override
   void initState() {
-    _darkModeBloc = BlocProvider.of<DarkModeBloc>(context);
-    _darkModeBloc.add(GetDarkModeStatus());
+    _themeBloc = BlocProvider.of<ThemeBloc>(context);
+    _themeBloc.add(GetDarkModeStatus());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<DarkModeBloc, DarkModeState>(
+    return BlocListener<ThemeBloc, ThemeState>(
       listener: (context, state) {
         darkModeStateFunction(state);
       },
@@ -129,8 +129,8 @@ class _MarjaeScreenState extends State<MarjaeScreen> {
     );
   }
 
-  void darkModeStateFunction(DarkModeState state) {
-    if (state is DarkModeInitial) {
+  void darkModeStateFunction(ThemeState state) {
+    if (state is ThemeInitial) {
       setState(() {
         _isDarkMode = state.isDark;
       });

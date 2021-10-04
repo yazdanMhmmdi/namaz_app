@@ -26,14 +26,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   MotionTabController _bottomNavController;
   bool bottomInternetStatus = true, bottomFailureStatus = true;
   bool _isDarkMode = false;
-  DarkModeBloc _darkModeBloc;
+  ThemeBloc _themeBloc;
   @override
   void initState() {
-    _darkModeBloc = BlocProvider.of<DarkModeBloc>(context);
+    _themeBloc = BlocProvider.of<ThemeBloc>(context);
     _bottomNavController =
         new MotionTabController(initialIndex: 0, vsync: this, length: 3);
     _bottomNavController.index = 1;
-    _darkModeBloc.add(GetDarkModeStatus());
+    _themeBloc.add(GetDarkModeStatus());
     super.initState();
   }
 
@@ -56,8 +56,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             }
           },
         ),
-        BlocListener<DarkModeBloc, DarkModeState>(listener: (context, state) {
-          if (state is DarkModeInitial) {
+        BlocListener<ThemeBloc, ThemeState>(listener: (context, state) {
+          if (state is ThemeInitial) {
             setState(() {
               _isDarkMode = state.isDark;
             });

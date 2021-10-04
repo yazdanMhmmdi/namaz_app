@@ -22,7 +22,7 @@ class _VideoDetailsScreenState extends State<VideoDetailsScreen> {
   Map<String, String> arguments;
 
   VideoDetailsBloc _videoDetailsBloc;
-  DarkModeBloc _darkModeBloc;
+  ThemeBloc _themeBloc;
   String video_id;
   AnimationController _animationController;
   Icon iconState =
@@ -36,9 +36,9 @@ class _VideoDetailsScreenState extends State<VideoDetailsScreen> {
     arguments = widget.args;
     _getArguments();
     _videoDetailsBloc = BlocProvider.of<VideoDetailsBloc>(context);
-    _darkModeBloc = BlocProvider.of<DarkModeBloc>(context);
+    _themeBloc = BlocProvider.of<ThemeBloc>(context);
     _videoDetailsBloc.add(GetVideoDetails(video_id: video_id));
-    _darkModeBloc.add(GetDarkModeStatus());
+    _themeBloc.add(GetDarkModeStatus());
   }
 
   final _url = 'https://flutter.dev';
@@ -56,7 +56,7 @@ class _VideoDetailsScreenState extends State<VideoDetailsScreen> {
             }
           },
         ),
-        BlocListener<DarkModeBloc, DarkModeState>(listener: (context, state) {
+        BlocListener<ThemeBloc, ThemeState>(listener: (context, state) {
           darkModeStateFunction(state);
         }),
       ],
@@ -181,8 +181,8 @@ class _VideoDetailsScreenState extends State<VideoDetailsScreen> {
     }
   }
 
-  void darkModeStateFunction(DarkModeState state) {
-    if (state is DarkModeInitial) {
+  void darkModeStateFunction(ThemeState state) {
+    if (state is ThemeInitial) {
       setState(() {
         _isDarkMode = state.isDark;
       });

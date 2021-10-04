@@ -34,7 +34,7 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
   String narratives_id;
 
   NarrativesDetailsBloc _narrativesDetailsBloc;
-  DarkModeBloc _darkModeBloc;
+  ThemeBloc _themeBloc;
 
   final maxBorderRadius = 50.0;
 
@@ -52,10 +52,10 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
     borderRadius = maxBorderRadius;
 
     _narrativesDetailsBloc = BlocProvider.of<NarrativesDetailsBloc>(context);
-    _darkModeBloc = BlocProvider.of<DarkModeBloc>(context);
+    _themeBloc = BlocProvider.of<ThemeBloc>(context);
     _narrativesDetailsBloc
         .add(GetNarrativesDetails(narratives_id: narratives_id));
-    _darkModeBloc.add(GetDarkModeStatus());
+    _themeBloc.add(GetDarkModeStatus());
     print(narratives_id);
     super.initState();
   }
@@ -86,7 +86,7 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
             }
           },
         ),
-        BlocListener<DarkModeBloc, DarkModeState>(
+        BlocListener<ThemeBloc, ThemeState>(
           listener: (context, state) {
             darkModeStateFunction(state);
           },
@@ -416,8 +416,8 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
     );
   }
 
-  void darkModeStateFunction(DarkModeState state) {
-    if (state is DarkModeInitial) {
+  void darkModeStateFunction(ThemeState state) {
+    if (state is ThemeInitial) {
       setState(() {
         _isDarkMode = state.isDark;
       });

@@ -12,21 +12,20 @@ class SettingsTab extends StatefulWidget {
 
 class _SettingsTabState extends State<SettingsTab> {
   bool _isDarkMode = false;
-  DarkModeBloc _darkModeBloc;
+  ThemeBloc _themeBloc;
   @override
   void initState() {
-    _darkModeBloc = BlocProvider.of<DarkModeBloc>(context);
-    _darkModeBloc.add(GetDarkModeStatus());
+    _themeBloc = BlocProvider.of<ThemeBloc>(context);
+    _themeBloc.add(GetDarkModeStatus());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<DarkModeBloc, DarkModeState>(
-        listener: (context, state) {
+    return BlocConsumer<ThemeBloc, ThemeState>(listener: (context, state) {
       darkModeStateFunction(state);
     }, builder: (cotnext, state) {
-      if (state is DarkModeInitial) {
+      if (state is ThemeInitial) {
         return getSettingsUI(isDark: false);
       } else if (state is DarkModeDisable) {
         return getSettingsUI(isDark: false);
@@ -90,11 +89,11 @@ class _SettingsTabState extends State<SettingsTab> {
         _isDarkMode = false;
       });
     }
-    _darkModeBloc.add(SetDarkModeStatus(darkModeStatus: _isDarkMode));
+    _themeBloc.add(SetDarkModeStatus(darkModeStatus: _isDarkMode));
   }
 
-  void darkModeStateFunction(DarkModeState state) {
-    if (state is DarkModeInitial) {
+  void darkModeStateFunction(ThemeState state) {
+    if (state is ThemeInitial) {
       setState(() {
         _isDarkMode = state.isDark;
       });

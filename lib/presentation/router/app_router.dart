@@ -35,7 +35,7 @@ import 'package:url_launcher/url_launcher.dart';
 class AppRouter {
   final InternetCubit _internetCubit =
       new InternetCubit(connectivity: Connectivity());
-  DarkModeBloc _darkModeBloc = new DarkModeBloc();
+  ThemeBloc _themeBloc = new ThemeBloc();
 
   final _url = ApiProvider.VIDEO_PLAYER_PROVIDER;
 
@@ -49,7 +49,7 @@ class AppRouter {
                       value: _internetCubit,
                     ),
                     BlocProvider.value(
-                      value: _darkModeBloc,
+                      value: _themeBloc,
                     ),
                   ],
                   child: IntroScreen(),
@@ -58,7 +58,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => MultiBlocProvider(
             providers: [
-              BlocProvider.value(value: _darkModeBloc),
+              BlocProvider.value(value: _themeBloc),
               BlocProvider.value(value: _internetCubit),
               BlocProvider(
                 create: (context) => HomeBloc(),
@@ -75,7 +75,7 @@ class AppRouter {
                       value: _internetCubit,
                     ),
                     BlocProvider.value(
-                      value: _darkModeBloc,
+                      value: _themeBloc,
                     ),
                     BlocProvider(create: (context) => SignUpBloc())
                   ],
@@ -92,7 +92,7 @@ class AppRouter {
                       value: _internetCubit,
                     ),
                     BlocProvider.value(
-                      value: _darkModeBloc,
+                      value: _themeBloc,
                     ),
                   ],
                   child: MarjaeScreen(),
@@ -105,7 +105,7 @@ class AppRouter {
                       value: _internetCubit,
                     ),
                     BlocProvider.value(
-                      value: _darkModeBloc,
+                      value: _themeBloc,
                     ),
                     BlocProvider(
                       create: (context) => ShohadaBloc(),
@@ -122,7 +122,7 @@ class AppRouter {
                       value: _internetCubit,
                     ),
                     BlocProvider.value(
-                      value: _darkModeBloc,
+                      value: _themeBloc,
                     ),
                     BlocProvider(
                       create: (context) => NarrativesBloc(),
@@ -139,7 +139,7 @@ class AppRouter {
                       value: _internetCubit,
                     ),
                     BlocProvider.value(
-                      value: _darkModeBloc,
+                      value: _themeBloc,
                     ),
                     BlocProvider(
                       create: (context) => AhkamBloc(),
@@ -156,7 +156,7 @@ class AppRouter {
                       value: _internetCubit,
                     ),
                     BlocProvider.value(
-                      value: _darkModeBloc,
+                      value: _themeBloc,
                     ),
                     BlocProvider(
                       create: (context) => AhkamDetailsBloc(),
@@ -176,7 +176,7 @@ class AppRouter {
                         value: _internetCubit,
                       ),
                       BlocProvider.value(
-                        value: _darkModeBloc,
+                        value: _themeBloc,
                       ),
                       BlocProvider(
                         create: (context) => NarrativesDetailsBloc(),
@@ -194,7 +194,7 @@ class AppRouter {
                       value: _internetCubit,
                     ),
                     BlocProvider.value(
-                      value: _darkModeBloc,
+                      value: _themeBloc,
                     ),
                     BlocProvider(
                       create: (context) => ShohadaDetailsBloc(),
@@ -211,7 +211,7 @@ class AppRouter {
                       value: _internetCubit,
                     ),
                     BlocProvider.value(
-                      value: _darkModeBloc,
+                      value: _themeBloc,
                     ),
                     BlocProvider(create: (cotnext) => VideoBloc())
                   ],
@@ -229,7 +229,7 @@ class AppRouter {
                           create: (context) => VideoDetailsBloc(),
                         ),
                         BlocProvider.value(
-                          value: _darkModeBloc,
+                          value: _themeBloc,
                         )
                       ],
                       child: VideoDetailsScreen(

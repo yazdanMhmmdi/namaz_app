@@ -1,27 +1,27 @@
 part of 'dark_mode_bloc.dart';
 
-abstract class DarkModeState extends Equatable {
-  const DarkModeState();
+abstract class ThemeState extends Equatable {
+  const ThemeState();
 
   @override
   List<Object> get props => [];
 }
 
-class DarkModeInitial extends DarkModeState {
+class ThemeInitial extends ThemeState {
   bool isDark = false;
-  DarkModeInitial({@required this.isDark});
+  ThemeInitial({@required this.isDark});
   @override
   List<Object> get props => [this.isDark];
 }
 
-class DarkModeEnable extends DarkModeState {
+class DarkModeEnable extends ThemeState {
   bool isDark = false;
   DarkModeEnable({@required this.isDark});
   @override
   List<Object> get props => [this.isDark];
 }
 
-class DarkModeDisable extends DarkModeState {
+class DarkModeDisable extends ThemeState {
   bool isDark = false;
   DarkModeDisable({@required this.isDark});
   @override

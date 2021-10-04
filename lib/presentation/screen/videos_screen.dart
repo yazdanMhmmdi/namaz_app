@@ -29,7 +29,7 @@ class _VideosScreenState extends State<VideosScreen>
   bool lazyLoading = true;
   ScrollController _controller = ScrollController();
   VideoBloc _videoBloc;
-  DarkModeBloc _darkModeBloc;
+  ThemeBloc _themeBloc;
   bool searchVisibility = true;
   Animation<double> animation;
   AnimationController animationController;
@@ -43,7 +43,7 @@ class _VideosScreenState extends State<VideosScreen>
   @override
   void initState() {
     _videoBloc = BlocProvider.of<VideoBloc>(context);
-    _darkModeBloc = BlocProvider.of<DarkModeBloc>(context);
+    _themeBloc = BlocProvider.of<ThemeBloc>(context);
     _videoBloc.add(GetVideoItems(search: ""));
     _controller.addListener(() {
       if (_controller.position.pixels == _controller.position.maxScrollExtent) {
@@ -52,14 +52,14 @@ class _VideosScreenState extends State<VideosScreen>
       }
     });
     super.initState();
-    _darkModeBloc.add(GetDarkModeStatus());
+    _themeBloc.add(GetDarkModeStatus());
 
     searchFieldAnimation();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<DarkModeBloc, DarkModeState>(
+    return BlocListener<ThemeBloc, ThemeState>(
       listener: (context, state) {
         // if (state is DarkModeInitial) {
         //   setState(() {
@@ -283,5 +283,5 @@ class _VideosScreenState extends State<VideosScreen>
           });
   }
 
-  void isDarkModeCondition(DarkModeState state) {}
+  void isDarkModeCondition(ThemeState state) {}
 }

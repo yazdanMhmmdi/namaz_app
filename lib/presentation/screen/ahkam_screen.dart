@@ -34,7 +34,7 @@ class _AhkamScreenState extends State<AhkamScreen>
   Map<String, String> arguments;
   String marjae_id;
   AhkamBloc _ahkamBloc;
-  DarkModeBloc _darkModeBloc;
+  ThemeBloc _themeBloc;
   bool lazyLoading = true;
   bool searchVisibility = true;
   Animation<double> animation;
@@ -51,9 +51,9 @@ class _AhkamScreenState extends State<AhkamScreen>
     arguments = widget.args;
     _getArguments();
     _ahkamBloc = BlocProvider.of<AhkamBloc>(context);
-    _darkModeBloc = BlocProvider.of<DarkModeBloc>(context);
+    _themeBloc = BlocProvider.of<ThemeBloc>(context);
     _ahkamBloc.add(GetAhkamItems(marjae_id: marjae_id, search: ""));
-    _darkModeBloc.add(GetDarkModeStatus());
+    _themeBloc.add(GetDarkModeStatus());
     _controller.addListener(() {
       if (_controller.position.pixels == _controller.position.maxScrollExtent) {
         print('end of page ${searchTextController.text}');
@@ -77,7 +77,7 @@ class _AhkamScreenState extends State<AhkamScreen>
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<DarkModeBloc, DarkModeState>(
+    return BlocListener<ThemeBloc, ThemeState>(
       listener: (context, state) {
         darkModeStateFunction(state);
       },
@@ -277,8 +277,8 @@ class _AhkamScreenState extends State<AhkamScreen>
     );
   }
 
-  void darkModeStateFunction(DarkModeState state) {
-    if (state is DarkModeInitial) {
+  void darkModeStateFunction(ThemeState state) {
+    if (state is ThemeInitial) {
       setState(() {
         _isDarkMode = state.isDark;
       });

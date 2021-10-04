@@ -20,19 +20,19 @@ class IntroScreen extends StatefulWidget {
 class _IntroScreenState extends State<IntroScreen> {
   @override
   void initState() {
-    _darkModeBloc = BlocProvider.of<DarkModeBloc>(context);
-    _darkModeBloc
+    _themeBloc = BlocProvider.of<ThemeBloc>(context);
+    _themeBloc
         .add(GetDarkModestatusFromLocalStorage()); //initialize dark mode
-    _darkModeBloc.add(GetDarkModeStatus()); //get dark mode status
+    _themeBloc.add(GetDarkModeStatus()); //get dark mode status
     super.initState();
   }
 
   Color backgroundColor = IColors.purpleCrimson;
-  DarkModeBloc _darkModeBloc;
+  ThemeBloc _themeBloc;
   bool _isDarkMode = false;
   @override
   Widget build(BuildContext context) {
-    return BlocListener<DarkModeBloc, DarkModeState>(
+    return BlocListener<ThemeBloc, ThemeState>(
       listener: (context, state) {
         darkModeStateFunction(state);
       },
@@ -149,8 +149,8 @@ class _IntroScreenState extends State<IntroScreen> {
     return id;
   }
 
-  void darkModeStateFunction(DarkModeState state) {
-    if (state is DarkModeInitial) {
+  void darkModeStateFunction(ThemeState state) {
+    if (state is ThemeInitial) {
       setState(() {
         _isDarkMode = state.isDark;
       });

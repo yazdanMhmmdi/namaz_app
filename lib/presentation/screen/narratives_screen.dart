@@ -23,7 +23,7 @@ class NarrativesScreen extends StatefulWidget {
 class _NarrativesScreenState extends State<NarrativesScreen>
     with SingleTickerProviderStateMixin {
   NarrativesBloc _narrativesBloc;
-  DarkModeBloc _darkModeBloc;
+  ThemeBloc _themeBloc;
   ScrollController _controller = ScrollController();
   bool lazyLoading = true;
   Animation<double> animation;
@@ -38,9 +38,9 @@ class _NarrativesScreenState extends State<NarrativesScreen>
   @override
   void initState() {
     _narrativesBloc = BlocProvider.of<NarrativesBloc>(context);
-    _darkModeBloc = BlocProvider.of<DarkModeBloc>(context);
+    _themeBloc = BlocProvider.of<ThemeBloc>(context);
     _narrativesBloc.add(GetNarrativesList(search: ""));
-    _darkModeBloc.add(GetDarkModeStatus());
+    _themeBloc.add(GetDarkModeStatus());
     _controller.addListener(() {
       if (_controller.position.pixels == _controller.position.maxScrollExtent) {
         print('end of page');
@@ -65,7 +65,7 @@ class _NarrativesScreenState extends State<NarrativesScreen>
             }
           },
         ),
-        BlocListener<DarkModeBloc, DarkModeState>(
+        BlocListener<ThemeBloc, ThemeState>(
           listener: (context, state) {
             darkModeStateFunction(state);
           },
@@ -116,7 +116,9 @@ class _NarrativesScreenState extends State<NarrativesScreen>
                 },
               );
             } else if (state is InternetDisconnected) {
-              return NoNetworkFlare(isDarkMode: _isDarkMode,);
+              return NoNetworkFlare(
+                isDarkMode: _isDarkMode,
+              );
             } else {
               return Container();
             }
@@ -262,8 +264,8 @@ class _NarrativesScreenState extends State<NarrativesScreen>
           });
   }
 
-  void darkModeStateFunction(DarkModeState state) {
-    if (state is DarkModeInitial) {
+  void darkModeStateFunction(ThemeState state) {
+    if (state is ThemeInitial) {
       setState(() {
         _isDarkMode = state.isDark;
       });

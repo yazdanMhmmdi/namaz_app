@@ -33,7 +33,7 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
   Map<String, String> arguments;
   String shohada_id;
   ShohadaDetailsBloc _shohadaDetailsBloc;
-  DarkModeBloc _darkModeBloc;
+  ThemeBloc _themeBloc;
   final maxBorderRadius = 50.0;
   var borderRadius;
   bool elc = false;
@@ -51,9 +51,9 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
 
     print("Shohada_id=${shohada_id}");
     _shohadaDetailsBloc = BlocProvider.of<ShohadaDetailsBloc>(context);
-    _darkModeBloc = BlocProvider.of<DarkModeBloc>(context);
+    _themeBloc = BlocProvider.of<ThemeBloc>(context);
     _shohadaDetailsBloc.add(GetShohadaDetails(shohada_id: shohada_id));
-    _darkModeBloc.add(GetDarkModeStatus());
+    _themeBloc.add(GetDarkModeStatus());
     super.initState();
   }
 
@@ -83,7 +83,7 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
             }
           },
         ),
-        BlocListener<DarkModeBloc, DarkModeState>(
+        BlocListener<ThemeBloc, ThemeState>(
           listener: (context, state) {
             darkModeStateFunction(state);
           },
@@ -355,8 +355,8 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
     }
   }
 
-  void darkModeStateFunction(DarkModeState state) {
-    if (state is DarkModeInitial) {
+  void darkModeStateFunction(ThemeState state) {
+    if (state is ThemeInitial) {
       setState(() {
         _isDarkMode = state.isDark;
       });

@@ -33,7 +33,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
   Map<String, String> arguments;
   String ahkam_id;
   AhkamDetailsBloc _ahkamDetailsBloc;
-  DarkModeBloc _darkModeBloc;
+  ThemeBloc _themeBloc;
   final maxBorderRadius = 50.0;
   var borderRadius;
   AnimationController _animationController;
@@ -49,10 +49,10 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
     borderRadius = maxBorderRadius;
 
     _ahkamDetailsBloc = BlocProvider.of<AhkamDetailsBloc>(context);
-    _darkModeBloc = BlocProvider.of<DarkModeBloc>(context);
+    _themeBloc = BlocProvider.of<ThemeBloc>(context);
     _ahkamDetailsBloc.add(
         GetAhkamDetails(ahkam_id: ahkam_id, user_id: GlobalWidget.user_id));
-    _darkModeBloc.add(GetDarkModeStatus());
+    _themeBloc.add(GetDarkModeStatus());
     super.initState();
   }
 
@@ -80,7 +80,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
             }
           }
         }),
-        BlocListener<DarkModeBloc, DarkModeState>(
+        BlocListener<ThemeBloc, ThemeState>(
           listener: (context, state) {
             darkModeStateFunction(state);
           },
@@ -120,12 +120,16 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                     } else if (state is LikeAhkamSuccess) {
                       return getAhkamShowUI(state);
                     } else if (state is AhkamDetailsFailure) {
-                      return ServerFailureFlare(isDarkMode: _isDarkMode,);
+                      return ServerFailureFlare(
+                        isDarkMode: _isDarkMode,
+                      );
                     }
                   },
                 );
               } else if (state is InternetDisconnected) {
-                return NoNetworkFlare(isDarkMode: _isDarkMode,);
+                return NoNetworkFlare(
+                  isDarkMode: _isDarkMode,
+                );
               } else {
                 return Container();
               }
@@ -296,9 +300,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                       topRight: Radius.circular(
                           double.parse(borderRadius.toString()))),
                   child: Container(
-                    color: _isDarkMode
-                        ? IColors.darkBlack07
-                        : Colors.white,
+                    color: _isDarkMode ? IColors.darkBlack07 : Colors.white,
                     child: Padding(
                       padding: const EdgeInsets.only(top: 30, bottom: 16),
                       child: Directionality(
@@ -456,8 +458,8 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
     );
   }
 
-  void darkModeStateFunction(DarkModeState state) {
-    if (state is DarkModeInitial) {
+  void darkModeStateFunction(ThemeState state) {
+    if (state is ThemeInitial) {
       setState(() {
         _isDarkMode = state.isDark;
       });

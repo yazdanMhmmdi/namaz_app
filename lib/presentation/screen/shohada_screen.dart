@@ -28,7 +28,7 @@ class ShohadaScreen extends StatefulWidget {
 class _ShohadaScreenState extends State<ShohadaScreen>
     with SingleTickerProviderStateMixin {
   ShohadaBloc _shohadaBloc;
-  DarkModeBloc _darkModeBloc;
+  ThemeBloc _themeBloc;
   ScrollController _controller = ScrollController();
   bool lazyLoading = true;
   Animation<double> animation;
@@ -43,9 +43,9 @@ class _ShohadaScreenState extends State<ShohadaScreen>
   @override
   void initState() {
     _shohadaBloc = BlocProvider.of<ShohadaBloc>(context);
-    _darkModeBloc = BlocProvider.of<DarkModeBloc>(context);
+    _themeBloc = BlocProvider.of<ThemeBloc>(context);
     _shohadaBloc.add(GetShohadaList(search: ""));
-    _darkModeBloc.add(GetDarkModeStatus());
+    _themeBloc.add(GetDarkModeStatus());
     _controller.addListener(() {
       if (_controller.position.pixels == _controller.position.maxScrollExtent) {
         print('end of page');
@@ -71,7 +71,7 @@ class _ShohadaScreenState extends State<ShohadaScreen>
             }
           },
         ),
-        BlocListener<DarkModeBloc, DarkModeState>(
+        BlocListener<ThemeBloc, ThemeState>(
           listener: (context, state) {
             darkModeStateFunction(state);
           },
@@ -275,8 +275,8 @@ class _ShohadaScreenState extends State<ShohadaScreen>
           });
   }
 
-  void darkModeStateFunction(DarkModeState state) {
-    if (state is DarkModeInitial) {
+  void darkModeStateFunction(ThemeState state) {
+    if (state is ThemeInitial) {
       setState(() {
         _isDarkMode = state.isDark;
       });
