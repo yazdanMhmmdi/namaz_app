@@ -4,6 +4,8 @@ import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
+import 'package:namaz_app/presentation/widget/font_size_button_widget.dart';
+import 'package:namaz_app/presentation/widget/font_size_indicator_widget.dart';
 
 class SettingsTab extends StatefulWidget {
   @override
@@ -13,6 +15,8 @@ class SettingsTab extends StatefulWidget {
 class _SettingsTabState extends State<SettingsTab> {
   bool _isDarkMode = false;
   ThemeBloc _themeBloc;
+  double fontSizeId = 2;
+  double fontSize = 2;
   @override
   void initState() {
     _themeBloc = BlocProvider.of<ThemeBloc>(context);
@@ -47,7 +51,7 @@ class _SettingsTabState extends State<SettingsTab> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "حالت تیره",
+                    Strings.settingsDarkMode,
                     style: TextStyle(
                       fontFamily: Assets.basicFont,
                       fontSize: 16,
@@ -68,6 +72,53 @@ class _SettingsTabState extends State<SettingsTab> {
 
             Padding(
               padding: const EdgeInsets.only(left: 16, right: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    Strings.settingsFontSize,
+                    style: TextStyle(
+                      fontFamily: Assets.basicFont,
+                      fontSize: 16,
+                      color: isDark ? IColors.darkWhite70 : IColors.black70,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      FontSizeButtonWidget(
+                        isDarkMode: isDark,
+                        onTap: () => bolderFontSize(),
+                        icon: Icon(
+                          Icons.add,
+                          size: 16,
+                          color: IColors.white85,
+                        ),
+                      ),
+                      FontSizeIndicatorWidget(
+                          isDarkMode: isDark,
+                          text: fontSize == 2
+                              ? Strings.settingsFontSizelarge
+                              : fontSize == 0
+                                  ? Strings.settingsFontSizeMedium
+                                  : Strings.settingsFontSizeSmall),
+                      FontSizeButtonWidget(
+                        isDarkMode: isDark,
+                        onTap: () => thinnerFontSize(),
+                        icon: Icon(
+                          Icons.remove,
+                          size: 16,
+                          color: IColors.white85,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
               child: Divider(
                 color: _isDarkMode ? IColors.darkWhite25 : IColors.black25,
               ),
@@ -107,5 +158,25 @@ class _SettingsTabState extends State<SettingsTab> {
         _isDarkMode = state.isDark;
       });
     }
+  }
+
+  void bolderFontSize() {
+    setState(() {
+      if (fontSize == -2) {
+        fontSize += 2;
+      } else if (fontSize == 0) {
+        fontSize += 2;
+      }
+    });
+  }
+
+  void thinnerFontSize() {
+    setState(() {
+      if (fontSize == 2) {
+        fontSize -= 2;
+      } else if (fontSize == 0) {
+        fontSize -= 2;
+      }
+    });
   }
 }

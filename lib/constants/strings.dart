@@ -30,6 +30,12 @@ class Strings {
   static final String signUpUsernameWarning = "نام کاربری اشتباه است";
   static final String signUpPasswordWarning = "رمز ورود اشتباه است";
 
+  static final String settingsDarkMode = "حالت تیره";
+  static final String settingsFontSize = "اندازه فونت";
+  static final String settingsFontSizeSmall = "کوچک";
+  static final String settingsFontSizeMedium = "متوسط";
+  static final String settingsFontSizelarge = "بزرگ";
+
   static final String discoverFeatureShohada = "shohada_favorite";
   static final String discoverFeatureNarratives = "narratives_favorite";
   static final String discoverFeatureAhkam = "ahkam_favorite";
