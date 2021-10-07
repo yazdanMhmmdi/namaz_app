@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/data/model/marjae_model.dart';
-import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
+import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/bloc/marjae_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/networking/api_provider.dart';
@@ -25,7 +25,7 @@ class _MarjaeScreenState extends State<MarjaeScreen> {
   @override
   void initState() {
     _themeBloc = BlocProvider.of<ThemeBloc>(context);
-    _themeBloc.add(GetDarkModeStatus());
+    _themeBloc.add(GetThemeStatus());
     super.initState();
   }
 

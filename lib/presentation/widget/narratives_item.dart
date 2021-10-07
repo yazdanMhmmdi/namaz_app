@@ -15,6 +15,7 @@ class NarrativesItem extends StatelessWidget {
   FavoriteBloc favoriteBloc;
   String searchedText;
   bool isDarkMode = false;
+  double fontSize = 0;
   NarrativesItem(
       {@required this.deleteSlidable,
       @required this.title,
@@ -22,6 +23,7 @@ class NarrativesItem extends StatelessWidget {
       @required this.id,
       @required this.onTap,
       @required this.isDarkMode,
+      @required this.fontSize,
       this.favoriteBloc,
       this.searchedText});
 
@@ -136,14 +138,14 @@ class NarrativesItem extends StatelessWidget {
   ) {
     TextStyle posTitleRes = TextStyle(
           backgroundColor: IColors.brown,
-          fontSize: 16,
+          fontSize: 16 + fontSize,
           color: isDarkMode ? IColors.darkWhite70 : IColors.black70,
           fontWeight: FontWeight.w700,
           fontFamily: "IranSans",
         ),
         negTitleRes = TextStyle(
           backgroundColor: Colors.transparent,
-          fontSize: 16,
+          fontSize: 16 + fontSize,
           color: isDarkMode ? IColors.darkWhite70 : IColors.black70,
           fontWeight: FontWeight.w700,
           fontFamily: "IranSans",
@@ -201,13 +203,13 @@ class NarrativesItem extends StatelessWidget {
   ) {
     TextStyle posSubTitleRes = TextStyle(
           backgroundColor: IColors.brown,
-          fontSize: 14,
+          fontSize: 14 + fontSize,
           color: isDarkMode ? IColors.darkWhite45 : IColors.black45,
           fontFamily: "IranSans",
         ),
         negSubTitleRes = TextStyle(
           backgroundColor: Colors.transparent,
-          fontSize: 14,
+          fontSize: 14 + fontSize,
           color: isDarkMode ? IColors.darkWhite45 : IColors.black45,
           fontFamily: "IranSans",
         );

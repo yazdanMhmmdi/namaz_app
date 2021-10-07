@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
-import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
+import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/bloc/shohada_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/networking/api_provider.dart';
@@ -45,7 +45,7 @@ class _ShohadaScreenState extends State<ShohadaScreen>
     _shohadaBloc = BlocProvider.of<ShohadaBloc>(context);
     _themeBloc = BlocProvider.of<ThemeBloc>(context);
     _shohadaBloc.add(GetShohadaList(search: ""));
-    _themeBloc.add(GetDarkModeStatus());
+    _themeBloc.add(GetThemeStatus());
     _controller.addListener(() {
       if (_controller.position.pixels == _controller.position.maxScrollExtent) {
         print('end of page');

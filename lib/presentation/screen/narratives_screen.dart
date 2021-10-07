@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
-import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
+import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/bloc/narratives_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/presentation/widget/back_button_widget.dart';
@@ -35,12 +35,13 @@ class _NarrativesScreenState extends State<NarrativesScreen>
   bool searchLoading = true;
   bool emptyList = false;
   bool _isDarkMode = false;
+  double _fontSize = 0;
   @override
   void initState() {
     _narrativesBloc = BlocProvider.of<NarrativesBloc>(context);
     _themeBloc = BlocProvider.of<ThemeBloc>(context);
     _narrativesBloc.add(GetNarrativesList(search: ""));
-    _themeBloc.add(GetDarkModeStatus());
+    _themeBloc.add(GetThemeStatus());
     _controller.addListener(() {
       if (_controller.position.pixels == _controller.position.maxScrollExtent) {
         print('end of page');
@@ -214,6 +215,7 @@ class _NarrativesScreenState extends State<NarrativesScreen>
                                   }),
                               deleteSlidable: false,
                               isDarkMode: _isDarkMode,
+                              fontSize: _fontSize,
                               title: state.narrativesModel.narratives[index]
                                   .quoteeTranslation,
                               subTitle: state.narrativesModel.narratives[index]
@@ -268,15 +270,18 @@ class _NarrativesScreenState extends State<NarrativesScreen>
     if (state is ThemeInitial) {
       setState(() {
         _isDarkMode = state.isDark;
+        _fontSize = state.fontSize;
       });
     }
     if (state is DarkModeEnable) {
       setState(() {
         _isDarkMode = state.isDark;
+        _fontSize = state.fontSize;
       });
     } else if (state is DarkModeDisable) {
       setState(() {
         _isDarkMode = state.isDark;
+        _fontSize = state.fontSize;
       });
     }
   }

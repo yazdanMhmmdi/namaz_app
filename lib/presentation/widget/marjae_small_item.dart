@@ -11,6 +11,7 @@ class MarjaeSmallItem extends StatelessWidget {
   Function onTap;
   String hash;
   bool isDarkMode = false;
+  double fontSize = 0;
   MarjaeSmallItem({
     @required this.delete,
     @required this.title,
@@ -18,6 +19,7 @@ class MarjaeSmallItem extends StatelessWidget {
     @required this.onTap,
     @required this.hash,
     @required this.isDarkMode,
+    @required this.fontSize,
   });
   @override
   Widget build(BuildContext context) {
@@ -95,7 +97,7 @@ class MarjaeSmallItem extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 textDirection: TextDirection.rtl,
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: 14 + fontSize,
                                   color: IColors.white85,
                                 ),
                               ),

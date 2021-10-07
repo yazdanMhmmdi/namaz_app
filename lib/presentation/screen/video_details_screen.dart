@@ -3,7 +3,7 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/colors.dart';
-import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
+import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/bloc/video_details_bloc.dart';
 import 'package:namaz_app/presentation/widget/global_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
@@ -38,7 +38,7 @@ class _VideoDetailsScreenState extends State<VideoDetailsScreen> {
     _videoDetailsBloc = BlocProvider.of<VideoDetailsBloc>(context);
     _themeBloc = BlocProvider.of<ThemeBloc>(context);
     _videoDetailsBloc.add(GetVideoDetails(video_id: video_id));
-    _themeBloc.add(GetDarkModeStatus());
+    _themeBloc.add(GetThemeStatus());
   }
 
   final _url = 'https://flutter.dev';

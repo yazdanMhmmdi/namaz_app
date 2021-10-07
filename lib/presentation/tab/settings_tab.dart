@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
-import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
+import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/presentation/widget/font_size_button_widget.dart';
 import 'package:namaz_app/presentation/widget/font_size_indicator_widget.dart';
 
@@ -15,19 +15,18 @@ class SettingsTab extends StatefulWidget {
 class _SettingsTabState extends State<SettingsTab> {
   bool _isDarkMode = false;
   ThemeBloc _themeBloc;
-  double fontSizeId = 2;
   double fontSize = 2;
   @override
   void initState() {
     _themeBloc = BlocProvider.of<ThemeBloc>(context);
-    _themeBloc.add(GetDarkModeStatus());
+    _themeBloc.add(GetThemeStatus());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ThemeBloc, ThemeState>(listener: (context, state) {
-      darkModeStateFunction(state);
+      themeStateFunction(state);
     }, builder: (cotnext, state) {
       if (state is ThemeInitial) {
         return getSettingsUI(isDark: false);
@@ -54,7 +53,7 @@ class _SettingsTabState extends State<SettingsTab> {
                     Strings.settingsDarkMode,
                     style: TextStyle(
                       fontFamily: Assets.basicFont,
-                      fontSize: 16,
+                      fontSize: 16 + fontSize,
                       color: isDark ? IColors.darkWhite70 : IColors.black70,
                       fontWeight: FontWeight.w700,
                     ),
@@ -79,7 +78,7 @@ class _SettingsTabState extends State<SettingsTab> {
                     Strings.settingsFontSize,
                     style: TextStyle(
                       fontFamily: Assets.basicFont,
-                      fontSize: 16,
+                      fontSize: 16 + fontSize,
                       color: isDark ? IColors.darkWhite70 : IColors.black70,
                       fontWeight: FontWeight.w700,
                     ),
@@ -140,22 +139,26 @@ class _SettingsTabState extends State<SettingsTab> {
         _isDarkMode = false;
       });
     }
-    _themeBloc.add(SetDarkModeStatus(darkModeStatus: _isDarkMode));
+    _themeBloc
+        .add(SetThemeStatus(darkModeStatus: _isDarkMode, fontSize: fontSize));
   }
 
-  void darkModeStateFunction(ThemeState state) {
+  void themeStateFunction(ThemeState state) {
     if (state is ThemeInitial) {
       setState(() {
         _isDarkMode = state.isDark;
+        fontSize = state.fontSize;
       });
     }
     if (state is DarkModeEnable) {
       setState(() {
         _isDarkMode = state.isDark;
+        fontSize = state.fontSize;
       });
     } else if (state is DarkModeDisable) {
       setState(() {
         _isDarkMode = state.isDark;
+        fontSize = state.fontSize;
       });
     }
   }
@@ -168,6 +171,8 @@ class _SettingsTabState extends State<SettingsTab> {
         fontSize += 2;
       }
     });
+    _themeBloc
+        .add(SetThemeStatus(darkModeStatus: _isDarkMode, fontSize: fontSize));
   }
 
   void thinnerFontSize() {
@@ -178,5 +183,7 @@ class _SettingsTabState extends State<SettingsTab> {
         fontSize -= 2;
       }
     });
+    _themeBloc
+        .add(SetThemeStatus(darkModeStatus: _isDarkMode, fontSize: fontSize));
   }
 }

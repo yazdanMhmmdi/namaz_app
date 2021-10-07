@@ -12,9 +12,11 @@ class TitleSelector extends StatefulWidget {
   List<String> titles = new List<String>();
   int firstTab = 2;
   bool isDarkMode = false;
+  double fontSize = 0;
   TitleSelector(
       {@required this.titles,
       @required this.firstTab,
+      @required this.fontSize,
       @required this.isDarkMode});
   @override
   _TitleSelectorState createState() => _TitleSelectorState();
@@ -37,6 +39,7 @@ class _TitleSelectorState extends State<TitleSelector> {
   bool sience = true, medicine = true;
   FavoriteBloc _favoriteBloc;
   bool _isDarkMode;
+  double _fontSize;
   final List<GlobalObjectKey<FormState>> formKeyList =
       List.generate(4, (index) => GlobalObjectKey<FormState>(index));
   List<double> titleSizes = List<double>();
@@ -46,10 +49,12 @@ class _TitleSelectorState extends State<TitleSelector> {
 
     _favoriteBloc = BlocProvider.of<FavoriteBloc>(context);
     _isDarkMode = widget.isDarkMode;
+    _fontSize = widget.fontSize;
     widget.firstTab = widget.firstTab - 1;
     if (widget.firstTab == 0) {
       // widget.bloc.add(FetchBooks(widget.firstTab + 1)); TODO:
-      _favoriteBloc.add(GetVideosFavorite(isDarkMode: _isDarkMode));
+      _favoriteBloc
+          .add(GetVideosFavorite(isDarkMode: _isDarkMode, fontSize: _fontSize));
     } else {
       onTapping(widget.firstTab);
     }
@@ -131,7 +136,9 @@ class _TitleSelectorState extends State<TitleSelector> {
                               ? IColors.darkLightPink
                               : Colors.black87
                           : Colors.grey,
-                      fontSize: _isSelected ? 22 : 16,
+                      fontSize: _isSelected
+                          ? 22 + widget.fontSize
+                          : 16 + widget.fontSize,
                       fontFamily: "IranSans",
                       fontWeight: FontWeight.w700,
                     ),
@@ -195,13 +202,17 @@ class _TitleSelectorState extends State<TitleSelector> {
     print('index; ${blocIndex}');
     // widget.bloc.add(FetchBooks(blocIndex));TODO:
     if (blocIndex == 1) {
-      _favoriteBloc.add(GetVideosFavorite(isDarkMode: _isDarkMode));
+      _favoriteBloc
+          .add(GetVideosFavorite(isDarkMode: _isDarkMode, fontSize: _fontSize));
     } else if (blocIndex == 2) {
-      _favoriteBloc.add(GetAhkamFavorite(isDarkMode: _isDarkMode));
+      _favoriteBloc
+          .add(GetAhkamFavorite(isDarkMode: _isDarkMode, fontSize: _fontSize));
     } else if (blocIndex == 3) {
-      _favoriteBloc.add(GetNarrativesFavorite(isDarkMode: _isDarkMode));
+      _favoriteBloc.add(
+          GetNarrativesFavorite(isDarkMode: _isDarkMode, fontSize: _fontSize));
     } else if (blocIndex == 4) {
-      _favoriteBloc.add(GetShohadaFavorite(isDarkMode: _isDarkMode));
+      _favoriteBloc.add(
+          GetShohadaFavorite(isDarkMode: _isDarkMode, fontSize: _fontSize));
     }
   }
 

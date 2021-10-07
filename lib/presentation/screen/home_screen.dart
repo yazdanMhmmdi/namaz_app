@@ -6,7 +6,7 @@ import 'package:motion_tab_bar/MotionTabController.dart';
 import 'package:motion_tab_bar/motiontabbar.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
-import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
+import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/bloc/favorite_bloc.dart';
 import 'package:namaz_app/logic/bloc/home_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
@@ -26,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   MotionTabController _bottomNavController;
   bool bottomInternetStatus = true, bottomFailureStatus = true;
   bool _isDarkMode = false;
+  double _fontSize = 0;
   ThemeBloc _themeBloc;
   @override
   void initState() {
@@ -33,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _bottomNavController =
         new MotionTabController(initialIndex: 0, vsync: this, length: 3);
     _bottomNavController.index = 1;
-    _themeBloc.add(GetDarkModeStatus());
+    _themeBloc.add(GetThemeStatus());
     super.initState();
   }
 
@@ -60,14 +61,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           if (state is ThemeInitial) {
             setState(() {
               _isDarkMode = state.isDark;
+              _fontSize = state.fontSize;
             });
           } else if (state is DarkModeEnable) {
             setState(() {
               _isDarkMode = state.isDark;
+              _fontSize = state.fontSize;
             });
           } else if (state is DarkModeDisable) {
             setState(() {
               _isDarkMode = state.isDark;
+              _fontSize = state.fontSize;
             });
           }
         })
@@ -142,7 +146,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           if (state is HomeFailure) {
-            return ServerFailureFlare(isDarkMode: _isDarkMode,);
+            return ServerFailureFlare(
+              isDarkMode: _isDarkMode,
+            );
           } else {
             return Stack(
               children: [
@@ -153,6 +159,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           create: (context) => FavoriteBloc(),
                           child: FavoriteTab(
                             isDarkMode: _isDarkMode,
+                            fontSize: _fontSize,
                           )),
                       MultiBlocProvider(
                         providers: [
@@ -162,6 +169,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ],
                         child: HomeTab(
                           isDarkMode: _isDarkMode,
+                          fontSize: _fontSize,
                         ),
                       ),
                       SettingsTab()

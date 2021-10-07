@@ -6,7 +6,7 @@ import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/logic/bloc/ahkam_bloc.dart';
-import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
+import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/presentation/widget/ahkam_item.dart';
 import 'package:namaz_app/presentation/widget/back_button_widget.dart';
@@ -53,7 +53,7 @@ class _AhkamScreenState extends State<AhkamScreen>
     _ahkamBloc = BlocProvider.of<AhkamBloc>(context);
     _themeBloc = BlocProvider.of<ThemeBloc>(context);
     _ahkamBloc.add(GetAhkamItems(marjae_id: marjae_id, search: ""));
-    _themeBloc.add(GetDarkModeStatus());
+    _themeBloc.add(GetThemeStatus());
     _controller.addListener(() {
       if (_controller.position.pixels == _controller.position.maxScrollExtent) {
         print('end of page ${searchTextController.text}');
@@ -121,12 +121,16 @@ class _AhkamScreenState extends State<AhkamScreen>
                     lazyLoading = false;
                     return getAhkamUI(state);
                   } else if (state is AhkamFailure) {
-                    return ServerFailureFlare(isDarkMode: _isDarkMode,);
+                    return ServerFailureFlare(
+                      isDarkMode: _isDarkMode,
+                    );
                   }
                 },
               );
             } else if (state is InternetDisconnected) {
-              return NoNetworkFlare(isDarkMode: _isDarkMode,);
+              return NoNetworkFlare(
+                isDarkMode: _isDarkMode,
+              );
             } else {
               return Container();
             }

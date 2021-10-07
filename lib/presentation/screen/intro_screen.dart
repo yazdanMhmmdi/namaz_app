@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
-import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
+import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/presentation/widget/background_shapes.dart';
 import 'package:namaz_app/presentation/widget/global_widget.dart';
@@ -21,9 +21,8 @@ class _IntroScreenState extends State<IntroScreen> {
   @override
   void initState() {
     _themeBloc = BlocProvider.of<ThemeBloc>(context);
-    _themeBloc
-        .add(GetDarkModestatusFromLocalStorage()); //initialize dark mode
-    _themeBloc.add(GetDarkModeStatus()); //get dark mode status
+    _themeBloc.add(GetThemeStatusFromLocalStorage()); //initialize dark mode
+    _themeBloc.add(GetThemeStatus()); //get dark mode status
     super.initState();
   }
 

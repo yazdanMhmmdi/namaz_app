@@ -12,7 +12,7 @@ import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/logic/bloc/ahkam_details_bloc.dart';
-import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
+import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/networking/api_provider.dart';
 import 'package:namaz_app/presentation/widget/global_widget.dart';
@@ -52,7 +52,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
     _themeBloc = BlocProvider.of<ThemeBloc>(context);
     _ahkamDetailsBloc.add(
         GetAhkamDetails(ahkam_id: ahkam_id, user_id: GlobalWidget.user_id));
-    _themeBloc.add(GetDarkModeStatus());
+    _themeBloc.add(GetThemeStatus());
     super.initState();
   }
 

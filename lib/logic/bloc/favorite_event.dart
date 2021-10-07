@@ -16,30 +16,34 @@ class GetFavoriteItems extends FavoriteEvent {
 
 class GetVideosFavorite extends FavoriteEvent {
   bool isDarkMode = false;
-  GetVideosFavorite({@required this.isDarkMode});
+  double fontSize = 0;
+  GetVideosFavorite({@required this.isDarkMode, @required this.fontSize});
   @override
-  List<Object> get props => [this.isDarkMode];
+  List<Object> get props => [this.isDarkMode, this.fontSize];
 }
 
 class GetAhkamFavorite extends FavoriteEvent {
   bool isDarkMode = false;
-  GetAhkamFavorite({@required this.isDarkMode});
+  double fontSize = 0;
+  GetAhkamFavorite({@required this.isDarkMode, @required this.fontSize});
   @override
-  List<Object> get props => [this.isDarkMode];
+  List<Object> get props => [this.isDarkMode, this.fontSize];
 }
 
 class GetNarrativesFavorite extends FavoriteEvent {
   bool isDarkMode = false;
-  GetNarrativesFavorite({@required this.isDarkMode});
+  double fontSize = 0;
+  GetNarrativesFavorite({@required this.isDarkMode, @required this.fontSize});
   @override
-  List<Object> get props => [this.isDarkMode];
+  List<Object> get props => [this.isDarkMode, this.fontSize];
 }
 
 class GetShohadaFavorite extends FavoriteEvent {
   bool isDarkMode = false;
-  GetShohadaFavorite({@required this.isDarkMode});
+  double fontSize = 0;
+  GetShohadaFavorite({@required this.isDarkMode, @required this.fontSize});
   @override
-  List<Object> get props => [this.isDarkMode];
+  List<Object> get props => [this.isDarkMode, this.fontSize];
 }
 
 class DeleteVideoItem extends FavoriteEvent {

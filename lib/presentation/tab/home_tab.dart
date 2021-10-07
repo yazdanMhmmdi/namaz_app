@@ -8,7 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
-import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
+import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/bloc/home_bloc.dart';
 import 'package:namaz_app/networking/api_provider.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
@@ -18,7 +18,8 @@ import 'package:namaz_app/presentation/widget/video_item.dart';
 
 class HomeTab extends StatefulWidget {
   bool isDarkMode = false;
-  HomeTab({@required this.isDarkMode});
+  double fontSize = 0;
+  HomeTab({@required this.isDarkMode, @required this.fontSize});
   @override
   _HomeTabState createState() => _HomeTabState();
 }
@@ -114,7 +115,8 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   style: TextStyle(
-                                                    fontSize: 16,
+                                                    fontSize:
+                                                        16 + widget.fontSize,
                                                     fontWeight: FontWeight.w700,
                                                     color: widget.isDarkMode
                                                         ? IColors.darkBlack70
@@ -177,7 +179,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                       Text(
                         "${Strings.homeMaraje}",
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 16 + widget.fontSize,
                           fontWeight: FontWeight.w700,
                           color: widget.isDarkMode
                               ? IColors.darkWhite70
@@ -189,7 +191,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                         child: Text(
                           "${Strings.homeMore}",
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 16 + widget.fontSize,
                             fontWeight: FontWeight.w700,
                             color: IColors.brown,
                           ),
@@ -226,6 +228,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                                 hash: state.homeModel.marjae[index].blurhash,
                                 delete: false,
                                 isDarkMode: widget.isDarkMode,
+                                fontSize: widget.fontSize,
                               );
                             },
                           ),
@@ -246,7 +249,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                       Text(
                         "${Strings.homeNarratives}",
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 16 + widget.fontSize,
                           fontWeight: FontWeight.w700,
                           color: widget.isDarkMode
                               ? IColors.darkWhite70
@@ -275,12 +278,13 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                                     });
                               },
                               deleteSlidable: false,
-                              isDarkMode: widget.isDarkMode,
                               title: state.homeModel.narratives[index]
                                   .quoteeTranslation,
                               subTitle: state
                                   .homeModel.narratives[index].quoteTranslation,
                               id: state.homeModel.narratives[index].id,
+                              isDarkMode: widget.isDarkMode,
+                              fontSize: widget.fontSize,
                             );
                           },
                         );
@@ -300,7 +304,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                       child: Text(
                         "${Strings.homeMore}",
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 16 + widget.fontSize,
                           fontWeight: FontWeight.w700,
                           color: IColors.brown,
                         ),
@@ -317,7 +321,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                         "${Strings.homeShohadaBozorgan}",
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 16 + widget.fontSize,
                           fontWeight: FontWeight.w700,
                           color: widget.isDarkMode
                               ? IColors.darkWhite70
@@ -329,7 +333,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                         child: Text(
                           "${Strings.homeMore}",
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 16 + widget.fontSize,
                             fontWeight: FontWeight.w700,
                             color: IColors.brown,
                           ),
@@ -365,6 +369,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                                 thumbPicture: state.homeModel
                                     .shohadaBozorgan[index].pictureSizeSmall,
                                 isDarkMode: widget.isDarkMode,
+                                fontSize: widget.fontSize,
                               );
                             },
                           ),

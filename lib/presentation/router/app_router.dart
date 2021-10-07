@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/logic/bloc/ahkam_bloc.dart';
 import 'package:namaz_app/logic/bloc/ahkam_details_bloc.dart';
-import 'package:namaz_app/logic/bloc/dark_mode_bloc.dart';
+import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/bloc/home_bloc.dart';
 import 'package:namaz_app/logic/bloc/marjae_bloc.dart';
 import 'package:namaz_app/logic/bloc/narratives_bloc.dart';

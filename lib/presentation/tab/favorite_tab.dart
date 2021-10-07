@@ -14,7 +14,8 @@ import 'package:namaz_app/presentation/widget/videos_item.dart';
 
 class FavoriteTab extends StatefulWidget {
   bool isDarkMode = false;
-  FavoriteTab({@required this.isDarkMode});
+  double fontSize = 0;
+  FavoriteTab({@required this.isDarkMode, @required this.fontSize});
   @override
   _FavoriteTabState createState() => _FavoriteTabState();
 }
@@ -66,6 +67,7 @@ class _FavoriteTabState extends State<FavoriteTab> with WidgetsBindingObserver {
             BlocProvider.value(
               value: _favoriteBloc,
               child: TitleSelector(
+                fontSize: widget.fontSize,
                 isDarkMode: _isDarkMode,
                 titles: [
                   "ویدئو ها",

@@ -46,6 +46,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
         yield FavoriteIsEmpty(
             tab: EmptyWidget(
           isDarkMode: event.isDarkMode,
+          fontSize: event.fontSize,
         ));
       } else {
         yield FavoriteLoading();
@@ -84,7 +85,11 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       }
     } else if (event is GetAhkamFavorite) {
       if (_model.ahkam.length == 0) {
-        yield FavoriteIsEmpty(tab: EmptyWidget(isDarkMode: event.isDarkMode));
+        yield FavoriteIsEmpty(
+            tab: EmptyWidget(
+          isDarkMode: event.isDarkMode,
+          fontSize: event.fontSize,
+        ));
       } else {
         yield FavoriteLoading();
         yield FavoriteSuccess(
@@ -120,6 +125,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
         yield FavoriteIsEmpty(
             tab: EmptyWidget(
           isDarkMode: event.isDarkMode,
+          fontSize: event.fontSize,
         ));
       } else {
         yield FavoriteLoading();
@@ -138,6 +144,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
                   deleteSlidable: true,
                   favoriteBloc: this,
                   isDarkMode: event.isDarkMode,
+                  fontSize: event.fontSize,
                   onTap: () {
                     Navigator.pushNamed(context, '/narratives_show',
                         arguments: <String, String>{
@@ -160,6 +167,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
         yield FavoriteIsEmpty(
             tab: EmptyWidget(
           isDarkMode: event.isDarkMode,
+          fontSize: event.fontSize,
         ));
       } else {
         yield FavoriteLoading();
