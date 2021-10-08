@@ -55,6 +55,7 @@ dependencies:
   substring_highlight: 1.0.33
   blurhash_dart: 1.0.2
   decorated_icon: ^1.2.1
+  showcaseview: ^1.1.1
 
 dev_dependencies:
   flutter_test:

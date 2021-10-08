@@ -44,80 +44,86 @@ class _SettingsTabState extends State<SettingsTab> {
         textDirection: TextDirection.rtl,
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 16, top: 16, right: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    Strings.settingsDarkMode,
-                    style: TextStyle(
-                      fontFamily: Assets.basicFont,
-                      fontSize: 16 + fontSize,
-                      color: isDark ? IColors.darkWhite70 : IColors.black70,
-                      fontWeight: FontWeight.w700,
+            Container(
+              color: Colors.transparent,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16,top: 8,  right: 16,),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      Strings.settingsDarkMode,
+                      style: TextStyle(
+                        fontFamily: Assets.basicFont,
+                        fontSize: 16 + fontSize,
+                        color: isDark ? IColors.darkWhite70 : IColors.black70,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                  Switch(
-                    value: _isDarkMode,
-                    activeColor: IColors.darkLightPink,
-                    onChanged: (bool value) {
-                      isDarkState(value);
-                    },
-                  ),
-                ],
+                    Switch(
+                      value: _isDarkMode,
+                      activeColor: IColors.darkLightPink,
+                      onChanged: (bool value) {
+                        isDarkState(value);
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
 
-            Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    Strings.settingsFontSize,
-                    style: TextStyle(
-                      fontFamily: Assets.basicFont,
-                      fontSize: 16 + fontSize,
-                      color: isDark ? IColors.darkWhite70 : IColors.black70,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      FontSizeButtonWidget(
-                        isDarkMode: isDark,
-                        onTap: () => bolderFontSize(),
-                        icon: Icon(
-                          Icons.add,
-                          size: 16,
-                          color: IColors.white85,
-                        ),
+            Container(
+              color: Colors.transparent,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      Strings.settingsFontSize,
+                      style: TextStyle(
+                        fontFamily: Assets.basicFont,
+                        fontSize: 16 + fontSize,
+                        color: isDark ? IColors.darkWhite70 : IColors.black70,
+                        fontWeight: FontWeight.w700,
                       ),
-                      FontSizeIndicatorWidget(
+                    ),
+                    Row(
+                      children: [
+                        FontSizeButtonWidget(
                           isDarkMode: isDark,
-                          text: fontSize == 2
-                              ? Strings.settingsFontSizelarge
-                              : fontSize == 0
-                                  ? Strings.settingsFontSizeMedium
-                                  : Strings.settingsFontSizeSmall),
-                      FontSizeButtonWidget(
-                        isDarkMode: isDark,
-                        onTap: () => thinnerFontSize(),
-                        icon: Icon(
-                          Icons.remove,
-                          size: 16,
-                          color: IColors.white85,
+                          onTap: () => bolderFontSize(),
+                          icon: Icon(
+                            Icons.add,
+                            size: 16,
+                            color: IColors.white85,
+                          ),
                         ),
-                      ),
-                    ],
-                  )
-                ],
+                        FontSizeIndicatorWidget(
+                            isDarkMode: isDark,
+                            text: fontSize == 2
+                                ? Strings.settingsFontSizelarge
+                                : fontSize == 0
+                                    ? Strings.settingsFontSizeMedium
+                                    : Strings.settingsFontSizeSmall),
+                        FontSizeButtonWidget(
+                          isDarkMode: isDark,
+                          onTap: () => thinnerFontSize(),
+                          icon: Icon(
+                            Icons.remove,
+                            size: 16,
+                            color: IColors.white85,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
 
             Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
               child: Divider(
                 color: _isDarkMode ? IColors.darkWhite25 : IColors.black25,
               ),
