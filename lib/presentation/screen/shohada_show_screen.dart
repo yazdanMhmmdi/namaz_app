@@ -231,12 +231,8 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
                       color: IColors.white85,
                       shadows: [
                         BoxShadow(
-                          blurRadius: 42.0,
-                          color: Colors.black45,
-                        ),
-                        BoxShadow(
                           blurRadius: 12.0,
-                          color: Colors.black38,
+                          color: Colors.black54,
                         ),
                       ],
                       // padding: EdgeInsets.zero,
@@ -263,12 +259,8 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
                   size: 30,
                   shadows: [
                     BoxShadow(
-                      blurRadius: 42.0,
-                      color: Colors.black45,
-                    ),
-                    BoxShadow(
                       blurRadius: 12.0,
-                      color: Colors.black38,
+                      color: Colors.black54,
                     ),
                   ],
                 ),

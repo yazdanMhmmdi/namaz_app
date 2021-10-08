@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:animate_do/animate_do.dart';
+import 'package:decorated_icon/decorated_icon.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,8 +43,7 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
 
   AnimationController _animationController;
   Color backgroundColor = IColors.purpleCrimson;
-  Icon iconState =
-      Icon(Icons.favorite_border, size: 30, color: IColors.white85);
+  IconData iconState = Icons.favorite_border;
   bool _isDarkMode = false;
   double _fontSize = 0;
   @override
@@ -152,18 +152,17 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
   }
 
   void likeIconState() {
-    if (iconState.icon == Icons.favorite_border) {
+    if (iconState == Icons.favorite_border) {
       _narrativesDetailsBloc.add(LikeNarratives(
           user_id: GlobalWidget.user_id, narratives_id: narratives_id));
       setState(() {
-        iconState = Icon(Icons.favorite, size: 30, color: IColors.white85);
+        iconState = Icons.favorite;
       });
     } else {
       _narrativesDetailsBloc.add(DisLikeNarratives(
           user_id: GlobalWidget.user_id, narratives_id: narratives_id));
       setState(() {
-        iconState =
-            Icon(Icons.favorite_border, size: 30, color: IColors.white85);
+        iconState = Icons.favorite_border;
       });
     }
   }
@@ -229,29 +228,41 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                   backgroundColor: IColors.brown,
                   targetColor: Colors.white,
                   textColor: Colors.white,
-                  child: IconButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () {
+                  child: InkResponse(
+                    onTap: () {
                       likeOpration();
 
                       // FeatureDiscovery.dismissAll(context);
                     },
-                    icon: state.liked == "true"
-                        ? iconState = Icon(Icons.favorite,
-                            size: 30, color: IColors.white85)
-                        : iconState = Icon(Icons.favorite_border,
-                            size: 30, color: IColors.white85),
+                    child: DecoratedIcon(
+                      state.liked == "true"
+                          ? iconState = Icons.favorite
+                          : iconState = Icons.favorite_border,
+                      size: 30,
+                      color: IColors.white85,
+                      shadows: [
+                        BoxShadow(
+                          blurRadius: 12.0,
+                          color: Colors.black54,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-              IconButton(
-                padding: EdgeInsets.zero,
-                onPressed: () => Navigator.pop(context),
-                icon: Icon(
+              InkResponse(
+                onTap: () => Navigator.pop(context),
+                child: DecoratedIcon(
                   Icons.arrow_back,
                   textDirection: TextDirection.rtl,
                   color: IColors.white85,
                   size: 30,
+                  shadows: [
+                    BoxShadow(
+                      blurRadius: 12.0,
+                      color: Colors.black54,
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -384,7 +395,7 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                      fontSize: 16  +_fontSize,
+                                      fontSize: 16 + _fontSize,
                                       fontWeight: FontWeight.w700,
                                       color: _isDarkMode
                                           ? IColors.darkWhite70
