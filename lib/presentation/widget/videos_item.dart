@@ -20,6 +20,7 @@ class VideosItem extends StatelessWidget {
   String blurhash;
   bool isPinned;
   bool isDarkMode = false;
+  double fontSize = 0;
 
   VideosItem({
     @required this.video_id,
@@ -30,6 +31,7 @@ class VideosItem extends StatelessWidget {
     @required this.blurhash,
     @required this.isPinned,
     @required this.isDarkMode,
+    @required this.fontSize,
     this.favoriteBloc,
     this.searchedText,
   });
@@ -181,14 +183,14 @@ class VideosItem extends StatelessWidget {
   TextSpan searchMatch(String match) {
     TextStyle posRes = TextStyle(
           backgroundColor: IColors.brown,
-          fontSize: 14,
+          fontSize: 14 + fontSize,
           fontWeight: FontWeight.w700,
           color: isDarkMode ? IColors.darkWhite70 : IColors.black70,
           fontFamily: "IranSans",
         ),
         negRes = TextStyle(
           backgroundColor: Colors.transparent,
-          fontSize: 14,
+          fontSize: 14 + fontSize,
           fontWeight: FontWeight.w700,
           color: isDarkMode ? IColors.darkWhite70 : IColors.black70,
           fontFamily: "IranSans",

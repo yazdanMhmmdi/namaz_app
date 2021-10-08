@@ -30,6 +30,7 @@ class _VideoDetailsScreenState extends State<VideoDetailsScreen> {
   var chewieController;
   Color backgroundColor = Colors.grey[600];
   bool _isDarkMode = false;
+  double _fontSize = 0;
   @override
   void initState() {
     super.initState();
@@ -125,7 +126,7 @@ class _VideoDetailsScreenState extends State<VideoDetailsScreen> {
                           child: Text(
                             "${state.videoDetailsModel.data.title}",
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 16 + _fontSize,
                               color: IColors.white85,
                               fontWeight: FontWeight.bold,
                             ),
@@ -185,15 +186,18 @@ class _VideoDetailsScreenState extends State<VideoDetailsScreen> {
     if (state is ThemeInitial) {
       setState(() {
         _isDarkMode = state.isDark;
+        _fontSize = state.fontSize;
       });
     }
     if (state is DarkModeEnable) {
       setState(() {
         _isDarkMode = state.isDark;
+        _fontSize = state.fontSize;
       });
     } else if (state is DarkModeDisable) {
       setState(() {
         _isDarkMode = state.isDark;
+        _fontSize = state.fontSize;
       });
     }
   }

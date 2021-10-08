@@ -40,6 +40,7 @@ class _VideosScreenState extends State<VideosScreen>
   bool searchLoading = true;
   bool emptyList = false;
   bool _isDarkMode = false;
+  double _fontSize = 0;
   @override
   void initState() {
     _videoBloc = BlocProvider.of<VideoBloc>(context);
@@ -69,6 +70,7 @@ class _VideosScreenState extends State<VideosScreen>
         if (state is DarkModeEnable) {
           setState(() {
             _isDarkMode = state.isDark;
+            _fontSize = state.fontSize;
           });
         }
         // else if (state is DarkModeDisable) {
@@ -158,7 +160,7 @@ class _VideosScreenState extends State<VideosScreen>
                     child: Text(
                       "${Strings.videos}",
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 18 + _fontSize,
                         fontWeight: FontWeight.w800,
                         color:
                             _isDarkMode ? IColors.darkWhite70 : IColors.black70,
@@ -232,6 +234,7 @@ class _VideosScreenState extends State<VideosScreen>
                                         }),
                                 deleteSlidable: false,
                                 isDarkMode: _isDarkMode,
+                                fontSize: _fontSize,
                                 isPinned:
                                     state.videoModel.video[index].isPinned,
                                 title: state.videoModel.video[index].title,
