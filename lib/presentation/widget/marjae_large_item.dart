@@ -10,13 +10,15 @@ class MarjaeLargeItem extends StatelessWidget {
   String marjae_id;
   String hash;
   bool isDarkMode = false;
-  MarjaeLargeItem(
-      {@required this.largePicture,
-      @required this.title,
-      @required this.marjae_id,
-      @required this.hash,
-      @required this.isDarkMode,
-      });
+  double fontSize = 0;
+  MarjaeLargeItem({
+    @required this.largePicture,
+    @required this.title,
+    @required this.marjae_id,
+    @required this.hash,
+    @required this.isDarkMode,
+    @required this.fontSize,
+  });
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -31,7 +33,9 @@ class MarjaeLargeItem extends StatelessWidget {
               BoxShadow(
                 offset: Offset(4, 6),
                 blurRadius: 10,
-                color: isDarkMode ?IColors.darkLightPink25 : IColors.purpleCrimson25,
+                color: isDarkMode
+                    ? IColors.darkLightPink25
+                    : IColors.purpleCrimson25,
               )
             ]),
         child: ClipRRect(
@@ -42,21 +46,22 @@ class MarjaeLargeItem extends StatelessWidget {
                 image: CachedNetworkImageProvider(
                   ApiProvider.IMAGE_PROVIDER + largePicture.trim(),
                 ),
-                placeholderBuilder: OctoPlaceholder.blurHash(
-                  hash
-                ),
+                placeholderBuilder: OctoPlaceholder.blurHash(hash),
                 errorBuilder: OctoError.icon(color: Colors.red),
               ),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: isDarkMode ?IColors.darkLightPink65 : IColors.purpleCrimson65,
+                  color: isDarkMode
+                      ? IColors.darkLightPink65
+                      : IColors.purpleCrimson65,
                 ),
               ),
               Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  splashColor:isDarkMode ?IColors.darkLightPink10 : Colors.white10,
+                  splashColor:
+                      isDarkMode ? IColors.darkLightPink10 : Colors.white10,
                   borderRadius: BorderRadius.circular(20),
                   onTap: () {
                     print("Hello");
@@ -77,7 +82,7 @@ class MarjaeLargeItem extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 color: IColors.white85,
-                                fontSize: 14,
+                                fontSize: 14 + fontSize,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),

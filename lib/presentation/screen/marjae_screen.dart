@@ -22,6 +22,7 @@ class MarjaeScreen extends StatefulWidget {
 class _MarjaeScreenState extends State<MarjaeScreen> {
   ThemeBloc _themeBloc;
   bool _isDarkMode = false;
+  double _fontSize = 0;
   @override
   void initState() {
     _themeBloc = BlocProvider.of<ThemeBloc>(context);
@@ -57,6 +58,7 @@ class _MarjaeScreenState extends State<MarjaeScreen> {
                     for (int i = 0; i < state.marjaeModel.data.length; i++) {
                       list.add(MarjaeLargeItem(
                           isDarkMode: _isDarkMode,
+                          fontSize: _fontSize,
                           marjae_id: state.marjaeModel.data[i].id,
                           title: state.marjaeModel.data[i].name,
                           hash: state.marjaeModel.data[i].blurhash,
@@ -80,7 +82,7 @@ class _MarjaeScreenState extends State<MarjaeScreen> {
                                   Text(
                                     "${Strings.marjae}",
                                     style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 18 + _fontSize,
                                       fontWeight: FontWeight.w700,
                                       color: _isDarkMode
                                           ? IColors.darkWhite70
@@ -119,7 +121,9 @@ class _MarjaeScreenState extends State<MarjaeScreen> {
                 },
               );
             } else if (state is InternetDisconnected) {
-              return NoNetworkFlare(isDarkMode: _isDarkMode,);
+              return NoNetworkFlare(
+                isDarkMode: _isDarkMode,
+              );
             } else {
               return Container();
             }
@@ -133,15 +137,18 @@ class _MarjaeScreenState extends State<MarjaeScreen> {
     if (state is ThemeInitial) {
       setState(() {
         _isDarkMode = state.isDark;
+        _fontSize = state.fontSize;
       });
     }
     if (state is DarkModeEnable) {
       setState(() {
         _isDarkMode = state.isDark;
+        _fontSize = state.fontSize;
       });
     } else if (state is DarkModeDisable) {
       setState(() {
         _isDarkMode = state.isDark;
+        _fontSize = state.fontSize;
       });
     }
   }

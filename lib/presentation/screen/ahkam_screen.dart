@@ -46,6 +46,7 @@ class _AhkamScreenState extends State<AhkamScreen>
   bool searchLoading = true;
   bool emptyList = false;
   bool _isDarkMode = false;
+  double _fontSize = 0;
   @override
   void initState() {
     arguments = widget.args;
@@ -161,7 +162,7 @@ class _AhkamScreenState extends State<AhkamScreen>
                     child: Text(
                       "${Strings.ahkam}",
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 18 + _fontSize,
                         fontWeight: FontWeight.w800,
                         color:
                             _isDarkMode ? IColors.darkWhite70 : IColors.black70,
@@ -240,6 +241,7 @@ class _AhkamScreenState extends State<AhkamScreen>
                                     state.ahkamModel.ahkam[index].ahkamNumber,
                                 deleteSlidable: false,
                                 isDarkMode: _isDarkMode,
+                                fontSize: _fontSize,
                                 searchedText: "${searchTextController.text}",
                                 onTap: () => Navigator.pushNamed(
                                     context, '/ahkam_show',
@@ -285,15 +287,18 @@ class _AhkamScreenState extends State<AhkamScreen>
     if (state is ThemeInitial) {
       setState(() {
         _isDarkMode = state.isDark;
+        _fontSize = state.fontSize;
       });
     }
     if (state is DarkModeEnable) {
       setState(() {
         _isDarkMode = state.isDark;
+        _fontSize = state.fontSize;
       });
     } else if (state is DarkModeDisable) {
       setState(() {
         _isDarkMode = state.isDark;
+        _fontSize = state.fontSize;
       });
     }
   }

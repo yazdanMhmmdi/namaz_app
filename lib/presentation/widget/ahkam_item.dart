@@ -14,6 +14,7 @@ class AhkamItem extends StatelessWidget {
   String searchedText;
   String ahkamNumber;
   bool isDarkMode = false;
+  double fontSize = 0;
   AhkamItem({
     @required this.deleteSlidable,
     @required this.title,
@@ -21,6 +22,7 @@ class AhkamItem extends StatelessWidget {
     @required this.onTap,
     @required this.ahkamNumber,
     @required this.isDarkMode,
+    @required this.fontSize,
     this.favoriteBloc,
     this.searchedText,
   });
@@ -78,7 +80,7 @@ class AhkamItem extends StatelessWidget {
                                   "${ahkamNumber}",
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 14 + fontSize,
                                     fontWeight: FontWeight.w700,
                                     color: IColors.brown,
                                   ),
@@ -110,14 +112,14 @@ class AhkamItem extends StatelessWidget {
   TextSpan searchMatch(String match) {
     TextStyle posRes = TextStyle(
           backgroundColor: IColors.brown,
-          fontSize: 16,
+          fontSize: 16 + fontSize,
           color: isDarkMode ? IColors.darkWhite70 : IColors.black70,
           fontWeight: FontWeight.normal,
           fontFamily: "IranSans",
         ),
         negRes = TextStyle(
           backgroundColor: Colors.transparent,
-          fontSize: 16,
+          fontSize: 16 + fontSize,
           color: isDarkMode ? IColors.darkWhite70 : IColors.black70,
           fontWeight: FontWeight.normal,
           fontFamily: "IranSans",

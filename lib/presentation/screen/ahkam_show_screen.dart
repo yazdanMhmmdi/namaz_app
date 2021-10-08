@@ -42,6 +42,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
   Icon iconState =
       Icon(Icons.favorite_border, size: 30, color: IColors.white85);
   bool _isDarkMode = false;
+  double _fontSize = 0;
   @override
   void initState() {
     arguments = widget.args;
@@ -320,7 +321,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                                         child: Text(
                                             '${state.ahkamDetailsModel.data.ahkamNumber}',
                                             style: TextStyle(
-                                                fontSize: 14,
+                                                fontSize: 14 + _fontSize,
                                                 color: IColors.brown,
                                                 fontWeight: FontWeight.w700)),
                                       ),
@@ -337,7 +338,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 16 + _fontSize,
                                         fontWeight: FontWeight.bold,
                                         color: _isDarkMode
                                             ? IColors.darkWhite70
@@ -382,7 +383,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                                   return Text(
                                     element.firstChild.text,
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 16 + _fontSize,
                                       color: _isDarkMode
                                           ? IColors.darkWhite70
                                           : IColors.black70,
@@ -401,7 +402,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
 
                               // set the default styling for text
                               textStyle: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 16 + _fontSize,
                                   color: _isDarkMode
                                       ? IColors.darkWhite70
                                       : IColors.black70),
@@ -462,15 +463,18 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
     if (state is ThemeInitial) {
       setState(() {
         _isDarkMode = state.isDark;
+        _fontSize = state.fontSize;
       });
     }
     if (state is DarkModeEnable) {
       setState(() {
         _isDarkMode = state.isDark;
+        _fontSize = state.fontSize;
       });
     } else if (state is DarkModeDisable) {
       setState(() {
         _isDarkMode = state.isDark;
+        _fontSize = state.fontSize;
       });
     }
   }
