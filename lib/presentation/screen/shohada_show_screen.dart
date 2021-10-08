@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:decorated_icon/decorated_icon.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flare_loading/flare_loading.dart';
 import 'package:flutter/material.dart';
@@ -38,8 +39,8 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
   var borderRadius;
   bool elc = false;
   AnimationController _animationController;
-  Icon iconState =
-      Icon(Icons.favorite_border, size: 30, color: IColors.white85);
+  IconData iconState = Icons.favorite_border;
+  // Icon(Icons.favorite_border, size: 30, color: IColors.white85);
   Color backgroundColor = IColors.purpleCrimson;
   bool _isDarkMode = false;
   double _fontSize = 0;
@@ -216,29 +217,60 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
                   backgroundColor: IColors.brown,
                   targetColor: Colors.white,
                   textColor: Colors.white,
-                  child: IconButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () {
+                  child: InkResponse(
+                    onTap: () {
                       _animationController.reset();
                       _animationController.forward();
                       likeIconState();
                     },
-                    icon: state.liked == "true"
-                        ? iconState = Icon(Icons.favorite,
-                            size: 30, color: IColors.white85)
-                        : iconState = Icon(Icons.favorite_border,
-                            size: 30, color: IColors.white85),
+                    child: DecoratedIcon(
+                      state.liked == "true"
+                          ? iconState = Icons.favorite
+                          : iconState = Icons.favorite_border,
+                      size: 30,
+                      color: IColors.white85,
+                      shadows: [
+                        BoxShadow(
+                          blurRadius: 42.0,
+                          color: Colors.black45,
+                        ),
+                        BoxShadow(
+                          blurRadius: 12.0,
+                          color: Colors.black38,
+                        ),
+                      ],
+                      // padding: EdgeInsets.zero,
+                      // onPressed: () {
+                      //   _animationController.reset();
+                      //   _animationController.forward();
+                      //   likeIconState();
+                      // },
+                      // icon: state.liked == "true"
+                      //     ? iconState = Icon(Icons.favorite,
+                      //         size: 30, color: IColors.white85)
+                      //     : iconState = Icon(Icons.favorite_border,
+                      //         size: 30, color: IColors.white85),
+                    ),
                   ),
                 ),
               ),
-              IconButton(
-                padding: EdgeInsets.zero,
-                onPressed: () => Navigator.pop(context),
-                icon: Icon(
+              InkResponse(
+                onTap: () => Navigator.pop(context),
+                child: DecoratedIcon(
                   Icons.arrow_back,
                   textDirection: TextDirection.rtl,
                   color: IColors.white85,
                   size: 30,
+                  shadows: [
+                    BoxShadow(
+                      blurRadius: 42.0,
+                      color: Colors.black45,
+                    ),
+                    BoxShadow(
+                      blurRadius: 12.0,
+                      color: Colors.black38,
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -340,18 +372,17 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
   }
 
   void likeIconState() {
-    if (iconState.icon == Icons.favorite_border) {
+    if (iconState == Icons.favorite_border) {
       _shohadaDetailsBloc.add(
           LikeShohada(user_id: GlobalWidget.user_id, shohada_id: shohada_id));
       setState(() {
-        iconState = Icon(Icons.favorite, size: 30, color: IColors.white85);
+        iconState = Icons.favorite;
       });
     } else {
       _shohadaDetailsBloc.add(DisLikeShohada(
           user_id: GlobalWidget.user_id, shohada_id: shohada_id));
       setState(() {
-        iconState =
-            Icon(Icons.favorite_border, size: 30, color: IColors.white85);
+        iconState = Icons.favorite_border;
       });
     }
   }
