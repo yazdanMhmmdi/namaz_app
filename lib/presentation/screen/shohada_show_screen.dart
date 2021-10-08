@@ -42,6 +42,7 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
       Icon(Icons.favorite_border, size: 30, color: IColors.white85);
   Color backgroundColor = IColors.purpleCrimson;
   bool _isDarkMode = false;
+  double _fontSize = 0;
 
   @override
   void initState() {
@@ -280,7 +281,7 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
                                       child: Text(
                                           '${state.shohadaDetailsModel.data.id}',
                                           style: TextStyle(
-                                              fontSize: 14,
+                                              fontSize: 14 + _fontSize,
                                               color: IColors.brown,
                                               fontWeight: FontWeight.w700)),
                                     ),
@@ -297,7 +298,7 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 16 + _fontSize,
                                       fontWeight: FontWeight.w700,
                                       color: _isDarkMode
                                           ? IColors.darkWhite70
@@ -310,7 +311,7 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
                             "${state.shohadaDetailsModel.data.titleText}",
                             // overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 16 + _fontSize,
                                 fontWeight: FontWeight.normal,
                                 color: _isDarkMode
                                     ? IColors.darkWhite45
@@ -359,15 +360,18 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
     if (state is ThemeInitial) {
       setState(() {
         _isDarkMode = state.isDark;
+        _fontSize = state.fontSize;
       });
     }
     if (state is DarkModeEnable) {
       setState(() {
         _isDarkMode = state.isDark;
+        _fontSize = state.fontSize;
       });
     } else if (state is DarkModeDisable) {
       setState(() {
         _isDarkMode = state.isDark;
+        _fontSize = state.fontSize;
       });
     }
   }

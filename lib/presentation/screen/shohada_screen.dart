@@ -40,6 +40,7 @@ class _ShohadaScreenState extends State<ShohadaScreen>
   bool searchLoading = true;
   bool emptyList = false;
   bool _isDarkMode = false;
+  double _fontSize = 0;
   @override
   void initState() {
     _shohadaBloc = BlocProvider.of<ShohadaBloc>(context);
@@ -143,6 +144,7 @@ class _ShohadaScreenState extends State<ShohadaScreen>
           shohada_id: state.shohadaModel.shohadaBozorgan[i].id,
           deleteSlidable: false,
           isDarkMode: _isDarkMode,
+          fontSize: _fontSize,
           hash: state.shohadaModel.shohadaBozorgan[i].blurhash,
           searchedText: searchTextController.text,
           onTap: () => Navigator.pushNamed(context, '/shohada_details',
@@ -169,7 +171,7 @@ class _ShohadaScreenState extends State<ShohadaScreen>
                   Text(
                     "${Strings.shohadaBozorgan}",
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 18 + _fontSize,
                       fontWeight: FontWeight.w700,
                       color:
                           _isDarkMode ? IColors.darkWhite70 : IColors.black70,
@@ -279,15 +281,18 @@ class _ShohadaScreenState extends State<ShohadaScreen>
     if (state is ThemeInitial) {
       setState(() {
         _isDarkMode = state.isDark;
+        _fontSize = state.fontSize;
       });
     }
     if (state is DarkModeEnable) {
       setState(() {
         _isDarkMode = state.isDark;
+        _fontSize = state.fontSize;
       });
     } else if (state is DarkModeDisable) {
       setState(() {
         _isDarkMode = state.isDark;
+        _fontSize = state.fontSize;
       });
     }
   }

@@ -20,6 +20,7 @@ class ShohadaItem extends StatelessWidget {
   String searchedText;
   String hash;
   bool isDarkMode = false;
+  double fontSize = 0;
 
   ShohadaItem({
     @required this.title,
@@ -30,6 +31,7 @@ class ShohadaItem extends StatelessWidget {
     this.favoriteBloc,
     @required this.shohada_id,
     @required this.isDarkMode,
+    @required this.fontSize,
     this.searchedText,
   });
   @override
@@ -132,14 +134,14 @@ class ShohadaItem extends StatelessWidget {
     TextStyle posRes = TextStyle(
           backgroundColor: IColors.brown,
           color: isDarkMode ? IColors.darkBlack85 : IColors.white85,
-          fontSize: 14,
+          fontSize: 14 + fontSize,
           fontWeight: FontWeight.w700,
           fontFamily: "IranSans",
         ),
         negRes = TextStyle(
           backgroundColor: Colors.transparent,
           color: IColors.white85,
-          fontSize: 14,
+          fontSize: 14 + fontSize,
           fontWeight: FontWeight.w700,
           fontFamily: "IranSans",
         );
