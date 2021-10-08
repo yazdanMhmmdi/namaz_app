@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:namaz_app/constants/assets.dart';
@@ -9,13 +11,13 @@ import 'package:namaz_app/presentation/widget/my_slide_action.dart';
 class NarrativesItem extends StatelessWidget {
   bool deleteSlidable = false;
   String title, subTitle;
-  String thumbPicture;
   String id;
   Function onTap;
   FavoriteBloc favoriteBloc;
   String searchedText;
   bool isDarkMode = false;
   double fontSize = 0;
+
   NarrativesItem(
       {@required this.deleteSlidable,
       @required this.title,
@@ -26,6 +28,8 @@ class NarrativesItem extends StatelessWidget {
       @required this.fontSize,
       this.favoriteBloc,
       this.searchedText});
+
+  String thumbPicture;
 
   @override
   Widget build(BuildContext context) {

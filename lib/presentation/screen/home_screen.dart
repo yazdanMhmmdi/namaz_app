@@ -16,6 +16,7 @@ import 'package:namaz_app/presentation/tab/settings_tab.dart';
 import 'package:namaz_app/presentation/widget/my_motion_tab_bar.dart';
 import 'package:namaz_app/presentation/widget/no_network_flare.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -79,32 +80,39 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       child: Scaffold(
         backgroundColor:
             _isDarkMode ? IColors.darkBackgroundColor : IColors.lightBrown,
-        body: BlocConsumer<InternetCubit, InternetState>(
-          listener: (context, state) {
-            if (state is InternetConnected) {
-              setState(() {
-                bottomInternetStatus = true;
-              });
-            } else if (state is InternetDisconnected) {
-              setState(() {
-                bottomInternetStatus = false;
-              });
-            }
-          },
-          builder: (context, state) {
-            if (state is InternetConnected) {
-              return getHomeScreenUI();
-            } else if (state is InternetDisconnected) {
-              return NoNetworkFlare(
-                isDarkMode: _isDarkMode,
-              );
-            } else {
-              bottomFailureStatus = false;
-              return NoNetworkFlare(
-                isDarkMode: _isDarkMode,
-              );
-            }
-          },
+        body: ShowCaseWidget(
+          autoPlay: false,
+          autoPlayDelay: Duration(seconds: 3),
+          autoPlayLockEnable: false,
+          builder: Builder(
+            builder: (context) => BlocConsumer<InternetCubit, InternetState>(
+              listener: (context, state) {
+                if (state is InternetConnected) {
+                  setState(() {
+                    bottomInternetStatus = true;
+                  });
+                } else if (state is InternetDisconnected) {
+                  setState(() {
+                    bottomInternetStatus = false;
+                  });
+                }
+              },
+              builder: (context, state) {
+                if (state is InternetConnected) {
+                  return getHomeScreenUI();
+                } else if (state is InternetDisconnected) {
+                  return NoNetworkFlare(
+                    isDarkMode: _isDarkMode,
+                  );
+                } else {
+                  bottomFailureStatus = false;
+                  return NoNetworkFlare(
+                    isDarkMode: _isDarkMode,
+                  );
+                }
+              },
+            ),
+          ),
         ),
         bottomNavigationBar: bottomInternetStatus && bottomFailureStatus
             ? MyMotionTabBar(
