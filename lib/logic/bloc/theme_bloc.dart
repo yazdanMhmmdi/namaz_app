@@ -57,7 +57,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
     double fontSize = 0;
 
     fontSize =
-        (prefs.getDouble('fontSize') == null ? 0 : prefs.getBool('fontSize'));
+        (prefs.getDouble('fontSize') == null ? 0 : prefs.getDouble('fontSize'));
     return fontSize;
   }
 

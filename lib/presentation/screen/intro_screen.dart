@@ -21,8 +21,8 @@ class _IntroScreenState extends State<IntroScreen> {
   @override
   void initState() {
     _themeBloc = BlocProvider.of<ThemeBloc>(context);
-    _themeBloc.add(GetThemeStatusFromLocalStorage()); //initialize dark mode
-    _themeBloc.add(GetThemeStatus()); //get dark mode status
+    _themeBloc.add(GetThemeStatusFromLocalStorage()); //initialize theme
+    _themeBloc.add(GetThemeStatus()); //get theme status
     super.initState();
   }
 

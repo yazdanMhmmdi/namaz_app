@@ -64,6 +64,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
                   blurhash: _model.video[index].blurhash,
                   isPinned: false,
                   isDarkMode: event.isDarkMode,
+                  fontSize: event.fontSize,
                   onTap: () => Navigator.pushNamed(context, '/videos_details',
                       arguments: <String, String>{
                         "video_id": _model.video[index].videoId,
@@ -114,6 +115,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
                 title: _model.ahkam[index].title,
                 deleteSlidable: true,
                 isDarkMode: event.isDarkMode,
+                fontSize: event.fontSize,
               );
             },
           ),
@@ -176,7 +178,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
           list.add(Builder(builder: (context) {
             return ShohadaItem(
               deleteSlidable: true,
-              isDarkMode: event.isDarkMode,
+              isDarkMode: event.isDarkMode, fontSize: event.fontSize,
               hash: _model.shohadaBozorgan[i].blurhash,
               shohada_id: _model.shohadaBozorgan[i].shohadaBozorganId,
               favoriteBloc: this,
