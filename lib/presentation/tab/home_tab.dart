@@ -40,19 +40,6 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
     _homeBloc = BlocProvider.of<HomeBloc>(context);
     _homeBloc.add(GetHomeItemsEvent());
 
-    FeatureDiscovery.clearPreferences(context, const <String>{
-      // Feature ids for every feature that you want to showcase in order.
-      'favorite',
-    });
-    Timer(Duration(seconds: 1), () {
-      FeatureDiscovery.discoverFeatures(
-        context,
-        const <String>{
-          // Feature ids for every feature that you want to showcase in order.
-          'favorite',
-        },
-      );
-    });
     // WidgetsBinding.instance
     //     .addPostFrameCallback((_) => ShowCaseWidget.of(context).startShowCase([
     //           _one,

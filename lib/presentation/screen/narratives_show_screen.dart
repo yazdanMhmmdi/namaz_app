@@ -10,6 +10,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/constants/values.dart';
+import 'package:namaz_app/logic/bloc/showcase_bloc.dart';
 import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/bloc/narratives_details_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
@@ -18,6 +20,8 @@ import 'package:namaz_app/presentation/widget/global_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/no_network_flare.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
+import 'package:namaz_app/presentation/widget/showcase_helper_widget.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class NarrativesShowScreen extends StatefulWidget {
   Map<String, String> args;
@@ -46,6 +50,9 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
   IconData iconState = Icons.favorite_border;
   bool _isDarkMode = false;
   double _fontSize = 0;
+  GlobalKey _one = GlobalKey();
+  ShowcaseBloc _showcaseBloc = new ShowcaseBloc();
+
   @override
   void initState() {
     arguments = widget.args;
@@ -54,9 +61,12 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
 
     _narrativesDetailsBloc = BlocProvider.of<NarrativesDetailsBloc>(context);
     _themeBloc = BlocProvider.of<ThemeBloc>(context);
+
     _narrativesDetailsBloc
         .add(GetNarrativesDetails(narratives_id: narratives_id));
     _themeBloc.add(GetThemeStatus());
+    _showcaseBloc
+        .add(ShowcaseNarrativesDetail(keys: [_one], buildContext: context));
     print(narratives_id);
     super.initState();
   }
@@ -73,17 +83,7 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                     _isDarkMode ? IColors.darkBackgroundColor : Colors.white;
               });
             } else if (state is NarrativesDetailsSuccess) {
-              if (state.featureDiscovery) {
-                Timer(Duration(seconds: 2), () {
-                  FeatureDiscovery.discoverFeatures(
-                    context,
-                    <String>{
-                      // Feature ids for every feature that you want to showcase in order.
-                      Strings.discoverFeatureNarratives,
-                    },
-                  );
-                });
-              }
+              if (state.featureDiscovery) {}
             }
           },
         ),
@@ -94,56 +94,56 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
         )
       ],
       child: Scaffold(
-          backgroundColor:
-              _isDarkMode ? IColors.darkBackgroundColor : backgroundColor,
-          body: BlocConsumer<InternetCubit, InternetState>(
-            listener: (context, state) {
-              if (state is InternetConnected) {
-                setState(() {
-                  backgroundColor = _isDarkMode
-                      ? IColors.darkBackgroundColor
-                      : IColors.purpleCrimson;
-                });
-              } else if (state is InternetDisconnected) {
-                setState(() {
-                  backgroundColor =
-                      _isDarkMode ? IColors.darkBackgroundColor : Colors.white;
-                });
-              }
-            },
-            builder: (context, state) {
-              if (state is InternetConnected) {
-                return BlocBuilder<NarrativesDetailsBloc,
-                    NarrativesDetailsState>(
-                  builder: (context, state) {
-                    if (state is NarrativesDetailsInitial) {
-                      return Container();
-                    } else if (state is NarrativesDetailsLoading) {
-                      return LoadingBar(
-                        color: _isDarkMode
-                            ? IColors.darkLightPink
-                            : IColors.lightBrown,
-                      );
-                    } else if (state is NarrativesDetailsSuccess) {
-                      return getNarrativesShowUI(state);
-                    } else if (state is LikeNarrativesSuccess) {
-                      return getNarrativesShowUI(state);
-                    } else if (state is NarrativesDetailsFailure) {
-                      return ServerFailureFlare(
-                        isDarkMode: _isDarkMode,
-                      );
-                    }
-                  },
-                );
-              } else if (state is InternetDisconnected) {
-                return NoNetworkFlare(
-                  isDarkMode: _isDarkMode,
-                );
-              } else {
-                return Container();
-              }
-            },
-          )),
+        backgroundColor:
+            _isDarkMode ? IColors.darkBackgroundColor : backgroundColor,
+        body: BlocConsumer<InternetCubit, InternetState>(
+          listener: (context, state) {
+            if (state is InternetConnected) {
+              setState(() {
+                backgroundColor = _isDarkMode
+                    ? IColors.darkBackgroundColor
+                    : IColors.purpleCrimson;
+              });
+            } else if (state is InternetDisconnected) {
+              setState(() {
+                backgroundColor =
+                    _isDarkMode ? IColors.darkBackgroundColor : Colors.white;
+              });
+            }
+          },
+          builder: (context, state) {
+            if (state is InternetConnected) {
+              return BlocBuilder<NarrativesDetailsBloc, NarrativesDetailsState>(
+                builder: (context, state) {
+                  if (state is NarrativesDetailsInitial) {
+                    return Container();
+                  } else if (state is NarrativesDetailsLoading) {
+                    return LoadingBar(
+                      color: _isDarkMode
+                          ? IColors.darkLightPink
+                          : IColors.lightBrown,
+                    );
+                  } else if (state is NarrativesDetailsSuccess) {
+                    return getNarrativesShowUI(state);
+                  } else if (state is LikeNarrativesSuccess) {
+                    return getNarrativesShowUI(state);
+                  } else if (state is NarrativesDetailsFailure) {
+                    return ServerFailureFlare(
+                      isDarkMode: _isDarkMode,
+                    );
+                  }
+                },
+              );
+            } else if (state is InternetDisconnected) {
+              return NoNetworkFlare(
+                isDarkMode: _isDarkMode,
+              );
+            } else {
+              return Container();
+            }
+          },
+        ),
+      ),
     );
   }
 
@@ -201,33 +201,19 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              ElasticIn(
-                manualTrigger: true,
-                animate: true,
-                controller: (controller) {
-                  _animationController = controller;
-                },
-                child: DescribedFeatureOverlay(
-                  featureId:
-                      '${Strings.discoverFeatureNarratives}', // Unique id that identifies this overlay.
-                  tapTarget: Icon(Icons
-                      .favorite_border), // The widget that will be displayed as the tap target.
-                  title: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'مورد علاقه ها',
-                    ),
-                  ),
-                  description: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'برای اضافه کردن این حدیث به عنوان مورد علاقه از این دکمه استفاده کنید.',
-                      textAlign: TextAlign.right,
-                    ),
-                  ),
-                  backgroundColor: IColors.brown,
-                  targetColor: Colors.white,
-                  textColor: Colors.white,
+              ShowcaseHelperWidget(
+                text: Strings.showcaseNarrtivesDetailGuide,
+                key: _one,
+                duration: Duration(
+                    milliseconds: Values.showcaseAnimationTransitionSpeed),
+                showcaseBackgroundColor: IColors.white85,
+                fontSize: _fontSize,
+                child: ElasticIn(
+                  manualTrigger: true,
+                  animate: true,
+                  controller: (controller) {
+                    _animationController = controller;
+                  },
                   child: InkResponse(
                     onTap: () {
                       likeOpration();
@@ -451,7 +437,6 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
   @override
   void dispose() {
     _animationController.dispose();
-
     super.dispose();
   }
 

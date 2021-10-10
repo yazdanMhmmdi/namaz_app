@@ -48,7 +48,6 @@ class AhkamItem extends StatelessWidget {
             fontSize: fontSize,
             child: getAhkamItem(context))
         : getAhkamItem(context);
-    ;
   }
 
   Widget getAhkamItem(BuildContext context) {

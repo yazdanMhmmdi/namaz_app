@@ -20,12 +20,12 @@ class ShowcaseBloc extends Bloc<ShowcaseEvent, ShowcaseState> {
   ) async* {
     if (event is ShowcaseSettings) {
       try {
-        // setShowcaseSharedPrefs("showcase_settings", false);
+        await setShowcaseSharedPrefs("showcase_settings", false);
         yield* _runIfShowcaseIsValid("showcase_settings", event);
       } catch (err) {}
     } else if (event is ShowcaseFavorite) {
       try {
-        // await setShowcaseSharedPrefs("showcase_favorite_page", false);
+        await setShowcaseSharedPrefs("showcase_favorite_page", false);
         yield* _runIfShowcaseIsValid("showcase_favorite_page", event);
       } catch (error) {}
     } else if (event is ShowcaseFavoriteItem) {
@@ -33,6 +33,13 @@ class ShowcaseBloc extends Bloc<ShowcaseEvent, ShowcaseState> {
         await setShowcaseSharedPrefs("showcase_favorite_item", false);
         yield* _runIfShowcaseIsValid("showcase_favorite_item", event);
       } catch (error) {}
+    } else if (event is ShowcaseNarrativesDetail) {
+      try {
+        await setShowcaseSharedPrefs("showcase_detail", false);
+        yield* _runIfShowcaseIsValid("showcase_detail", event);
+      } catch (error) {
+        throw Exception();
+      }
     }
   }
 

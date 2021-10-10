@@ -64,4 +64,8 @@ class Strings {
 
   static final String showcaseFavoriteSelectorGuide =
       "از منوی بالا می توانید برای جابجایی بین موضوعات مورد علاقه مختلف استفاده کنید.";
+  static final String showcaseNarrativesDetailGuide =
+      "برای اضافه کردن این حدیث به عنوان مورد علاقه از این دکمه استفاده کنید.";
+  static final String showcaseNarrtivesDetailGuide = " برای اضافه کردن این حدیث به عنوان مورد علاقه و یا حذف کردن از این دکمه استفاده کنید";
 }
+

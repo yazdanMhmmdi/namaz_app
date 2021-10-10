@@ -31,6 +31,7 @@ import 'package:namaz_app/presentation/screen/shohada_show_screen.dart';
 import 'package:namaz_app/presentation/screen/sign_up_screen.dart';
 import 'package:namaz_app/presentation/screen/video_details_screen.dart';
 import 'package:namaz_app/presentation/screen/videos_screen.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppRouter {
@@ -184,9 +185,15 @@ class AppRouter {
                       ),
                       BlocProvider(
                         create: (context) => NarrativesDetailsBloc(),
-                      )
+                      ),
                     ],
-                    child: NarrativesShowScreen(args: args),
+                    child: ShowCaseWidget(
+                        autoPlay: false,
+                        autoPlayDelay: Duration(seconds: 3),
+                        autoPlayLockEnable: false,
+                        builder: Builder(
+                            builder: (context) =>
+                                NarrativesShowScreen(args: args))),
                   ),
                 ));
       case '/shohada_details':
