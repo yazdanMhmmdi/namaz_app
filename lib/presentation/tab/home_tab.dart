@@ -322,6 +322,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                                       });
                                 },
                                 deleteSlidable: false,
+                                needShowcase: false,
                                 title: state.homeModel.narratives[index]
                                     .quoteeTranslation,
                                 subTitle: state.homeModel.narratives[index]
@@ -329,6 +330,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                                 id: state.homeModel.narratives[index].id,
                                 isDarkMode: widget.isDarkMode,
                                 fontSize: widget.fontSize,
+                                itemIndex: index,
                               );
                             },
                           ),

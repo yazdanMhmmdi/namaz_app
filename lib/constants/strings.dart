@@ -55,7 +55,10 @@ class Strings {
   static final String authorCollege = "دانشکده فنی پسران قم";
   static final String pushPinned = "پین شده";
 
-static final String showcaseSwitchGuide = "برای تغییر رنگ برنامه به حالت تیره یا معمولی از این دکمه استفاده کنید.";
-  static final String showcaseFontSizeGuide = "برای تغییر اندازه فونت متن ها در برنامه با استفاده از دکمه + برای بزرگ کردن و از دکمه - برای کوچکتر کردن اندازه متن ها استفاده کنید";
-
+  static final String showcaseSwitchGuide =
+      "برای تغییر رنگ برنامه به حالت تیره یا معمولی از این دکمه استفاده کنید.";
+  static final String showcaseFontSizeGuide =
+      "برای تغییر اندازه فونت متن ها در برنامه با استفاده از دکمه + برای بزرگ کردن و از دکمه - برای کوچکتر کردن اندازه متن ها استفاده کنید";
+  static final String showcaseFavoriteItemGuide =
+      "برای حذف ایتم ها از مورد علاقه ها می توانید هر یک از آیتم ها را به سمت چپ بکشید تا دکمه حذف برای شما ظاهر شود.";
 }

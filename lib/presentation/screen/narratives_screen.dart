@@ -214,12 +214,14 @@ class _NarrativesScreenState extends State<NarrativesScreen>
                                         .narrativesModel.narratives[index].id,
                                   }),
                               deleteSlidable: false,
+                              needShowcase: false,
                               isDarkMode: _isDarkMode,
                               fontSize: _fontSize,
                               title: state.narrativesModel.narratives[index]
                                   .quoteeTranslation,
                               subTitle: state.narrativesModel.narratives[index]
                                   .quoteTranslation,
+                              itemIndex: index,
                             );
                           },
                         ),

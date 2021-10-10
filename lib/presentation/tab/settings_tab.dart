@@ -6,6 +6,7 @@ import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
 import 'package:namaz_app/constants/values.dart';
+import 'package:namaz_app/logic/bloc/showcase_bloc.dart';
 import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/presentation/widget/font_size_button_widget.dart';
 import 'package:namaz_app/presentation/widget/font_size_indicator_widget.dart';
@@ -19,7 +20,9 @@ class SettingsTab extends StatefulWidget {
 
 class _SettingsTabState extends State<SettingsTab> {
   bool _isDarkMode = false;
+  bool _isShowcase = false;
   ThemeBloc _themeBloc;
+  ShowcaseBloc _showcaseBloc;
   double fontSize = 2;
   GlobalKey _one = GlobalKey();
   GlobalKey _two = GlobalKey();
@@ -27,30 +30,35 @@ class _SettingsTabState extends State<SettingsTab> {
   @override
   void initState() {
     _themeBloc = BlocProvider.of<ThemeBloc>(context);
+    _showcaseBloc = BlocProvider.of<ShowcaseBloc>(context);
     _themeBloc.add(GetThemeStatus());
+    _showcaseBloc
+        .add(ShowcaseSettings(keys: [_one, _two], buildContext: context));
     super.initState();
-    //Start showcase view after current widget frames are drawn.
-    Timer(Duration(milliseconds: Values.showcaseAnimationStartSpeed), () {
-      ShowCaseWidget.of(context).startShowCase([
-        _one,
-        _two,
-      ]);
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ThemeBloc, ThemeState>(listener: (context, state) {
-      themeStateFunction(state);
-    }, builder: (cotnext, state) {
-      if (state is ThemeInitial) {
-        return getSettingsUI(isDark: false);
-      } else if (state is DarkModeDisable) {
-        return getSettingsUI(isDark: false);
-      } else if (state is DarkModeEnable) {
-        return getSettingsUI(isDark: true);
-      }
-    });
+    return BlocListener<ShowcaseBloc, ShowcaseState>(
+      listener: (context, state) {
+        if (state is ShowcaseResult) {
+          setState(() {
+            _isShowcase = state.isShowcase;
+          });
+        }
+      },
+      child: BlocConsumer<ThemeBloc, ThemeState>(listener: (context, state) {
+        themeStateFunction(state);
+      }, builder: (cotnext, state) {
+        if (state is ThemeInitial) {
+          return getSettingsUI(isDark: false);
+        } else if (state is DarkModeDisable) {
+          return getSettingsUI(isDark: false);
+        } else if (state is DarkModeEnable) {
+          return getSettingsUI(isDark: true);
+        }
+      }),
+    );
   }
 
   Widget getSettingsUI({bool isDark}) {

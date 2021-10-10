@@ -242,6 +242,8 @@ class _AhkamScreenState extends State<AhkamScreen>
                                 deleteSlidable: false,
                                 isDarkMode: _isDarkMode,
                                 fontSize: _fontSize,
+                                itemIndex: index,
+                                needShowcase: false,
                                 searchedText: "${searchTextController.text}",
                                 onTap: () => Navigator.pushNamed(
                                     context, '/ahkam_show',

@@ -1,12 +1,17 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
+import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/constants/values.dart';
 import 'package:namaz_app/logic/bloc/favorite_bloc.dart';
+import 'package:namaz_app/logic/bloc/showcase_bloc.dart';
 import 'package:namaz_app/presentation/widget/global_widget.dart';
 import 'package:namaz_app/presentation/widget/my_slide_action.dart';
+import 'package:namaz_app/presentation/widget/showcase_helper_widget.dart';
 
 class NarrativesItem extends StatelessWidget {
   bool deleteSlidable = false;
@@ -17,6 +22,10 @@ class NarrativesItem extends StatelessWidget {
   String searchedText;
   bool isDarkMode = false;
   double fontSize = 0;
+  int itemIndex = 0;
+  GlobalKey _one = GlobalKey();
+  ShowcaseBloc _showcaseBloc = ShowcaseBloc();
+  bool needShowcase = false;
 
   NarrativesItem(
       {@required this.deleteSlidable,
@@ -26,13 +35,31 @@ class NarrativesItem extends StatelessWidget {
       @required this.onTap,
       @required this.isDarkMode,
       @required this.fontSize,
+      @required this.itemIndex,
+      @required this.needShowcase,
       this.favoriteBloc,
       this.searchedText});
 
   String thumbPicture;
-
   @override
   Widget build(BuildContext context) {
+    return itemIndex == 0
+        ? ShowcaseHelperWidget(
+            text: Strings.showcaseFavoriteItemGuide,
+            key: _one,
+            duration:
+                Duration(milliseconds: Values.showcaseAnimationTransitionSpeed),
+            showcaseBackgroundColor: IColors.white85,
+            fontSize: fontSize,
+            child: getNarrativesItem(context))
+        : getNarrativesItem(context);
+  }
+
+  Widget getNarrativesItem(BuildContext context) {
+    if (itemIndex == 0 && needShowcase)
+      _showcaseBloc
+          .add(ShowcaseFavoriteItem(keys: [_one], buildContext: context));
+
     return Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,

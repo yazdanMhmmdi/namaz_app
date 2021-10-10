@@ -2,11 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:namaz_app/constants/colors.dart';
+import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/constants/values.dart';
 import 'package:namaz_app/logic/bloc/favorite_bloc.dart';
+import 'package:namaz_app/logic/bloc/showcase_bloc.dart';
 import 'package:namaz_app/networking/api_provider.dart';
 import 'package:namaz_app/presentation/widget/global_widget.dart';
 import 'package:namaz_app/presentation/widget/my_slide_action.dart';
 import 'package:namaz_app/presentation/widget/push_pinned_widget.dart';
+import 'package:namaz_app/presentation/widget/showcase_helper_widget.dart';
 import 'package:octo_image/octo_image.dart';
 
 class VideosItem extends StatelessWidget {
@@ -21,6 +25,10 @@ class VideosItem extends StatelessWidget {
   bool isPinned;
   bool isDarkMode = false;
   double fontSize = 0;
+  int itemIndex = 0;
+  GlobalKey _one = GlobalKey();
+  ShowcaseBloc _showcaseBloc = ShowcaseBloc();
+  bool needShowcase = false;
 
   VideosItem({
     @required this.video_id,
@@ -32,11 +40,30 @@ class VideosItem extends StatelessWidget {
     @required this.isPinned,
     @required this.isDarkMode,
     @required this.fontSize,
+    @required this.itemIndex,
+    @required this.needShowcase,
     this.favoriteBloc,
     this.searchedText,
   });
   @override
   Widget build(BuildContext context) {
+    return itemIndex == 0
+        ? ShowcaseHelperWidget(
+            text: Strings.showcaseFavoriteItemGuide,
+            key: _one,
+            duration:
+                Duration(milliseconds: Values.showcaseAnimationTransitionSpeed),
+            showcaseBackgroundColor: IColors.white85,
+            fontSize: fontSize,
+            child: getVideoItem(context))
+        : getVideoItem(context);
+  }
+
+  Widget getVideoItem(BuildContext context) {
+    if (itemIndex == 0 && needShowcase)
+      _showcaseBloc
+          .add(ShowcaseFavoriteItem(keys: [_one], buildContext: context));
+
     return Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,

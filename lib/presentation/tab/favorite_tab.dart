@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/constants/values.dart';
 import 'package:namaz_app/logic/bloc/favorite_bloc.dart';
+import 'package:namaz_app/logic/bloc/showcase_bloc.dart';
 import 'package:namaz_app/presentation/widget/ahkam_item.dart';
 import 'package:namaz_app/presentation/widget/global_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/marjae_small_item.dart';
 import 'package:namaz_app/presentation/widget/narratives_item.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
+import 'package:namaz_app/presentation/widget/showcase_helper_widget.dart';
 import 'package:namaz_app/presentation/widget/title_selector.dart';
 import 'package:namaz_app/presentation/widget/videos_item.dart';
 
@@ -22,12 +25,18 @@ class FavoriteTab extends StatefulWidget {
 
 class _FavoriteTabState extends State<FavoriteTab> with WidgetsBindingObserver {
   FavoriteBloc _favoriteBloc;
+  ShowcaseBloc _showcaseBloc;
   bool _isDarkMode;
+  double _fontSize = 0;
+  GlobalKey _one = GlobalKey();
   @override
   void initState() {
     _favoriteBloc = BlocProvider.of<FavoriteBloc>(context);
+    _showcaseBloc = BlocProvider.of<ShowcaseBloc>(context);
     _favoriteBloc.add(GetFavoriteItems(user_id: GlobalWidget.user_id));
+    _showcaseBloc.add(ShowcaseFavorite(keys: [_one], buildContext: context));
     _isDarkMode = widget.isDarkMode;
+    _fontSize = widget.fontSize;
     super.initState();
   }
 
@@ -66,16 +75,24 @@ class _FavoriteTabState extends State<FavoriteTab> with WidgetsBindingObserver {
             ),
             BlocProvider.value(
               value: _favoriteBloc,
-              child: TitleSelector(
-                fontSize: widget.fontSize,
-                isDarkMode: _isDarkMode,
-                titles: [
-                  "ویدئو ها",
-                  " احکام مراجع",
-                  "آیات و روایات",
-                  "شهدا و بزرگان",
-                ],
-                firstTab: GlobalWidget.tabNumber,
+              child: ShowcaseHelperWidget(
+                text: Strings.showcaseSwitchGuide,
+                key: _one,
+                duration: Duration(
+                    milliseconds: Values.showcaseAnimationTransitionSpeed),
+                showcaseBackgroundColor: IColors.white85,
+                fontSize: _fontSize,
+                child: TitleSelector(
+                  fontSize: widget.fontSize,
+                  isDarkMode: _isDarkMode,
+                  titles: [
+                    "ویدئو ها",
+                    " احکام مراجع",
+                    "آیات و روایات",
+                    "شهدا و بزرگان",
+                  ],
+                  firstTab: GlobalWidget.tabNumber,
+                ),
               ),
             ),
             SizedBox(

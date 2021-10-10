@@ -6,6 +6,7 @@ import 'package:motion_tab_bar/MotionTabController.dart';
 import 'package:motion_tab_bar/motiontabbar.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/logic/bloc/showcase_bloc.dart';
 import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/bloc/favorite_bloc.dart';
 import 'package:namaz_app/logic/bloc/home_bloc.dart';
@@ -163,8 +164,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 MotionTabBarView(
                     controller: _bottomNavController,
                     children: <Widget>[
-                      BlocProvider(
-                          create: (context) => FavoriteBloc(),
+                      MultiBlocProvider(
+                          providers: [
+                            BlocProvider(
+                              create: (context) => FavoriteBloc(),
+                            ),
+                            BlocProvider.value(
+                              value: BlocProvider.of<ShowcaseBloc>(context),
+                            ),
+                          ],
                           child: FavoriteTab(
                             isDarkMode: _isDarkMode,
                             fontSize: _fontSize,
@@ -180,7 +188,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           fontSize: _fontSize,
                         ),
                       ),
-                      SettingsTab()
+                      MultiBlocProvider(providers: [
+                        BlocProvider.value(
+                            value: BlocProvider.of<ShowcaseBloc>(context))
+                      ], child: SettingsTab())
                     ]),
               ],
             );
