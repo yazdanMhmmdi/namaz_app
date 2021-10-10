@@ -167,7 +167,14 @@ class AppRouter {
                       create: (context) => AhkamDetailsBloc(),
                     ),
                   ],
-                  child: AhkamShowScreen(args: args),
+                  child: ShowCaseWidget(
+                    autoPlay: false,
+                    autoPlayDelay: Duration(seconds: 3),
+                    autoPlayLockEnable: false,
+                    builder: Builder(
+                      builder: (context) => AhkamShowScreen(args: args),
+                    ),
+                  ),
                 ));
 
       case '/narratives_show':

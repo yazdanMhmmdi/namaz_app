@@ -202,7 +202,7 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               ShowcaseHelperWidget(
-                text: Strings.showcaseNarrtivesDetailGuide,
+                text: Strings.showcaseAhkamGuide,
                 key: _one,
                 duration: Duration(
                     milliseconds: Values.showcaseAnimationTransitionSpeed),

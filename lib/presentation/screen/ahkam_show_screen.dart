@@ -12,7 +12,9 @@ import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/constants/values.dart';
 import 'package:namaz_app/logic/bloc/ahkam_details_bloc.dart';
+import 'package:namaz_app/logic/bloc/showcase_bloc.dart';
 import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/networking/api_provider.dart';
@@ -20,6 +22,7 @@ import 'package:namaz_app/presentation/widget/global_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/no_network_flare.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
+import 'package:namaz_app/presentation/widget/showcase_helper_widget.dart';
 import 'package:octo_image/octo_image.dart';
 import 'package:simple_html_css/simple_html_css.dart';
 
@@ -43,6 +46,9 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
   IconData iconState = Icons.favorite_border;
   bool _isDarkMode = false;
   double _fontSize = 0;
+  GlobalKey _one = GlobalKey();
+  ShowcaseBloc _showcaseBloc = new ShowcaseBloc();
+
   @override
   void initState() {
     arguments = widget.args;
@@ -54,6 +60,8 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
     _ahkamDetailsBloc.add(
         GetAhkamDetails(ahkam_id: ahkam_id, user_id: GlobalWidget.user_id));
     _themeBloc.add(GetThemeStatus());
+    _showcaseBloc
+        .add(ShowcaseNarrativesDetail(keys: [_one], buildContext: context));
     super.initState();
   }
 
@@ -227,51 +235,59 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              ElasticIn(
-                manualTrigger: true,
-                animate: true,
-                controller: (controller) {
-                  _animationController = controller;
-                },
-                child: DescribedFeatureOverlay(
-                  featureId:
-                      '${Strings.discoverFeatureAhkam}', // Unique id that identifies this overlay.
-                  tapTarget: Icon(Icons
-                      .favorite_border), // The widget that will be displayed as the tap target.
-                  title: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'مورد علاقه ها',
+              ShowcaseHelperWidget(
+                text: Strings.showcaseNarrtivesDetailGuide,
+                key: _one,
+                duration: Duration(
+                    milliseconds: Values.showcaseAnimationTransitionSpeed),
+                showcaseBackgroundColor: IColors.white85,
+                fontSize: _fontSize,
+                child: ElasticIn(
+                  manualTrigger: true,
+                  animate: true,
+                  controller: (controller) {
+                    _animationController = controller;
+                  },
+                  child: DescribedFeatureOverlay(
+                    featureId:
+                        '${Strings.discoverFeatureAhkam}', // Unique id that identifies this overlay.
+                    tapTarget: Icon(Icons
+                        .favorite_border), // The widget that will be displayed as the tap target.
+                    title: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        'مورد علاقه ها',
+                      ),
                     ),
-                  ),
-                  description: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'برای اضافه کردن این احکام به عنوان مورد علاقه از این دکمه استفاده کنید.',
-                      textAlign: TextAlign.right,
+                    description: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        'برای اضافه کردن این احکام به عنوان مورد علاقه از این دکمه استفاده کنید.',
+                        textAlign: TextAlign.right,
+                      ),
                     ),
-                  ),
-                  backgroundColor: IColors.brown,
-                  targetColor: Colors.white,
-                  textColor: Colors.white,
-                  child: InkResponse(
-                    onTap: () {
-                      _animationController.reset();
-                      _animationController.forward();
-                      likeIconState();
-                    },
-                    child: DecoratedIcon(
-                      state.liked == "true"
-                          ? iconState = Icons.favorite
-                          : iconState = Icons.favorite_border,
-                      size: 30,
-                      color: IColors.white85,
-                      shadows: [
-                        BoxShadow(
-                          blurRadius: 12.0,
-                          color: Colors.black54,
-                        ),
-                      ],
+                    backgroundColor: IColors.brown,
+                    targetColor: Colors.white,
+                    textColor: Colors.white,
+                    child: InkResponse(
+                      onTap: () {
+                        _animationController.reset();
+                        _animationController.forward();
+                        likeIconState();
+                      },
+                      child: DecoratedIcon(
+                        state.liked == "true"
+                            ? iconState = Icons.favorite
+                            : iconState = Icons.favorite_border,
+                        size: 30,
+                        color: IColors.white85,
+                        shadows: [
+                          BoxShadow(
+                            blurRadius: 12.0,
+                            color: Colors.black54,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
