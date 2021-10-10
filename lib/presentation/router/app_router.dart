@@ -247,7 +247,11 @@ class AppRouter {
                     ),
                     BlocProvider(create: (cotnext) => VideoBloc())
                   ],
-                  child: VideosScreen(),
+                  child: ShowCaseWidget(
+                      autoPlay: false,
+                      autoPlayDelay: Duration(seconds: 3),
+                      autoPlayLockEnable: false,
+                      builder: Builder(builder: (context) => VideosScreen())),
                 ));
       case '/videos_details':
         final Map<String, String> args = settings.arguments;

@@ -47,8 +47,7 @@ class _NarrativesScreenState extends State<NarrativesScreen>
     _themeBloc = BlocProvider.of<ThemeBloc>(context);
     _narrativesBloc.add(GetNarrativesList(search: ""));
     _themeBloc.add(GetThemeStatus());
-    _showcaseBloc
-        .add(ShowcaseNarrativesSearch(keys: [_one], buildContext: context));
+    _showcaseBloc.add(ShowcaseSearch(keys: [_one], buildContext: context));
     _controller.addListener(() {
       if (_controller.position.pixels == _controller.position.maxScrollExtent) {
         print('end of page');

@@ -37,10 +37,10 @@ class ShowcaseBloc extends Bloc<ShowcaseEvent, ShowcaseState> {
       try {
         await setShowcaseSharedPrefs("showcase_detail", false);
         yield* _runIfShowcaseIsValid("showcase_detail", event);
-      } catch (error) { 
+      } catch (error) {
         throw Exception();
       }
-    } else if (event is ShowcaseNarrativesSearch) {
+    } else if (event is ShowcaseSearch) {
       try {
         await setShowcaseSharedPrefs("showcase_search", false);
         yield* _runIfShowcaseIsValid("showcase_search", event);

@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/constants/values.dart';
+import 'package:namaz_app/logic/bloc/showcase_bloc.dart';
 import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/bloc/video_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
@@ -16,6 +18,7 @@ import 'package:namaz_app/presentation/widget/no_network_flare.dart';
 import 'package:namaz_app/presentation/widget/search_button_widget.dart';
 import 'package:namaz_app/presentation/widget/search_field_widget.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
+import 'package:namaz_app/presentation/widget/showcase_helper_widget.dart';
 import 'package:namaz_app/presentation/widget/video_item.dart';
 import 'package:namaz_app/presentation/widget/videos_item.dart';
 
@@ -41,11 +44,15 @@ class _VideosScreenState extends State<VideosScreen>
   bool emptyList = false;
   bool _isDarkMode = false;
   double _fontSize = 0;
+  GlobalKey _one = GlobalKey();
+  ShowcaseBloc _showcaseBloc = new ShowcaseBloc();
   @override
   void initState() {
     _videoBloc = BlocProvider.of<VideoBloc>(context);
     _themeBloc = BlocProvider.of<ThemeBloc>(context);
     _videoBloc.add(GetVideoItems(search: ""));
+    _showcaseBloc.add(ShowcaseSearch(keys: [_one], buildContext: context));
+
     _controller.addListener(() {
       if (_controller.position.pixels == _controller.position.maxScrollExtent) {
         print('end of page');
@@ -167,30 +174,38 @@ class _VideosScreenState extends State<VideosScreen>
                       ),
                     ),
                   ),
-                  SearchButtonWidget(
-                      isSearching: isForward,
-                      onTap: !_clickProtectorSearch
-                          ? null
-                          : () {
-                              _clickProtectorSearch = false;
-                              Timer(Duration(milliseconds: 1000), () {
-                                _clickProtectorSearch = true;
-                              });
-                              setState(() {
-                                if (!isForward) {
-                                  animationController.forward();
-                                  isForward = true;
-                                } else {
-                                  animationController.reverse();
-                                  Timer(Duration(milliseconds: 1000), () {
-                                    isForward = false;
-                                    searchTextController.text = "";
-                                    _videoBloc.add(SearchVideoItems(
-                                        search: searchTextController.text));
-                                  });
-                                }
-                              });
-                            }),
+                  ShowcaseHelperWidget(
+                    text: Strings.showcaseVideoSearchGuide,
+                    key: _one,
+                    duration: Duration(
+                        milliseconds: Values.showcaseAnimationTransitionSpeed),
+                    showcaseBackgroundColor: IColors.white85,
+                    fontSize: _fontSize,
+                    child: SearchButtonWidget(
+                        isSearching: isForward,
+                        onTap: !_clickProtectorSearch
+                            ? null
+                            : () {
+                                _clickProtectorSearch = false;
+                                Timer(Duration(milliseconds: 1000), () {
+                                  _clickProtectorSearch = true;
+                                });
+                                setState(() {
+                                  if (!isForward) {
+                                    animationController.forward();
+                                    isForward = true;
+                                  } else {
+                                    animationController.reverse();
+                                    Timer(Duration(milliseconds: 1000), () {
+                                      isForward = false;
+                                      searchTextController.text = "";
+                                      _videoBloc.add(SearchVideoItems(
+                                          search: searchTextController.text));
+                                    });
+                                  }
+                                });
+                              }),
+                  ),
                 ],
               ),
             ),
