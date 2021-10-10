@@ -38,7 +38,7 @@ class AhkamItem extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return itemIndex == 0
+    return itemIndex == 0 && needShowcase
         ? ShowcaseHelperWidget(
             text: Strings.showcaseFavoriteItemGuide,
             key: _one,
