@@ -437,6 +437,7 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
   @override
   void dispose() {
     _animationController.dispose();
+    _showcaseBloc.close();
     super.dispose();
   }
 

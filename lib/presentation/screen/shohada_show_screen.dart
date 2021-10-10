@@ -12,6 +12,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/constants/values.dart';
+import 'package:namaz_app/logic/bloc/showcase_bloc.dart';
 import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/bloc/shohada_details_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
@@ -20,6 +22,7 @@ import 'package:namaz_app/presentation/widget/global_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/no_network_flare.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
+import 'package:namaz_app/presentation/widget/showcase_helper_widget.dart';
 import 'package:octo_image/octo_image.dart';
 
 class ShohadaShowScreen extends StatefulWidget {
@@ -44,6 +47,8 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
   Color backgroundColor = IColors.purpleCrimson;
   bool _isDarkMode = false;
   double _fontSize = 0;
+  GlobalKey _one = GlobalKey();
+  ShowcaseBloc _showcaseBloc = new ShowcaseBloc();
 
   @override
   void initState() {
@@ -56,6 +61,8 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
     _themeBloc = BlocProvider.of<ThemeBloc>(context);
     _shohadaDetailsBloc.add(GetShohadaDetails(shohada_id: shohada_id));
     _themeBloc.add(GetThemeStatus());
+    _showcaseBloc
+        .add(ShowcaseNarrativesDetail(keys: [_one], buildContext: context));
     super.initState();
   }
 
@@ -190,62 +197,70 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              ElasticIn(
-                manualTrigger: true,
-                animate: true,
-                controller: (controller) {
-                  _animationController = controller;
-                },
-                child: DescribedFeatureOverlay(
-                  featureId:
-                      '${Strings.discoverFeatureShohada}', // Unique id that identifies this overlay.
-                  tapTarget: Icon(Icons
-                      .favorite_border), // The widget that will be displayed as the tap target.
-                  title: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'مورد علاقه ها',
+              ShowcaseHelperWidget(
+                text: Strings.showcaseShohadaDetailGuide,
+                key: _one,
+                duration: Duration(
+                    milliseconds: Values.showcaseAnimationTransitionSpeed),
+                showcaseBackgroundColor: IColors.white85,
+                fontSize: _fontSize,
+                child: ElasticIn(
+                  manualTrigger: true,
+                  animate: true,
+                  controller: (controller) {
+                    _animationController = controller;
+                  },
+                  child: DescribedFeatureOverlay(
+                    featureId:
+                        '${Strings.discoverFeatureShohada}', // Unique id that identifies this overlay.
+                    tapTarget: Icon(Icons
+                        .favorite_border), // The widget that will be displayed as the tap target.
+                    title: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        'مورد علاقه ها',
+                      ),
                     ),
-                  ),
-                  description: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'برای اضافه کردن این موضوع به عنوان مورد علاقه از این دکمه استفاده کنید.',
-                      textAlign: TextAlign.right,
+                    description: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        'برای اضافه کردن این موضوع به عنوان مورد علاقه از این دکمه استفاده کنید.',
+                        textAlign: TextAlign.right,
+                      ),
                     ),
-                  ),
-                  backgroundColor: IColors.brown,
-                  targetColor: Colors.white,
-                  textColor: Colors.white,
-                  child: InkResponse(
-                    onTap: () {
-                      _animationController.reset();
-                      _animationController.forward();
-                      likeIconState();
-                    },
-                    child: DecoratedIcon(
-                      state.liked == "true"
-                          ? iconState = Icons.favorite
-                          : iconState = Icons.favorite_border,
-                      size: 30,
-                      color: IColors.white85,
-                      shadows: [
-                        BoxShadow(
-                          blurRadius: 12.0,
-                          color: Colors.black54,
-                        ),
-                      ],
-                      // padding: EdgeInsets.zero,
-                      // onPressed: () {
-                      //   _animationController.reset();
-                      //   _animationController.forward();
-                      //   likeIconState();
-                      // },
-                      // icon: state.liked == "true"
-                      //     ? iconState = Icon(Icons.favorite,
-                      //         size: 30, color: IColors.white85)
-                      //     : iconState = Icon(Icons.favorite_border,
-                      //         size: 30, color: IColors.white85),
+                    backgroundColor: IColors.brown,
+                    targetColor: Colors.white,
+                    textColor: Colors.white,
+                    child: InkResponse(
+                      onTap: () {
+                        _animationController.reset();
+                        _animationController.forward();
+                        likeIconState();
+                      },
+                      child: DecoratedIcon(
+                        state.liked == "true"
+                            ? iconState = Icons.favorite
+                            : iconState = Icons.favorite_border,
+                        size: 30,
+                        color: IColors.white85,
+                        shadows: [
+                          BoxShadow(
+                            blurRadius: 12.0,
+                            color: Colors.black54,
+                          ),
+                        ],
+                        // padding: EdgeInsets.zero,
+                        // onPressed: () {
+                        //   _animationController.reset();
+                        //   _animationController.forward();
+                        //   likeIconState();
+                        // },
+                        // icon: state.liked == "true"
+                        //     ? iconState = Icon(Icons.favorite,
+                        //         size: 30, color: IColors.white85)
+                        //     : iconState = Icon(Icons.favorite_border,
+                        //         size: 30, color: IColors.white85),
+                      ),
                     ),
                   ),
                 ),
@@ -355,7 +370,7 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
   @override
   void dispose() {
     _animationController.dispose();
-
+    _showcaseBloc.close();
     super.dispose();
   }
 

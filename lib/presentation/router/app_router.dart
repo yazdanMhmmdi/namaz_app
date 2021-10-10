@@ -211,7 +211,14 @@ class AppRouter {
                       create: (context) => ShohadaDetailsBloc(),
                     )
                   ],
-                  child: ShohadaShowScreen(args: args),
+                  child: ShowCaseWidget(
+                    autoPlay: false,
+                    autoPlayDelay: Duration(seconds: 3),
+                    autoPlayLockEnable: false,
+                    builder: Builder(
+                      builder: (context) => ShohadaShowScreen(args: args),
+                    ),
+                  ),
                 ));
       case '/videos':
         final Map<String, String> args = settings.arguments;

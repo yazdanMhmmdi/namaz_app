@@ -67,5 +67,7 @@ class Strings {
   static final String showcaseNarrativesDetailGuide =
       "برای اضافه کردن این حدیث به عنوان مورد علاقه از این دکمه استفاده کنید.";
   static final String showcaseNarrtivesDetailGuide = " برای اضافه کردن این حدیث به عنوان مورد علاقه و یا حذف کردن از این دکمه استفاده کنید";
+  static final String showcaseShohadaDetailGuide = " برای اضافه کردن این سخن به عنوان مورد علاقه و یا حذف کردن از این دکمه استفاده کنید";
+
 }
 
