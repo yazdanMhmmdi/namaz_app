@@ -72,4 +72,12 @@ class Strings {
       " برای اضافه کردن این سخن به عنوان مورد علاقه و یا حذف کردن از این دکمه استفاده کنید";
   static final String showcaseAhkamGuide =
       " برای اضافه کردن این احکام به عنوان مورد علاقه و یا حذف کردن از این دکمه استفاده کنید";
+  static final String showcaseNarrtivesSearchGuide =
+      "برای جستجو بین متن و اسامی داخل آیات از این دکمه استفاده کنید";
+  static final String showcaseVideoSearchGuide =
+      "برای جستجو ویدئو از این دکمه استفاده کنید";
+  static final String showcaseAhkamSearchGuide =
+      "برای جستجو احکام از این دکمه استفاده کنید";
+  static final String showcaseShohadaSearchGuide =
+      "برای جستجو بین اسامی شهدا از این دکمه استفاده کنید";
 }

@@ -133,7 +133,14 @@ class AppRouter {
                       create: (context) => NarrativesBloc(),
                     )
                   ],
-                  child: NarrativesScreen(),
+                  child: ShowCaseWidget(
+                    autoPlay: false,
+                    autoPlayDelay: Duration(seconds: 3),
+                    autoPlayLockEnable: false,
+                    builder: Builder(
+                      builder: (context) => NarrativesScreen(),
+                    ),
+                  ),
                 ));
       case '/ahkam':
         final Map<String, String> args = settings.arguments;

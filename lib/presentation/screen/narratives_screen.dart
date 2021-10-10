@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/constants/values.dart';
+import 'package:namaz_app/logic/bloc/showcase_bloc.dart';
 import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/bloc/narratives_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
@@ -14,6 +16,7 @@ import 'package:namaz_app/presentation/widget/no_network_flare.dart';
 import 'package:namaz_app/presentation/widget/search_button_widget.dart';
 import 'package:namaz_app/presentation/widget/search_field_widget.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
+import 'package:namaz_app/presentation/widget/showcase_helper_widget.dart';
 
 class NarrativesScreen extends StatefulWidget {
   @override
@@ -36,12 +39,16 @@ class _NarrativesScreenState extends State<NarrativesScreen>
   bool emptyList = false;
   bool _isDarkMode = false;
   double _fontSize = 0;
+  GlobalKey _one = GlobalKey();
+  ShowcaseBloc _showcaseBloc = new ShowcaseBloc();
   @override
   void initState() {
     _narrativesBloc = BlocProvider.of<NarrativesBloc>(context);
     _themeBloc = BlocProvider.of<ThemeBloc>(context);
     _narrativesBloc.add(GetNarrativesList(search: ""));
     _themeBloc.add(GetThemeStatus());
+    _showcaseBloc
+        .add(ShowcaseNarrativesSearch(keys: [_one], buildContext: context));
     _controller.addListener(() {
       if (_controller.position.pixels == _controller.position.maxScrollExtent) {
         print('end of page');
@@ -151,30 +158,38 @@ class _NarrativesScreenState extends State<NarrativesScreen>
                           _isDarkMode ? IColors.darkWhite70 : IColors.black70,
                     ),
                   ),
-                  SearchButtonWidget(
-                      isSearching: isForward,
-                      onTap: !_clickProtectorSearch
-                          ? null
-                          : () {
-                              _clickProtectorSearch = false;
-                              Timer(Duration(milliseconds: 1000), () {
-                                _clickProtectorSearch = true;
-                              });
-                              setState(() {
-                                if (!isForward) {
-                                  animationController.forward();
-                                  isForward = true;
-                                } else {
-                                  animationController.reverse();
-                                  Timer(Duration(milliseconds: 1000), () {
-                                    isForward = false;
-                                    searchTextController.text = "";
-                                    _narrativesBloc.add(SearchNarrativesItems(
-                                        search: searchTextController.text));
-                                  });
-                                }
-                              });
-                            }),
+                  ShowcaseHelperWidget(
+                    text: Strings.showcaseNarrtivesSearchGuide,
+                    key: _one,
+                    duration: Duration(
+                        milliseconds: Values.showcaseAnimationTransitionSpeed),
+                    showcaseBackgroundColor: IColors.white85,
+                    fontSize: _fontSize,
+                    child: SearchButtonWidget(
+                        isSearching: isForward,
+                        onTap: !_clickProtectorSearch
+                            ? null
+                            : () {
+                                _clickProtectorSearch = false;
+                                Timer(Duration(milliseconds: 1000), () {
+                                  _clickProtectorSearch = true;
+                                });
+                                setState(() {
+                                  if (!isForward) {
+                                    animationController.forward();
+                                    isForward = true;
+                                  } else {
+                                    animationController.reverse();
+                                    Timer(Duration(milliseconds: 1000), () {
+                                      isForward = false;
+                                      searchTextController.text = "";
+                                      _narrativesBloc.add(SearchNarrativesItems(
+                                          search: searchTextController.text));
+                                    });
+                                  }
+                                });
+                              }),
+                  ),
                 ],
               ),
             ),

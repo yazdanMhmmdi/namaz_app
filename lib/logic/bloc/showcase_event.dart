@@ -38,3 +38,11 @@ class ShowcaseNarrativesDetail extends ShowcaseEvent {
   @override
   List<Object> get props => [this.keys, this.buildContext];
 }
+
+class ShowcaseNarrativesSearch extends ShowcaseEvent {
+  List<GlobalKey<State<StatefulWidget>>> keys;
+  BuildContext buildContext;
+  ShowcaseNarrativesSearch({@required this.keys, @required this.buildContext});
+  @override
+  List<Object> get props => [this.keys, this.buildContext];
+}
