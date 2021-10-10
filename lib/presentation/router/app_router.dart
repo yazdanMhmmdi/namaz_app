@@ -116,7 +116,14 @@ class AppRouter {
                       create: (context) => ShohadaBloc(),
                     )
                   ],
-                  child: ShohadaScreen(),
+                  child: ShowCaseWidget(
+                    autoPlay: false,
+                    autoPlayDelay: Duration(seconds: 3),
+                    autoPlayLockEnable: false,
+                    builder: Builder(
+                      builder: (context) => ShohadaScreen(),
+                    ),
+                  ),
                 ));
 
       case '/narratives':
