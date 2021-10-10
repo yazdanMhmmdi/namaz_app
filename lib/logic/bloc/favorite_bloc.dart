@@ -26,7 +26,6 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   FavoriteBloc() : super(FavoriteInitial());
   FavoriteRepository _repository = new FavoriteRepository();
   FavoriteModel _model;
-  ShowcaseBloc _showcaseBloc = new ShowcaseBloc();
 
   @override
   Stream<FavoriteState> mapEventToState(
@@ -61,30 +60,27 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
               padding: EdgeInsets.symmetric(horizontal: 16),
               itemCount: _model.video.length,
               itemBuilder: (context, index) {
-                return BlocProvider.value(
-                  value: _showcaseBloc,
-                  child: VideosItem(
-                    video_id: _model.video[index].videoId,
-                    favoriteBloc: this,
-                    blurhash: _model.video[index].blurhash,
-                    isPinned: false,
-                    isDarkMode: event.isDarkMode,
-                    fontSize: event.fontSize,
-                    itemIndex: index,
-                    needShowcase: true,
-                    onTap: () => Navigator.pushNamed(context, '/videos_details',
-                        arguments: <String, String>{
-                          "video_id": _model.video[index].videoId,
-                        }).then((value) {
-                      this.add(GetFavoriteItems(
-                        user_id: GlobalWidget.user_id,
-                      ));
-                      GlobalWidget.tabNumber = 1;
-                    }),
-                    deleteSlidable: true,
-                    title: _model.video[index].title,
-                    thumbnail: _model.video[index].thumbnail,
-                  ),
+                return VideosItem(
+                  video_id: _model.video[index].videoId,
+                  favoriteBloc: this,
+                  blurhash: _model.video[index].blurhash,
+                  isPinned: false,
+                  isDarkMode: event.isDarkMode,
+                  fontSize: event.fontSize,
+                  itemIndex: index,
+                  needShowcase: true,
+                  onTap: () => Navigator.pushNamed(context, '/videos_details',
+                      arguments: <String, String>{
+                        "video_id": _model.video[index].videoId,
+                      }).then((value) {
+                    this.add(GetFavoriteItems(
+                      user_id: GlobalWidget.user_id,
+                    ));
+                    GlobalWidget.tabNumber = 1;
+                  }),
+                  deleteSlidable: true,
+                  title: _model.video[index].title,
+                  thumbnail: _model.video[index].thumbnail,
                 );
               },
             ),
@@ -108,27 +104,24 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
             padding: EdgeInsets.symmetric(horizontal: 16),
             itemCount: _model.ahkam.length,
             itemBuilder: (context, index) {
-              return BlocProvider.value(
-                value: _showcaseBloc,
-                child: AhkamItem(
-                  id: _model.ahkam[index].ahkamId,
-                  favoriteBloc: this,
-                  ahkamNumber: _model.ahkam[index].ahkamNumber,
-                  itemIndex: index,
-                  needShowcase: true,
-                  onTap: () => Navigator.pushNamed(context, '/ahkam_show',
-                      arguments: <String, String>{
-                        "ahkam_id": _model.ahkam[index].ahkamId,
-                        "prevScreen": "favorite",
-                      }).then((value) {
-                    this.add(GetFavoriteItems(user_id: GlobalWidget.user_id));
-                    GlobalWidget.tabNumber = 2;
-                  }),
-                  title: _model.ahkam[index].title,
-                  deleteSlidable: true,
-                  isDarkMode: event.isDarkMode,
-                  fontSize: event.fontSize,
-                ),
+              return AhkamItem(
+                id: _model.ahkam[index].ahkamId,
+                favoriteBloc: this,
+                ahkamNumber: _model.ahkam[index].ahkamNumber,
+                itemIndex: index,
+                needShowcase: true,
+                onTap: () => Navigator.pushNamed(context, '/ahkam_show',
+                    arguments: <String, String>{
+                      "ahkam_id": _model.ahkam[index].ahkamId,
+                      "prevScreen": "favorite",
+                    }).then((value) {
+                  this.add(GetFavoriteItems(user_id: GlobalWidget.user_id));
+                  GlobalWidget.tabNumber = 2;
+                }),
+                title: _model.ahkam[index].title,
+                deleteSlidable: true,
+                isDarkMode: event.isDarkMode,
+                fontSize: event.fontSize,
               );
             },
           ),
@@ -152,30 +145,26 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
             itemCount: _model.narratives.length,
             itemBuilder: (context, index) {
               {
-                return BlocProvider.value(
-                  value: _showcaseBloc,
-                  child: NarrativesItem(
-                    id: _model.narratives[index].narrativesId,
-                    subTitle: _model.narratives[index].quoteTranslation,
-                    title: _model.narratives[index].quoteeTranslation,
-                    deleteSlidable: true,
-                    favoriteBloc: this,
-                    isDarkMode: event.isDarkMode,
-                    fontSize: event.fontSize,
-                    itemIndex: index,
-                    needShowcase: true,
-                    onTap: () {
-                      Navigator.pushNamed(context, '/narratives_show',
-                          arguments: <String, String>{
-                            "narratives_id":
-                                _model.narratives[index].narrativesId,
-                          }).then((value) {
-                        this.add(
-                            GetFavoriteItems(user_id: GlobalWidget.user_id));
-                        GlobalWidget.tabNumber = 3;
-                      });
-                    },
-                  ),
+                return NarrativesItem(
+                  id: _model.narratives[index].narrativesId,
+                  subTitle: _model.narratives[index].quoteTranslation,
+                  title: _model.narratives[index].quoteeTranslation,
+                  deleteSlidable: true,
+                  favoriteBloc: this,
+                  isDarkMode: event.isDarkMode,
+                  fontSize: event.fontSize,
+                  itemIndex: index,
+                  needShowcase: true,
+                  onTap: () {
+                    Navigator.pushNamed(context, '/narratives_show',
+                        arguments: <String, String>{
+                          "narratives_id":
+                              _model.narratives[index].narrativesId,
+                        }).then((value) {
+                      this.add(GetFavoriteItems(user_id: GlobalWidget.user_id));
+                      GlobalWidget.tabNumber = 3;
+                    });
+                  },
                 );
               }
             },
@@ -287,7 +276,6 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
 
   @override
   Future<void> close() {
-    _showcaseBloc.close();
     return super.close();
   }
 }
