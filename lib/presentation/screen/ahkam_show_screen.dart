@@ -61,7 +61,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
         GetAhkamDetails(ahkam_id: ahkam_id, user_id: GlobalWidget.user_id));
     _themeBloc.add(GetThemeStatus());
     _showcaseBloc
-        .add(ShowcaseNarrativesDetail(keys: [_one], buildContext: context));
+        .add(ShowcaseDetail(keys: [_one], buildContext: context));
     super.initState();
   }
 

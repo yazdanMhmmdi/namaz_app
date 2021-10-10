@@ -65,8 +65,7 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
     _narrativesDetailsBloc
         .add(GetNarrativesDetails(narratives_id: narratives_id));
     _themeBloc.add(GetThemeStatus());
-    _showcaseBloc
-        .add(ShowcaseNarrativesDetail(keys: [_one], buildContext: context));
+    _showcaseBloc.add(ShowcaseDetail(keys: [_one], buildContext: context));
     print(narratives_id);
     super.initState();
   }

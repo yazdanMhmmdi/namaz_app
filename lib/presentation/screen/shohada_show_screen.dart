@@ -61,8 +61,7 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
     _themeBloc = BlocProvider.of<ThemeBloc>(context);
     _shohadaDetailsBloc.add(GetShohadaDetails(shohada_id: shohada_id));
     _themeBloc.add(GetThemeStatus());
-    _showcaseBloc
-        .add(ShowcaseNarrativesDetail(keys: [_one], buildContext: context));
+    _showcaseBloc.add(ShowcaseDetail(keys: [_one], buildContext: context));
     super.initState();
   }
 

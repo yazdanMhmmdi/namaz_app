@@ -31,10 +31,10 @@ class ShowcaseFavoriteItem extends ShowcaseEvent {
   List<Object> get props => [this.keys, this.buildContext];
 }
 
-class ShowcaseNarrativesDetail extends ShowcaseEvent {
+class ShowcaseDetail extends ShowcaseEvent {
   List<GlobalKey<State<StatefulWidget>>> keys;
   BuildContext buildContext;
-  ShowcaseNarrativesDetail({@required this.keys, @required this.buildContext});
+  ShowcaseDetail({@required this.keys, @required this.buildContext});
   @override
   List<Object> get props => [this.keys, this.buildContext];
 }

@@ -33,7 +33,7 @@ class ShowcaseBloc extends Bloc<ShowcaseEvent, ShowcaseState> {
         await setShowcaseSharedPrefs("showcase_favorite_item", false);
         yield* _runIfShowcaseIsValid("showcase_favorite_item", event);
       } catch (error) {}
-    } else if (event is ShowcaseNarrativesDetail) {
+    } else if (event is ShowcaseDetail) {
       try {
         await setShowcaseSharedPrefs("showcase_detail", false);
         yield* _runIfShowcaseIsValid("showcase_detail", event);
