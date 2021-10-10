@@ -76,7 +76,7 @@ class _FavoriteTabState extends State<FavoriteTab> with WidgetsBindingObserver {
             BlocProvider.value(
               value: _favoriteBloc,
               child: ShowcaseHelperWidget(
-                text: Strings.showcaseSwitchGuide,
+                text: Strings.showcaseFavoriteSelectorGuide,
                 key: _one,
                 duration: Duration(
                     milliseconds: Values.showcaseAnimationTransitionSpeed),
