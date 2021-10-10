@@ -5,7 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/constants/values.dart';
 import 'package:namaz_app/logic/bloc/ahkam_bloc.dart';
+import 'package:namaz_app/logic/bloc/showcase_bloc.dart';
 import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
 import 'package:namaz_app/presentation/widget/ahkam_item.dart';
@@ -17,6 +19,7 @@ import 'package:namaz_app/presentation/widget/search_button_widget.dart';
 import 'package:namaz_app/presentation/widget/search_field_widget.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 import 'package:namaz_app/presentation/widget/shohada_item.dart';
+import 'package:namaz_app/presentation/widget/showcase_helper_widget.dart';
 import 'package:namaz_app/presentation/widget/videos_item.dart';
 
 class AhkamScreen extends StatefulWidget {
@@ -47,6 +50,8 @@ class _AhkamScreenState extends State<AhkamScreen>
   bool emptyList = false;
   bool _isDarkMode = false;
   double _fontSize = 0;
+  GlobalKey _one = GlobalKey();
+  ShowcaseBloc _showcaseBloc = new ShowcaseBloc();
   @override
   void initState() {
     arguments = widget.args;
@@ -55,6 +60,8 @@ class _AhkamScreenState extends State<AhkamScreen>
     _themeBloc = BlocProvider.of<ThemeBloc>(context);
     _ahkamBloc.add(GetAhkamItems(marjae_id: marjae_id, search: ""));
     _themeBloc.add(GetThemeStatus());
+    _showcaseBloc.add(ShowcaseSearch(keys: [_one], buildContext: context));
+
     _controller.addListener(() {
       if (_controller.position.pixels == _controller.position.maxScrollExtent) {
         print('end of page ${searchTextController.text}');
@@ -170,31 +177,39 @@ class _AhkamScreenState extends State<AhkamScreen>
                     ),
                   ),
 
-                  SearchButtonWidget(
-                      isSearching: isForward,
-                      onTap: !_clickProtectorSearch
-                          ? null
-                          : () {
-                              _clickProtectorSearch = false;
-                              Timer(Duration(milliseconds: 1000), () {
-                                _clickProtectorSearch = true;
-                              });
-                              setState(() {
-                                if (!isForward) {
-                                  animationController.forward();
-                                  isForward = true;
-                                } else {
-                                  animationController.reverse();
-                                  Timer(Duration(milliseconds: 1000), () {
-                                    isForward = false;
-                                    searchTextController.text = "";
-                                    _ahkamBloc.add(SearchAhkamItems(
-                                        marjae_id: marjae_id,
-                                        search: searchTextController.text));
-                                  });
-                                }
-                              });
-                            }),
+                  ShowcaseHelperWidget(
+                    text: Strings.showcaseAhkamSearchGuide,
+                    key: _one,
+                    duration: Duration(
+                        milliseconds: Values.showcaseAnimationTransitionSpeed),
+                    showcaseBackgroundColor: IColors.white85,
+                    fontSize: _fontSize,
+                    child: SearchButtonWidget(
+                        isSearching: isForward,
+                        onTap: !_clickProtectorSearch
+                            ? null
+                            : () {
+                                _clickProtectorSearch = false;
+                                Timer(Duration(milliseconds: 1000), () {
+                                  _clickProtectorSearch = true;
+                                });
+                                setState(() {
+                                  if (!isForward) {
+                                    animationController.forward();
+                                    isForward = true;
+                                  } else {
+                                    animationController.reverse();
+                                    Timer(Duration(milliseconds: 1000), () {
+                                      isForward = false;
+                                      searchTextController.text = "";
+                                      _ahkamBloc.add(SearchAhkamItems(
+                                          marjae_id: marjae_id,
+                                          search: searchTextController.text));
+                                    });
+                                  }
+                                });
+                              }),
+                  ),
 
                   // Container(
                   //   width: 25,

@@ -157,7 +157,14 @@ class AppRouter {
                       create: (context) => AhkamBloc(),
                     )
                   ],
-                  child: AhkamScreen(args: args),
+                  child: ShowCaseWidget(
+                    autoPlay: false,
+                    autoPlayDelay: Duration(seconds: 3),
+                    autoPlayLockEnable: false,
+                    builder: Builder(
+                      builder: (context) => AhkamScreen(args: args),
+                    ),
+                  ),
                 ));
       case '/ahkam_show':
         final Map<String, String> args = settings.arguments;
