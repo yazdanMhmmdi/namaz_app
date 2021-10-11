@@ -77,17 +77,7 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
                     _isDarkMode ? IColors.darkBackgroundColor : Colors.white;
               });
             } else if (state is ShohadaDetailsSuccess) {
-              if (state.featureDiscovery) {
-                Timer(Duration(seconds: 2), () {
-                  FeatureDiscovery.discoverFeatures(
-                    context,
-                    <String>{
-                      // Feature ids for every feature that you want to showcase in order.
-                      Strings.discoverFeatureShohada,
-                    },
-                  );
-                });
-              }
+              if (state.featureDiscovery) {}
             }
           },
         ),
@@ -209,57 +199,35 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
                   controller: (controller) {
                     _animationController = controller;
                   },
-                  child: DescribedFeatureOverlay(
-                    featureId:
-                        '${Strings.discoverFeatureShohada}', // Unique id that identifies this overlay.
-                    tapTarget: Icon(Icons
-                        .favorite_border), // The widget that will be displayed as the tap target.
-                    title: Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        'مورد علاقه ها',
-                      ),
-                    ),
-                    description: Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        'برای اضافه کردن این موضوع به عنوان مورد علاقه از این دکمه استفاده کنید.',
-                        textAlign: TextAlign.right,
-                      ),
-                    ),
-                    backgroundColor: IColors.brown,
-                    targetColor: Colors.white,
-                    textColor: Colors.white,
-                    child: InkResponse(
-                      onTap: () {
-                        _animationController.reset();
-                        _animationController.forward();
-                        likeIconState();
-                      },
-                      child: DecoratedIcon(
-                        state.liked == "true"
-                            ? iconState = Icons.favorite
-                            : iconState = Icons.favorite_border,
-                        size: 30,
-                        color: IColors.white85,
-                        shadows: [
-                          BoxShadow(
-                            blurRadius: 12.0,
-                            color: Colors.black54,
-                          ),
-                        ],
-                        // padding: EdgeInsets.zero,
-                        // onPressed: () {
-                        //   _animationController.reset();
-                        //   _animationController.forward();
-                        //   likeIconState();
-                        // },
-                        // icon: state.liked == "true"
-                        //     ? iconState = Icon(Icons.favorite,
-                        //         size: 30, color: IColors.white85)
-                        //     : iconState = Icon(Icons.favorite_border,
-                        //         size: 30, color: IColors.white85),
-                      ),
+                  child: InkResponse(
+                    onTap: () {
+                      _animationController.reset();
+                      _animationController.forward();
+                      likeIconState();
+                    },
+                    child: DecoratedIcon(
+                      state.liked == "true"
+                          ? iconState = Icons.favorite
+                          : iconState = Icons.favorite_border,
+                      size: 30,
+                      color: IColors.white85,
+                      shadows: [
+                        BoxShadow(
+                          blurRadius: 12.0,
+                          color: Colors.black54,
+                        ),
+                      ],
+                      // padding: EdgeInsets.zero,
+                      // onPressed: () {
+                      //   _animationController.reset();
+                      //   _animationController.forward();
+                      //   likeIconState();
+                      // },
+                      // icon: state.liked == "true"
+                      //     ? iconState = Icon(Icons.favorite,
+                      //         size: 30, color: IColors.white85)
+                      //     : iconState = Icon(Icons.favorite_border,
+                      //         size: 30, color: IColors.white85),
                     ),
                   ),
                 ),

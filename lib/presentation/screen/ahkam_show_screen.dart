@@ -60,8 +60,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
     _ahkamDetailsBloc.add(
         GetAhkamDetails(ahkam_id: ahkam_id, user_id: GlobalWidget.user_id));
     _themeBloc.add(GetThemeStatus());
-    _showcaseBloc
-        .add(ShowcaseDetail(keys: [_one], buildContext: context));
+    _showcaseBloc.add(ShowcaseDetail(keys: [_one], buildContext: context));
     super.initState();
   }
 
@@ -76,17 +75,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
               backgroundColor = Colors.white;
             });
           } else if (state is AhkamDetailsSuccess) {
-            if (state.featureDiscovery) {
-              Timer(Duration(seconds: 2), () {
-                FeatureDiscovery.discoverFeatures(
-                  context,
-                  <String>{
-                    // Feature ids for every feature that you want to showcase in order.
-                    Strings.discoverFeatureAhkam,
-                  },
-                );
-              });
-            }
+            if (state.featureDiscovery) {}
           }
         }),
         BlocListener<ThemeBloc, ThemeState>(
@@ -248,46 +237,24 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
                   controller: (controller) {
                     _animationController = controller;
                   },
-                  child: DescribedFeatureOverlay(
-                    featureId:
-                        '${Strings.discoverFeatureAhkam}', // Unique id that identifies this overlay.
-                    tapTarget: Icon(Icons
-                        .favorite_border), // The widget that will be displayed as the tap target.
-                    title: Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        'مورد علاقه ها',
-                      ),
-                    ),
-                    description: Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        'برای اضافه کردن این احکام به عنوان مورد علاقه از این دکمه استفاده کنید.',
-                        textAlign: TextAlign.right,
-                      ),
-                    ),
-                    backgroundColor: IColors.brown,
-                    targetColor: Colors.white,
-                    textColor: Colors.white,
-                    child: InkResponse(
-                      onTap: () {
-                        _animationController.reset();
-                        _animationController.forward();
-                        likeIconState();
-                      },
-                      child: DecoratedIcon(
-                        state.liked == "true"
-                            ? iconState = Icons.favorite
-                            : iconState = Icons.favorite_border,
-                        size: 30,
-                        color: IColors.white85,
-                        shadows: [
-                          BoxShadow(
-                            blurRadius: 12.0,
-                            color: Colors.black54,
-                          ),
-                        ],
-                      ),
+                  child: InkResponse(
+                    onTap: () {
+                      _animationController.reset();
+                      _animationController.forward();
+                      likeIconState();
+                    },
+                    child: DecoratedIcon(
+                      state.liked == "true"
+                          ? iconState = Icons.favorite
+                          : iconState = Icons.favorite_border,
+                      size: 30,
+                      color: IColors.white85,
+                      shadows: [
+                        BoxShadow(
+                          blurRadius: 12.0,
+                          color: Colors.black54,
+                        ),
+                      ],
                     ),
                   ),
                 ),
