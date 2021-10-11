@@ -490,24 +490,37 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                       )
                     ],
                   ),
-                  Container(
-                    height: 128,
-                    child: ListView.builder(
-                        itemCount: 8,
-                        shrinkWrap: true,
-                        physics: BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return LiveTvItem(
-                            delete: false,
-                            title: "title",
-                            thumbPicture: "thumbPicture",
-                            onTap: () {},
-                            hash: "",
-                            isDarkMode: widget.isDarkMode,
-                            fontSize: widget.fontSize,
-                          );
-                        }),
+                  BlocBuilder<HomeBloc, HomeState>(
+                    builder: (context, state) {
+                      if (state is HomeLoading) {
+                        return Container();
+                      } else if (state is HomeSuccess) {
+                        return Container(
+                          height: 128,
+                          child: ListView.builder(
+                              itemCount: state.homeModel.liveTv.length,
+                              shrinkWrap: true,
+                              physics: BouncingScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return LiveTvItem(
+                                  delete: false,
+                                  title: state.homeModel.liveTv[index].name,
+                                  thumbPicture: state
+                                      .homeModel.liveTv[index].thumbPicture,
+                                  onTap: () {},
+                                  hash: state.homeModel.liveTv[index].blurhash,
+                                  isDarkMode: widget.isDarkMode,
+                                  fontSize: widget.fontSize,
+                                );
+                              }),
+                        );
+                      } else if (state is HomeFailure) {
+                        return Container();
+                      } else if (state is HomeInitial) {
+                        return Container();
+                      }
+                    },
                   ),
                 ],
               ),
