@@ -5,7 +5,7 @@ class HomeModel {
   List<Narratives> narratives;
   List<ShohadaBozorgan> shohadaBozorgan;
   Video video;
-  LiveTv liveTv;
+  List<LiveTv> liveTv;
 
   HomeModel(
       {this.error,
@@ -38,8 +38,12 @@ class HomeModel {
       });
     }
     video = json['video'] != null ? new Video.fromJson(json['video']) : null;
-    liveTv =
-        json['live_tv'] != null ? new LiveTv.fromJson(json['live_tv']) : null;
+    if (json['live_tv'] != null) {
+      liveTv = new List<LiveTv>();
+      json['live_tv'].forEach((v) {
+        liveTv.add(new LiveTv.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -60,7 +64,7 @@ class HomeModel {
       data['video'] = this.video.toJson();
     }
     if (this.liveTv != null) {
-      data['live_tv'] = this.liveTv.toJson();
+      data['live_tv'] = this.liveTv.map((v) => v.toJson()).toList();
     }
     return data;
   }
