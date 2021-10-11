@@ -5,6 +5,7 @@ class HomeModel {
   List<Narratives> narratives;
   List<ShohadaBozorgan> shohadaBozorgan;
   Video video;
+  LiveTv liveTv;
 
   HomeModel(
       {this.error,
@@ -12,7 +13,8 @@ class HomeModel {
       this.marjae,
       this.narratives,
       this.shohadaBozorgan,
-      this.video});
+      this.video,
+      this.liveTv});
 
   HomeModel.fromJson(Map<String, dynamic> json) {
     error = json['error'];
@@ -36,6 +38,8 @@ class HomeModel {
       });
     }
     video = json['video'] != null ? new Video.fromJson(json['video']) : null;
+    liveTv =
+        json['live_tv'] != null ? new LiveTv.fromJson(json['live_tv']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -54,6 +58,9 @@ class HomeModel {
     }
     if (this.video != null) {
       data['video'] = this.video.toJson();
+    }
+    if (this.liveTv != null) {
+      data['live_tv'] = this.liveTv.toJson();
     }
     return data;
   }
@@ -145,6 +152,7 @@ class ShohadaBozorgan {
   String pictureSizeXLarge;
   String titleText;
   String blurhash;
+  String homeOrderNumber;
 
   ShohadaBozorgan(
       {this.id,
@@ -153,7 +161,8 @@ class ShohadaBozorgan {
       this.pictureSizeLarge,
       this.pictureSizeXLarge,
       this.titleText,
-      this.blurhash});
+      this.blurhash,
+      this.homeOrderNumber});
 
   ShohadaBozorgan.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -163,6 +172,7 @@ class ShohadaBozorgan {
     pictureSizeXLarge = json['picture_size_x_large'];
     titleText = json['title_text'];
     blurhash = json['blurhash'];
+    homeOrderNumber = json['home_order_number'];
   }
 
   Map<String, dynamic> toJson() {
@@ -174,6 +184,7 @@ class ShohadaBozorgan {
     data['picture_size_x_large'] = this.pictureSizeXLarge;
     data['title_text'] = this.titleText;
     data['blurhash'] = this.blurhash;
+    data['home_order_number'] = this.homeOrderNumber;
     return data;
   }
 }
@@ -184,8 +195,17 @@ class Video {
   String video;
   String title;
   String blurhash;
+  String orderNumber;
+  String isPinned;
 
-  Video({this.id, this.thumbnail, this.video, this.title, this.blurhash});
+  Video(
+      {this.id,
+      this.thumbnail,
+      this.video,
+      this.title,
+      this.blurhash,
+      this.orderNumber,
+      this.isPinned});
 
   Video.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -193,6 +213,8 @@ class Video {
     video = json['video'];
     title = json['title'];
     blurhash = json['blurhash'];
+    orderNumber = json['order_number'];
+    isPinned = json['is_pinned'];
   }
 
   Map<String, dynamic> toJson() {
@@ -202,6 +224,45 @@ class Video {
     data['video'] = this.video;
     data['title'] = this.title;
     data['blurhash'] = this.blurhash;
+    data['order_number'] = this.orderNumber;
+    data['is_pinned'] = this.isPinned;
+    return data;
+  }
+}
+
+class LiveTv {
+  String id;
+  String name;
+  String stream;
+  String thumbPicture;
+  String blurhash;
+  String orderNumber;
+
+  LiveTv(
+      {this.id,
+      this.name,
+      this.stream,
+      this.thumbPicture,
+      this.blurhash,
+      this.orderNumber});
+
+  LiveTv.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    stream = json['stream'];
+    thumbPicture = json['thumb_picture'];
+    blurhash = json['blurhash'];
+    orderNumber = json['order_number'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['stream'] = this.stream;
+    data['thumb_picture'] = this.thumbPicture;
+    data['blurhash'] = this.blurhash;
+    data['order_number'] = this.orderNumber;
     return data;
   }
 }

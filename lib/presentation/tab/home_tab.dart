@@ -12,6 +12,7 @@ import 'package:namaz_app/constants/values.dart';
 import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/bloc/home_bloc.dart';
 import 'package:namaz_app/networking/api_provider.dart';
+import 'package:namaz_app/presentation/widget/live_tv_item.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/marjae_small_item.dart';
 import 'package:namaz_app/presentation/widget/narratives_item.dart';
@@ -423,6 +424,90 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                         return Container();
                       }
                     },
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "${Strings.homeOnlineTv}",
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 16 + widget.fontSize,
+                          fontWeight: FontWeight.w700,
+                          color: widget.isDarkMode
+                              ? IColors.darkWhite70
+                              : IColors.black70,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: widget.isDarkMode
+                                ? IColors.darkLightPink
+                                : IColors.purpleCrimson),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.live_tv,
+                                color: IColors.white85,
+                                size: 20,
+                              ),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              Container(
+                                color: Colors.transparent,
+                                child: Text(
+                                  "زنده",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: IColors.white85,
+                                  ),
+                                ),
+                              ),
+
+                              // Container(
+                              //   width: 8,
+                              //   height: 8,
+                              //   decoration: BoxDecoration(
+                              //     shape: BoxShape.circle,
+                              //     color: IColors.white85,
+                              //   ),
+                              // )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  Container(
+                    height: 128,
+                    child: ListView.builder(
+                        itemCount: 8,
+                        shrinkWrap: true,
+                        physics: BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return LiveTvItem(
+                            delete: false,
+                            title: "title",
+                            thumbPicture: "thumbPicture",
+                            onTap: () {},
+                            hash: "",
+                            isDarkMode: widget.isDarkMode,
+                            fontSize: widget.fontSize,
+                          );
+                        }),
                   ),
                 ],
               ),

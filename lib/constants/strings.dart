@@ -20,6 +20,7 @@ class Strings {
   static final String home = "خانه";
   static final String homeFavorite = "مورد علاقه";
   static final String homeMore = "بیشتر";
+  static final String homeOnlineTv = "تلوزیون آنلاین";
   static final String narratives = "آیات و روایات درباره نماز";
   static final String marjae = "مراجع تقلید و احکام نماز";
   static final String shohadaBozorgan = "سخنان شهدا و بزرگان درباره نماز";
