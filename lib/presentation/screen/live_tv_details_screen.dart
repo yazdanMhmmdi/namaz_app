@@ -11,18 +11,18 @@ import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
-class VideoDetailsScreen extends StatefulWidget {
+class LiveTvDetailsScreen extends StatefulWidget {
   Map<String, String> args;
-  VideoDetailsScreen({this.args});
+  LiveTvDetailsScreen({this.args});
   @override
-  _VideoDetailsScreenState createState() => _VideoDetailsScreenState();
+  _LiveTvDetailsScreenState createState() => _LiveTvDetailsScreenState();
 }
 
-class _VideoDetailsScreenState extends State<VideoDetailsScreen> {
+class _LiveTvDetailsScreenState extends State<LiveTvDetailsScreen> {
   Map<String, String> arguments;
 
   VideoDetailsBloc _videoDetailsBloc;
-  ThemeBloc _themeBloc;                       
+  ThemeBloc _themeBloc;
   String video_id;
   AnimationController _animationController;
   Icon iconState =
@@ -89,7 +89,7 @@ class _VideoDetailsScreenState extends State<VideoDetailsScreen> {
   }
 
   void _getArguments() {
-    video_id = arguments['video_id'];
+    video_id = arguments['live_tv_id'];
   }
 
   Widget getVideoDetailsUI(var state) {

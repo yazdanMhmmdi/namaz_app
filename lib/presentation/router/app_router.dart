@@ -23,6 +23,7 @@ import 'package:namaz_app/presentation/screen/ahkam_screen.dart';
 import 'package:namaz_app/presentation/screen/ahkam_show_screen.dart';
 import 'package:namaz_app/presentation/screen/home_screen.dart';
 import 'package:namaz_app/presentation/screen/intro_screen.dart';
+import 'package:namaz_app/presentation/screen/live_tv_details_screen.dart';
 import 'package:namaz_app/presentation/screen/marjae_screen.dart';
 import 'package:namaz_app/presentation/screen/narratives_screen.dart';
 import 'package:namaz_app/presentation/screen/narratives_show_screen.dart';
@@ -283,6 +284,26 @@ class AppRouter {
                         )
                       ],
                       child: VideoDetailsScreen(
+                        args: args,
+                      ),
+                    ));
+
+      case '/live_tv_details':
+        final Map<String, String> args = settings.arguments;
+        if (Platform.isWindows) _launchURL(args["video_id"]);
+        return (Platform.isWindows)
+            ? Container()
+            : MaterialPageRoute(
+                builder: (_) => MultiBlocProvider(
+                      providers: [
+                        BlocProvider(
+                          create: (context) => VideoDetailsBloc(),
+                        ),
+                        BlocProvider.value(
+                          value: _themeBloc,
+                        )
+                      ],
+                      child: LiveTvDetailsScreen(
                         args: args,
                       ),
                     ));
