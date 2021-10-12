@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/logic/bloc/ahkam_bloc.dart';
 import 'package:namaz_app/logic/bloc/ahkam_details_bloc.dart';
+import 'package:namaz_app/logic/bloc/live_tv_details_bloc.dart';
 import 'package:namaz_app/logic/bloc/showcase_bloc.dart';
 import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/bloc/home_bloc.dart';
@@ -290,14 +291,14 @@ class AppRouter {
 
       case '/live_tv_details':
         final Map<String, String> args = settings.arguments;
-        if (Platform.isWindows) _launchURL(args["video_id"]);
+        // if (Platform.isWindows) _launchURL(args["video_id"]);
         return (Platform.isWindows)
             ? Container()
             : MaterialPageRoute(
                 builder: (_) => MultiBlocProvider(
                       providers: [
                         BlocProvider(
-                          create: (context) => VideoDetailsBloc(),
+                          create: (context) => LiveTvDetailsBloc(),
                         ),
                         BlocProvider.value(
                           value: _themeBloc,

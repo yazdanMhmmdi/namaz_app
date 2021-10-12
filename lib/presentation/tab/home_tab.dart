@@ -13,6 +13,7 @@ import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/bloc/home_bloc.dart';
 import 'package:namaz_app/networking/api_provider.dart';
 import 'package:namaz_app/presentation/widget/live_tv_item.dart';
+import 'package:namaz_app/presentation/widget/live_tv_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/marjae_small_item.dart';
 import 'package:namaz_app/presentation/widget/narratives_item.dart';
@@ -445,49 +446,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                       SizedBox(
                         width: 8,
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: widget.isDarkMode
-                                ? IColors.darkLightPink
-                                : IColors.purpleCrimson),
-                        child: Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.live_tv,
-                                color: IColors.white85,
-                                size: 20,
-                              ),
-                              SizedBox(
-                                width: 4,
-                              ),
-                              Container(
-                                color: Colors.transparent,
-                                child: Text(
-                                  "زنده",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: IColors.white85,
-                                  ),
-                                ),
-                              ),
-
-                              // Container(
-                              //   width: 8,
-                              //   height: 8,
-                              //   decoration: BoxDecoration(
-                              //     shape: BoxShape.circle,
-                              //     color: IColors.white85,
-                              //   ),
-                              // )
-                            ],
-                          ),
-                        ),
-                      )
+                      LiveTvWidget(isDarkMode: widget.isDarkMode)
                     ],
                   ),
                   BlocBuilder<HomeBloc, HomeState>(
@@ -508,7 +467,12 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                                   title: state.homeModel.liveTv[index].name,
                                   thumbPicture: state
                                       .homeModel.liveTv[index].thumbPicture,
-                                  onTap: () {},
+                                  onTap: () => Navigator.pushNamed(
+                                      context, '/live_tv_details',
+                                      arguments: <String, String>{
+                                        "live_tv_id":
+                                            state.homeModel.liveTv[index].id,
+                                      }),
                                   hash: state.homeModel.liveTv[index].blurhash,
                                   isDarkMode: widget.isDarkMode,
                                   fontSize: widget.fontSize,

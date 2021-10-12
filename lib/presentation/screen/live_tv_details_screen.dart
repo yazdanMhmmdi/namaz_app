@@ -3,9 +3,11 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/colors.dart';
+import 'package:namaz_app/logic/bloc/live_tv_details_bloc.dart';
 import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/bloc/video_details_bloc.dart';
 import 'package:namaz_app/presentation/widget/global_widget.dart';
+import 'package:namaz_app/presentation/widget/live_tv_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
 import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -21,9 +23,9 @@ class LiveTvDetailsScreen extends StatefulWidget {
 class _LiveTvDetailsScreenState extends State<LiveTvDetailsScreen> {
   Map<String, String> arguments;
 
-  VideoDetailsBloc _videoDetailsBloc;
+  LiveTvDetailsBloc _liveTvDetailsBloc;
   ThemeBloc _themeBloc;
-  String video_id;
+  String liveTvId;
   AnimationController _animationController;
   Icon iconState =
       Icon(Icons.favorite_border, size: 30, color: IColors.white85);
@@ -36,21 +38,21 @@ class _LiveTvDetailsScreenState extends State<LiveTvDetailsScreen> {
     super.initState();
     arguments = widget.args;
     _getArguments();
-    _videoDetailsBloc = BlocProvider.of<VideoDetailsBloc>(context);
+    _liveTvDetailsBloc = BlocProvider.of<LiveTvDetailsBloc>(context);
     _themeBloc = BlocProvider.of<ThemeBloc>(context);
-    _videoDetailsBloc.add(GetVideoDetails(video_id: video_id));
+    _liveTvDetailsBloc.add(GetLiveTvDetails(liveTvId: liveTvId));
     _themeBloc.add(GetThemeStatus());
   }
 
   final _url = 'https://flutter.dev';
   @override
   Widget build(BuildContext context) {
-    print(video_id);
+    print(liveTvId);
     return MultiBlocListener(
       listeners: [
-        BlocListener<VideoDetailsBloc, VideoDetailsState>(
+        BlocListener<LiveTvDetailsBloc, LiveTvDetailsState>(
           listener: (context, state) {
-            if (state is VideoDetailsFailure) {
+            if (state is LiveTvDetailsFailure) {
               setState(() {
                 backgroundColor = Colors.white;
               });
@@ -64,19 +66,17 @@ class _LiveTvDetailsScreenState extends State<LiveTvDetailsScreen> {
       child: Scaffold(
           backgroundColor:
               _isDarkMode ? IColors.darkBackgroundColor : backgroundColor,
-          body: BlocBuilder<VideoDetailsBloc, VideoDetailsState>(
+          body: BlocBuilder<LiveTvDetailsBloc, LiveTvDetailsState>(
             builder: (context, state) {
-              if (state is VideoDetailsInitial) {
+              if (state is LiveTvDetailsInitial) {
                 return Container();
-              } else if (state is VideoDetailsLoading) {
+              } else if (state is LiveTvDetailsLoading) {
                 return LoadingBar(
                   color: Colors.white70,
                 );
-              } else if (state is VideoDetailsSuccess) {
+              } else if (state is LiveTvDetailsSuccess) {
                 return getVideoDetailsUI(state);
-              } else if (state is LikeSuccess) {
-                return getVideoDetailsUI(state);
-              } else if (state is VideoDetailsFailure) {
+              } else if (state is LiveTvDetailsFailure) {
                 return ServerFailureFlare(isDarkMode: _isDarkMode);
               }
             },
@@ -89,7 +89,7 @@ class _LiveTvDetailsScreenState extends State<LiveTvDetailsScreen> {
   }
 
   void _getArguments() {
-    video_id = arguments['live_tv_id'];
+    liveTvId = arguments['live_tv_id'];
   }
 
   Widget getVideoDetailsUI(var state) {
@@ -106,53 +106,42 @@ class _LiveTvDetailsScreenState extends State<LiveTvDetailsScreen> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () => Navigator.pop(context),
-                          icon: Icon(
-                            Icons.arrow_back,
-                            textDirection: TextDirection.rtl,
-                            color: IColors.white85,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 16,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width - 144,
-                          child: Text(
-                            "${state.videoDetailsModel.data.title}",
-                            style: TextStyle(
-                              fontSize: 16 + _fontSize,
-                              color: IColors.white85,
-                              fontWeight: FontWeight.bold,
+                    Flexible(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            child: IconButton(
+                              onPressed: () => Navigator.pop(context),
+                              icon: Icon(
+                                Icons.arrow_back,
+                                textDirection: TextDirection.rtl,
+                                color: IColors.white85,
+                              ),
                             ),
-                            overflow: TextOverflow.ellipsis,
                           ),
-                        ),
-                      ],
-                    ),
-                    ElasticIn(
-                      manualTrigger: true,
-                      animate: true,
-                      controller: (controller) {
-                        _animationController = controller;
-                      },
-                      child: IconButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: () {
-                          _animationController.reset();
-                          _animationController.forward();
-                          likeIconState();
-                        },
-                        icon: state.liked == "true"
-                            ? iconState = Icon(Icons.favorite,
-                                size: 30, color: IColors.white85)
-                            : iconState = Icon(Icons.favorite_border,
-                                size: 30, color: IColors.white85),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Flexible(
+                            child: Container(
+                              child: Text(
+                                "${state.liveTvDetailModel.data.name}",
+                                style: TextStyle(
+                                  fontSize: 16 + _fontSize,
+                                  color: IColors.white85,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                          Container(
+                              child: LiveTvWidget(isDarkMode: _isDarkMode)),
+                        ],
                       ),
                     ),
                   ],
@@ -162,23 +151,6 @@ class _LiveTvDetailsScreenState extends State<LiveTvDetailsScreen> {
           ),
         ),
       );
-    }
-  }
-
-  void likeIconState() {
-    if (iconState.icon == Icons.favorite_border) {
-      _videoDetailsBloc
-          .add(LikeVideo(user_id: GlobalWidget.user_id, video_id: video_id));
-      setState(() {
-        iconState = Icon(Icons.favorite, size: 30, color: IColors.white85);
-      });
-    } else {
-      _videoDetailsBloc
-          .add(DisLikeVideo(user_id: GlobalWidget.user_id, video_id: video_id));
-      setState(() {
-        iconState =
-            Icon(Icons.favorite_border, size: 30, color: IColors.white85);
-      });
     }
   }
 
@@ -204,9 +176,9 @@ class _LiveTvDetailsScreenState extends State<LiveTvDetailsScreen> {
 
   @override
   void dispose() {
-    _videoDetailsBloc.close();
-    _videoDetailsBloc.chewieController.dispose();
-    _videoDetailsBloc.videoPlayerController.dispose();
+    _liveTvDetailsBloc.close();
+    _liveTvDetailsBloc.chewieController.dispose();
+    _liveTvDetailsBloc.videoPlayerController.dispose();
     super.dispose();
   }
 }
