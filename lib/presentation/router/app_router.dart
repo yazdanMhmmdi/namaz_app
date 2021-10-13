@@ -25,6 +25,7 @@ import 'package:namaz_app/presentation/screen/ahkam_show_screen.dart';
 import 'package:namaz_app/presentation/screen/home_screen.dart';
 import 'package:namaz_app/presentation/screen/intro_screen.dart';
 import 'package:namaz_app/presentation/screen/live_tv_details_screen.dart';
+import 'package:namaz_app/presentation/screen/login_screen.dart';
 import 'package:namaz_app/presentation/screen/marjae_screen.dart';
 import 'package:namaz_app/presentation/screen/narratives_screen.dart';
 import 'package:namaz_app/presentation/screen/narratives_show_screen.dart';
@@ -87,6 +88,21 @@ class AppRouter {
                     BlocProvider(create: (context) => SignUpBloc())
                   ],
                   child: SignUpScreen(),
+                ));
+
+      case '/login':
+        return MaterialPageRoute(
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                      value: _internetCubit,
+                    ),
+                    BlocProvider.value(
+                      value: _themeBloc,
+                    ),
+                    BlocProvider(create: (context) => SignUpBloc())
+                  ],
+                  child: LoginScreen(),
                 ));
       case '/marjae':
         return MaterialPageRoute(

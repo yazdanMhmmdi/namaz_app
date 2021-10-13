@@ -11,6 +11,11 @@ class Strings {
       "رمز عبور نباید بیشتر از 16 کارکتر باشد.";
   static final String passwordErrorIsPassword =
       "رمز عبور باید بیشتر از 8 کاراکتر باشد.";
+        static final String notAccountSignUp = "حساب کاربری ندارید؟ ثبت نام";
+
+
+  static final String signedUpLogin = "ثبت نام کرده اید؟ ورود";
+  static final String logIn = "ورود";
 
   static final String homeVideos = "ویدئو های آموزشی";
   static final String homeMaraje = "مراجع تقلید و احکام نماز";

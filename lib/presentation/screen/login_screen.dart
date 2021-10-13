@@ -18,12 +18,12 @@ import 'package:namaz_app/presentation/widget/progress_button.dart';
 import 'package:namaz_app/presentation/widget/warning_bar.dart';
 import 'package:regexpattern/regexpattern.dart';
 
-class SignUpScreen extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
   @override
-  _SignUpScreenState createState() => _SignUpScreenState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   TextEditingController usernameController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
 
@@ -148,7 +148,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       SizedBox(height: 16),
                                       MyButton(
                                         buttonState: buttonState,
-                                        text: "${Strings.signUp}",
+                                        text: "${Strings.logIn}",
                                         onTap: () {
                                           if (_usernameStatus &&
                                               _passwordStatus) {
@@ -178,15 +178,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 8,
-                        ),
+                        SizedBox(height: 8),
                         FadeInAnimation(
                           0.5,
                           GestureDetector(
-                            onTap: () => Navigator.pushNamed(context, "/login"),
+                            onTap: () => Navigator.pushNamed(context, "/sign_up"),
                             child: Text(
-                              "${Strings.signedUpLogin}",
+                              "${Strings.notAccountSignUp}",
                               style: TextStyle(
                                 color: IColors.white85,
                                 fontSize: 14,
@@ -215,27 +213,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
       if (usernameController.text.isUsername()) {
         if (usernameController.text.length < 17) {
           if (usernameController.text.length >= 5) {
-            print('ready to sign up');
+            // print('ready to log in');
             setState(() {
               _usernameStatus = true;
             });
           } else {
-            print('no x');
-            print("name karbari nabayad kamtar az 5 raqam bashd");
+            // print('no x');
+            // print("name karbari nabayad kamtar az 5 raqam bashd");
             setState(() {
               _usernameStatus = false;
               usernameWarning = Strings.usernameErrorFiveCharrecter;
             });
           }
         } else {
-          print("name karbari bish az 17 raqam ast");
+          // print("name karbari bish az 17 raqam ast");
           setState(() {
             _usernameStatus = false;
             usernameWarning = Strings.usernameErrorSevenTeenCharrecter;
           });
         }
       } else {
-        print("name karbari nist");
+        // print("name karbari nist");
         setState(() {
           _usernameStatus = false;
           usernameWarning = Strings.usernameErrorIsUsername;
@@ -258,7 +256,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           }
         } else {}
       } else {
-        print("ramz oboor zaeiif ast");
+        // print("ramz oboor zaeiif ast");
         setState(() {
           passwordWarning = Strings.passwordErrorIsPassword;
           _passwordStatus = false;
