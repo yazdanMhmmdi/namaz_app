@@ -114,6 +114,8 @@ class _LiveTvDetailsScreenState extends State<LiveTvDetailsScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
+                            height: 45,
+                            color: Colors.transparent,
                             child: IconButton(
                               onPressed: () => Navigator.pop(context),
                               icon: Icon(
@@ -128,6 +130,8 @@ class _LiveTvDetailsScreenState extends State<LiveTvDetailsScreen> {
                           ),
                           Flexible(
                             child: Container(
+                              color: Colors.transparent,
+                              height: 35,
                               child: Text(
                                 "${state.liveTvDetailModel.data.name}",
                                 style: TextStyle(
