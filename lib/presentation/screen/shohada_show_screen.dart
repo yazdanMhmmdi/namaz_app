@@ -181,7 +181,7 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 32),
+          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 38),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
