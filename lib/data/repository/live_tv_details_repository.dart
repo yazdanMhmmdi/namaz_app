@@ -6,7 +6,7 @@ class LiveTvDetailsRepository {
 
   Future<LiveTvDetailModel> getLiveTvDetails(String live_tv_id) async {
     final response = await _apiProvider
-        .get('client_detail_live_tv.php?live_tv_id=${live_tv_id}');
+        .get('client_detail_live_tv_api.php?live_tv_id=${live_tv_id}');
     return LiveTvDetailModel.fromJson(response);
   }
 }
