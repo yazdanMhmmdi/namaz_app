@@ -60,6 +60,8 @@ class Strings {
   static final String authorCollege = "دانشکده فنی پسران قم";
   static final String pushPinned = "پین شده";
 
+  static final String narrativesSource = "منبع: ";
+
   static final String showcaseSwitchGuide =
       "برای تغییر رنگ برنامه به حالت تیره یا معمولی از این دکمه استفاده کنید.";
   static final String showcaseFontSizeGuide =

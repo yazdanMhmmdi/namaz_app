@@ -372,35 +372,46 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                           SizedBox(
                             height: 8,
                           ),
-                          Row(
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  "منبع: ",
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontSize: 16 + _fontSize,
-                                      fontWeight: FontWeight.w700,
-                                      color: _isDarkMode
-                                          ? IColors.darkWhite70
-                                          : IColors.black70),
+                          Container(
+                            color: Colors.transparent,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Container(
+                                  color: Colors.transparent,
+                                  child: Flexible(
+                                    child: Text(
+                                      "${Strings.narrativesSource}",
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontSize: 16 + _fontSize,
+                                          fontWeight: FontWeight.w700,
+                                          color: _isDarkMode
+                                              ? IColors.darkWhite70
+                                              : IColors.black70),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              Flexible(
-                                child: Text(
-                                  "${state.narrativesDetailsModel.data.source}",
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontSize: 14 + _fontSize,
-                                      fontWeight: FontWeight.w700,
-                                      color: _isDarkMode
-                                          ? IColors.darkWhite70
-                                          : IColors.black70),
+                                Container(
+                                  color: Colors.transparent,
+                                  child: Flexible(
+                                    child: Text(
+                                      "${state.narrativesDetailsModel.data.source}",
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontSize: 14 + _fontSize,
+                                          fontWeight: FontWeight.w700,
+                                          color: _isDarkMode
+                                              ? IColors.darkWhite70
+                                              : IColors.black70),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           )
                         ],
                       ),
