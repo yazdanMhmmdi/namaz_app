@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/assets.dart';
 import 'package:namaz_app/constants/colors.dart';
 import 'package:namaz_app/constants/strings.dart';
+import 'package:namaz_app/logic/bloc/login_bloc.dart';
 import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/bloc/sign_up_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
@@ -46,46 +47,14 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
-        BlocListener<SignUpBloc, SignUpState>(
+        BlocListener<LoginBloc, LoginState>(
           listener: (context, state) {
-            if (state is SignUpLoading) {
-              setState(() {
-                buttonState = ButtonState.loading;
-              });
-            } else if (state is SignUpSuccess) {
-              Timer(Duration(seconds: 2), () {
-                setState(() {
-                  buttonState = ButtonState.success;
-                });
-              });
-              Timer(Duration(seconds: 4), () {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/home', (route) => false);
-              });
-            } else if (state is SignUpFailure) {
-              Timer(Duration(seconds: 2), () {
-                setState(() {
-                  buttonState = ButtonState.fail;
-                });
-              });
-            }
+            buttonStateManagement(state);
           },
         ),
         BlocListener<InternetCubit, InternetState>(
           listener: (context, state) {
-            if (state is InternetConnected) {
-              setState(() {
-                backgroundColor = IColors.purpleCrimson;
-              });
-            } else if (state is InternetDisconnected) {
-              setState(() {
-                backgroundColor = Colors.white;
-              });
-            } else {
-              setState(() {
-                backgroundColor = Colors.white;
-              });
-            }
+            internetStateManagement(state);
           },
         ),
       ],
@@ -158,9 +127,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 passwordController
                                                         .text.length !=
                                                     0) {
-                                              BlocProvider.of<SignUpBloc>(
+                                              BlocProvider.of<LoginBloc>(
                                                       context)
-                                                  .add(SignUp(
+                                                  .add(TryLogin(
                                                       username:
                                                           usernameController
                                                               .text,
@@ -182,7 +151,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         FadeInAnimation(
                           0.5,
                           GestureDetector(
-                            onTap: () => Navigator.pushNamed(context, "/sign_up"),
+                            onTap: () =>
+                                Navigator.pushNamed(context, "/sign_up"),
                             child: Text(
                               "${Strings.notAccountSignUp}",
                               style: TextStyle(
@@ -263,5 +233,49 @@ class _LoginScreenState extends State<LoginScreen> {
         });
       }
     });
+  }
+
+  buttonStateManagement(LoginState state) {
+    if (state is LoginLoading) {
+      setState(() {
+        buttonState = ButtonState.loading;
+      });
+    } else if (state is LoginSuccess) {
+      Timer(Duration(seconds: 2), () {
+        setState(() {
+          buttonState = ButtonState.success;
+        });
+      });
+      Timer(Duration(seconds: 4), () {
+        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+      });
+    } else if (state is LoginFailure) {
+      Timer(Duration(seconds: 2), () {
+        setState(() {
+          buttonState = ButtonState.fail;
+        });
+        Timer(Duration(seconds: 2), () {
+          setState(() {
+            buttonState = ButtonState.idle;
+          });
+        });
+      });
+    }
+  }
+
+  internetStateManagement(InternetState state) {
+    if (state is InternetConnected) {
+      setState(() {
+        backgroundColor = IColors.purpleCrimson;
+      });
+    } else if (state is InternetDisconnected) {
+      setState(() {
+        backgroundColor = Colors.white;
+      });
+    } else {
+      setState(() {
+        backgroundColor = Colors.white;
+      });
+    }
   }
 }

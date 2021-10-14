@@ -48,44 +48,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
       listeners: [
         BlocListener<SignUpBloc, SignUpState>(
           listener: (context, state) {
-            if (state is SignUpLoading) {
-              setState(() {
-                buttonState = ButtonState.loading;
-              });
-            } else if (state is SignUpSuccess) {
-              Timer(Duration(seconds: 2), () {
-                setState(() {
-                  buttonState = ButtonState.success;
-                });
-              });
-              Timer(Duration(seconds: 4), () {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/home', (route) => false);
-              });
-            } else if (state is SignUpFailure) {
-              Timer(Duration(seconds: 2), () {
-                setState(() {
-                  buttonState = ButtonState.fail;
-                });
-              });
-            }
+            buttonStateManagement(state);
           },
         ),
         BlocListener<InternetCubit, InternetState>(
           listener: (context, state) {
-            if (state is InternetConnected) {
-              setState(() {
-                backgroundColor = IColors.purpleCrimson;
-              });
-            } else if (state is InternetDisconnected) {
-              setState(() {
-                backgroundColor = Colors.white;
-              });
-            } else {
-              setState(() {
-                backgroundColor = Colors.white;
-              });
-            }
+            intenetStateManagement(state);
           },
         ),
       ],
@@ -265,5 +233,49 @@ class _SignUpScreenState extends State<SignUpScreen> {
         });
       }
     });
+  }
+
+  void buttonStateManagement(SignUpState state) {
+    if (state is SignUpLoading) {
+      setState(() {
+        buttonState = ButtonState.loading;
+      });
+    } else if (state is SignUpSuccess) {
+      Timer(Duration(seconds: 2), () {
+        setState(() {
+          buttonState = ButtonState.success;
+        });
+      });
+      Timer(Duration(seconds: 4), () {
+        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+      });
+    } else if (state is SignUpFailure) {
+      Timer(Duration(seconds: 2), () {
+        setState(() {
+          buttonState = ButtonState.fail;
+        });
+        Timer(Duration(seconds: 2), () {
+          setState(() {
+            buttonState = ButtonState.idle;
+          });
+        });
+      });
+    }
+  }
+
+  void intenetStateManagement(InternetState state) {
+    if (state is InternetConnected) {
+      setState(() {
+        backgroundColor = IColors.purpleCrimson;
+      });
+    } else if (state is InternetDisconnected) {
+      setState(() {
+        backgroundColor = Colors.white;
+      });
+    } else {
+      setState(() {
+        backgroundColor = Colors.white;
+      });
+    }
   }
 }

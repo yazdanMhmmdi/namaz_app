@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/logic/bloc/ahkam_bloc.dart';
 import 'package:namaz_app/logic/bloc/ahkam_details_bloc.dart';
 import 'package:namaz_app/logic/bloc/live_tv_details_bloc.dart';
+import 'package:namaz_app/logic/bloc/login_bloc.dart';
 import 'package:namaz_app/logic/bloc/showcase_bloc.dart';
 import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/bloc/home_bloc.dart';
@@ -100,7 +101,7 @@ class AppRouter {
                     BlocProvider.value(
                       value: _themeBloc,
                     ),
-                    BlocProvider(create: (context) => SignUpBloc())
+                    BlocProvider(create: (context) => LoginBloc())
                   ],
                   child: LoginScreen(),
                 ));

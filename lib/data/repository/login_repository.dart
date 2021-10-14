@@ -1,7 +1,7 @@
 import 'package:namaz_app/data/model/login_model.dart';
 import 'package:namaz_app/networking/api_provider.dart';
 
-class SignUpRepository {
+class LoginRepository {
   ApiProvider _apiProvider = new ApiProvider();
 
   Future<LoginModel> login(String username, String password) async {
