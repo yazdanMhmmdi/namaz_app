@@ -244,6 +244,8 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                                       arguments: <String, String>{
                                         'marjae_id':
                                             state.homeModel.marjae[index].id,
+                                        'marjae_name':
+                                            state.homeModel.marjae[index].name
                                       }),
                                   title: state.homeModel.marjae[index].name,
                                   thumbPicture: state

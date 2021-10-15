@@ -36,6 +36,7 @@ class _AhkamScreenState extends State<AhkamScreen>
 
   Map<String, String> arguments;
   String marjae_id;
+  String marjae_name = "";
   AhkamBloc _ahkamBloc;
   ThemeBloc _themeBloc;
   bool lazyLoading = true;
@@ -150,6 +151,7 @@ class _AhkamScreenState extends State<AhkamScreen>
 
   void _getArguments() {
     marjae_id = arguments['marjae_id'];
+    marjae_name = arguments['marjae_name'];
   }
 
   Widget getAhkamUI(var state) {
@@ -167,7 +169,7 @@ class _AhkamScreenState extends State<AhkamScreen>
                   BackButtonWidget(onTap: () => Navigator.pop(context)),
                   Center(
                     child: Text(
-                      "${Strings.ahkam}",
+                      "${marjae_name}",
                       style: TextStyle(
                         fontSize: 18 + _fontSize,
                         fontWeight: FontWeight.w800,
