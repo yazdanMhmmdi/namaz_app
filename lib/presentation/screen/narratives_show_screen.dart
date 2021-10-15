@@ -319,6 +319,7 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                                             fontFamily: "nabi",
                                             fontSize: 16 + _fontSize,
                                             fontWeight: FontWeight.w700,
+                                            wordSpacing: 2,
                                             color: _isDarkMode
                                                 ? IColors.darkWhite70
                                                 : IColors.black70),
@@ -352,6 +353,7 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                                 fontFamily: "nabi",
                                 fontSize: 16 + _fontSize,
                                 fontWeight: FontWeight.w700,
+                                wordSpacing: 2,
                                 color: _isDarkMode
                                     ? IColors.darkWhite70
                                     : IColors.black45),
@@ -378,11 +380,9 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                               mainAxisSize: MainAxisSize.max,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                               
                                 Flexible(
                                   child: Text(
                                     "${Strings.narrativesSource} ${state.narrativesDetailsModel.data.source}",
-                                   
                                     style: TextStyle(
                                         fontSize: 14 + _fontSize,
                                         fontWeight: FontWeight.w700,
