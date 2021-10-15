@@ -245,7 +245,7 @@ class _ShohadaScreenState extends State<ShohadaScreen>
                     : Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Align(
-                          alignment: Alignment.topRight,
+                          alignment: Alignment.topCenter,
                           child: Wrap(
                             crossAxisAlignment: WrapCrossAlignment.end,
                             textDirection: TextDirection.rtl,

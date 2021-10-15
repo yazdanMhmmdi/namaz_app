@@ -101,9 +101,9 @@ class _MarjaeScreenState extends State<MarjaeScreen> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 16),
                               child: Align(
-                                  alignment: Alignment.topRight,
+                                  alignment: Alignment.topCenter,
                                   child: Wrap(
-                                    crossAxisAlignment: WrapCrossAlignment.end,
+                                    crossAxisAlignment: WrapCrossAlignment.center,
                                     textDirection: TextDirection.rtl,
                                     children: list,
                                   )),
