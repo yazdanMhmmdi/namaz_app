@@ -155,6 +155,12 @@ class NarrativesItem extends StatelessWidget {
                         ? IColors.darkLightPink65
                         : IColors.purpleCrimson65,
                   ),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(20),
+                    splashColor:
+                        isDarkMode ? IColors.darkLightPink10 : IColors.black15,
+                    onTap: onTap,
+                  ),
                 ),
               ),
             ],
