@@ -39,7 +39,7 @@ class _AhkamScreenState extends State<AhkamScreen>
 
   Map<String, String> arguments;
   String marjae_id;
-  String marjae_name = "";
+  String marjae_name = "", blurhash = "", picture_size_small = "";
   AhkamBloc _ahkamBloc;
   ThemeBloc _themeBloc;
   bool lazyLoading = true;
@@ -155,6 +155,8 @@ class _AhkamScreenState extends State<AhkamScreen>
   void _getArguments() {
     marjae_id = arguments['marjae_id'];
     marjae_name = arguments['marjae_name'];
+    picture_size_small = arguments['picture_size_small'];
+    blurhash = arguments['blurhash'];
   }
 
   Widget getAhkamUI(var state) {
@@ -232,11 +234,10 @@ class _AhkamScreenState extends State<AhkamScreen>
                                       child: OctoImage(
                                         image: CachedNetworkImageProvider(
                                             ApiProvider.IMAGE_PROVIDER +
-                                                state.ahkamModel.marjae
-                                                    .pictureSizeSmall),
+                                                picture_size_small),
                                         placeholderBuilder:
                                             OctoPlaceholder.blurHash(
-                                          state.ahkamModel.marjae.blurhash,
+                                          blurhash,
                                         ),
                                         errorBuilder:
                                             OctoError.icon(color: Colors.red),
