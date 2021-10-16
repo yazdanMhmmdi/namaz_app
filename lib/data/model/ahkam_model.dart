@@ -3,8 +3,10 @@ class AhkamModel {
   String error;
   String errorMessage;
   Data data;
+  Marjae marjae;
 
-  AhkamModel({this.ahkam, this.error, this.errorMessage, this.data});
+  AhkamModel(
+      {this.ahkam, this.error, this.errorMessage, this.data, this.marjae});
 
   AhkamModel.fromJson(Map<String, dynamic> json) {
     if (json['ahkam'] != null) {
@@ -16,6 +18,8 @@ class AhkamModel {
     error = json['error'];
     errorMessage = json['error_message'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    marjae =
+        json['marjae'] != null ? new Marjae.fromJson(json['marjae']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -27,6 +31,9 @@ class AhkamModel {
     data['error_message'] = this.errorMessage;
     if (this.data != null) {
       data['data'] = this.data.toJson();
+    }
+    if (this.marjae != null) {
+      data['marjae'] = this.marjae.toJson();
     }
     return data;
   }
@@ -75,6 +82,28 @@ class Data {
     data['total_pages'] = this.totalPages;
     data['current_page'] = this.currentPage;
     data['offset_page'] = this.offsetPage;
+    return data;
+  }
+}
+
+class Marjae {
+  String name;
+  String pictureSizeSmall;
+  String blurhash;
+
+  Marjae({this.name, this.pictureSizeSmall, this.blurhash});
+
+  Marjae.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    pictureSizeSmall = json['picture_size_small'];
+    blurhash = json['blurhash'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['picture_size_small'] = this.pictureSizeSmall;
+    data['blurhash'] = this.blurhash;
     return data;
   }
 }

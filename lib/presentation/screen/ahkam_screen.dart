@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:namaz_app/constants/assets.dart';
@@ -10,6 +11,7 @@ import 'package:namaz_app/logic/bloc/ahkam_bloc.dart';
 import 'package:namaz_app/logic/bloc/showcase_bloc.dart';
 import 'package:namaz_app/logic/bloc/theme_bloc.dart';
 import 'package:namaz_app/logic/cubit/internet_cubit.dart';
+import 'package:namaz_app/networking/api_provider.dart';
 import 'package:namaz_app/presentation/widget/ahkam_item.dart';
 import 'package:namaz_app/presentation/widget/back_button_widget.dart';
 import 'package:namaz_app/presentation/widget/loading_bar.dart';
@@ -21,6 +23,7 @@ import 'package:namaz_app/presentation/widget/server_failure_flare.dart';
 import 'package:namaz_app/presentation/widget/shohada_item.dart';
 import 'package:namaz_app/presentation/widget/showcase_helper_widget.dart';
 import 'package:namaz_app/presentation/widget/videos_item.dart';
+import 'package:octo_image/octo_image.dart';
 
 class AhkamScreen extends StatefulWidget {
   Map<String, String> args;
@@ -173,19 +176,6 @@ class _AhkamScreenState extends State<AhkamScreen>
                         height: 96,
                         child: Stack(
                           children: [
-                            Positioned(
-                              right: 0,
-                              top: 0,
-                              child: Container(
-                                width: 96,
-                                height: 96,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: _isDarkMode
-                                        ? IColors.purpleCrimson
-                                        : IColors.brown),
-                              ),
-                            ),
                             Padding(
                               padding: const EdgeInsets.only(right: 84),
                               child: Align(
@@ -200,14 +190,59 @@ class _AhkamScreenState extends State<AhkamScreen>
                                         topLeft: Radius.circular(20)),
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 8),
+                                    padding: const EdgeInsets.only(
+                                        right: 16, left: 8, top: 8, bottom: 8),
                                     child: Text(
                                       "${marjae_name}",
                                       style: TextStyle(
                                         fontSize: 16 + _fontSize,
                                         fontWeight: FontWeight.w800,
                                         color: IColors.white85,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              right: 0,
+                              child: Container(
+                                decoration: BoxDecoration(),
+                                child: Container(
+                                  width: 96,
+                                  height: 96,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                          color: _isDarkMode
+                                              ? IColors.purpleCrimson
+                                              : IColors.brown,
+                                          width: 5),
+                                      color: _isDarkMode
+                                          ? IColors.purpleCrimson
+                                          : IColors.brown),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: _isDarkMode
+                                            ? IColors.purpleCrimson
+                                            : IColors.brown),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: OctoImage(
+                                        image: CachedNetworkImageProvider(
+                                            ApiProvider.IMAGE_PROVIDER +
+                                                state.ahkamModel.marjae
+                                                    .pictureSizeSmall),
+                                        placeholderBuilder:
+                                            OctoPlaceholder.blurHash(
+                                          state.ahkamModel.marjae.blurhash,
+                                        ),
+                                        errorBuilder:
+                                            OctoError.icon(color: Colors.red),
+                                        imageBuilder:
+                                            OctoImageTransformer.circleAvatar(),
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
