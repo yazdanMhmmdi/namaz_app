@@ -159,25 +159,152 @@ class _AhkamScreenState extends State<AhkamScreen>
       controller: _controller,
       child: Directionality(
         textDirection: TextDirection.rtl,
-        child: Column(
+        child: Stack(
           children: [
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 214,
+                        height: 96,
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              right: 0,
+                              top: 0,
+                              child: Container(
+                                width: 96,
+                                height: 96,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: _isDarkMode
+                                        ? IColors.purpleCrimson
+                                        : IColors.brown),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 84),
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: _isDarkMode
+                                        ? IColors.purpleCrimson
+                                        : IColors.brown,
+                                    borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(20),
+                                        topLeft: Radius.circular(20)),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 8),
+                                    child: Text(
+                                      "${marjae_name}",
+                                      style: TextStyle(
+                                        fontSize: 16 + _fontSize,
+                                        fontWeight: FontWeight.w800,
+                                        color: IColors.white85,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 8),
+                SearchFieldWidget(
+                  isForward: isForward,
+                  animation: animation,
+                  searchTextController: searchTextController,
+                  isDarkMode: _isDarkMode,
+                  onChanged: (text) {
+                    print("searched text: ${text}");
+                    _ahkamBloc.add(
+                        SearchAhkamItems(marjae_id: marjae_id, search: text));
+                  },
+                ),
+                SizedBox(height: 16),
+                !emptyList
+                    ? searchLoading
+                        ? Container(
+                            height: MediaQuery.of(context).size.height - 180,
+                            child: LoadingBar(
+                              color: _isDarkMode
+                                  ? IColors.darkLightPink
+                                  : IColors.purpleCrimson,
+                            ))
+                        : Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: state.ahkamModel.ahkam.length,
+                                itemBuilder: (context, index) {
+                                  return AhkamItem(
+                                    title: state.ahkamModel.ahkam[index].title,
+                                    id: state.ahkamModel.ahkam[index].id,
+                                    ahkamNumber: state
+                                        .ahkamModel.ahkam[index].ahkamNumber,
+                                    deleteSlidable: false,
+                                    isDarkMode: _isDarkMode,
+                                    fontSize: _fontSize,
+                                    itemIndex: index,
+                                    needShowcase: false,
+                                    searchedText:
+                                        "${searchTextController.text}",
+                                    onTap: () => Navigator.pushNamed(
+                                        context, '/ahkam_show',
+                                        arguments: <String, String>{
+                                          'ahkam_id':
+                                              state.ahkamModel.ahkam[index].id,
+                                        }),
+                                  );
+                                },
+                              ),
+                            ),
+                          )
+                    : Container(
+                        height: MediaQuery.of(context).size.height - 180,
+                        child: Center(
+                            child: Text(
+                          Strings.noResultFound,
+                          style: TextStyle(
+                              color: _isDarkMode
+                                  ? IColors.darkWhite45
+                                  : IColors.black45),
+                        ))),
+                SizedBox(
+                  height: 8,
+                ),
+                lazyLoading
+                    ? LoadingBar(
+                        color: _isDarkMode
+                            ? IColors.darkLightPink
+                            : IColors.purpleCrimson,
+                      )
+                    : Container(),
+                SizedBox(
+                  height: 8,
+                ),
+              ],
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 16, right: 16, left: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   BackButtonWidget(onTap: () => Navigator.pop(context)),
-                  Center(
-                    child: Text(
-                      "${marjae_name}",
-                      style: TextStyle(
-                        fontSize: 18 + _fontSize,
-                        fontWeight: FontWeight.w800,
-                        color:
-                            _isDarkMode ? IColors.darkWhite70 : IColors.black70,
-                      ),
-                    ),
-                  ),
 
                   ShowcaseHelperWidget(
                     text: Strings.showcaseAhkamSearchGuide,
@@ -219,82 +346,6 @@ class _AhkamScreenState extends State<AhkamScreen>
                   // ),
                 ],
               ),
-            ),
-            SizedBox(height: 8),
-            SearchFieldWidget(
-              isForward: isForward,
-              animation: animation,
-              searchTextController: searchTextController,
-              isDarkMode: _isDarkMode,
-              onChanged: (text) {
-                print("searched text: ${text}");
-                _ahkamBloc
-                    .add(SearchAhkamItems(marjae_id: marjae_id, search: text));
-              },
-            ),
-            SizedBox(height: 16),
-            !emptyList
-                ? searchLoading
-                    ? Container(
-                        height: MediaQuery.of(context).size.height - 180,
-                        child: LoadingBar(
-                          color: _isDarkMode
-                              ? IColors.darkLightPink
-                              : IColors.purpleCrimson,
-                        ))
-                    : Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Align(
-                          alignment: Alignment.topRight,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: state.ahkamModel.ahkam.length,
-                            itemBuilder: (context, index) {
-                              return AhkamItem(
-                                title: state.ahkamModel.ahkam[index].title,
-                                id: state.ahkamModel.ahkam[index].id,
-                                ahkamNumber:
-                                    state.ahkamModel.ahkam[index].ahkamNumber,
-                                deleteSlidable: false,
-                                isDarkMode: _isDarkMode,
-                                fontSize: _fontSize,
-                                itemIndex: index,
-                                needShowcase: false,
-                                searchedText: "${searchTextController.text}",
-                                onTap: () => Navigator.pushNamed(
-                                    context, '/ahkam_show',
-                                    arguments: <String, String>{
-                                      'ahkam_id':
-                                          state.ahkamModel.ahkam[index].id,
-                                    }),
-                              );
-                            },
-                          ),
-                        ),
-                      )
-                : Container(
-                    height: MediaQuery.of(context).size.height - 180,
-                    child: Center(
-                        child: Text(
-                      Strings.noResultFound,
-                      style: TextStyle(
-                          color: _isDarkMode
-                              ? IColors.darkWhite45
-                              : IColors.black45),
-                    ))),
-            SizedBox(
-              height: 8,
-            ),
-            lazyLoading
-                ? LoadingBar(
-                    color: _isDarkMode
-                        ? IColors.darkLightPink
-                        : IColors.purpleCrimson,
-                  )
-                : Container(),
-            SizedBox(
-              height: 8,
             ),
           ],
         ),

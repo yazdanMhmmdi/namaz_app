@@ -103,11 +103,12 @@ class _MarjaeScreenState extends State<MarjaeScreen> {
                               child: Align(
                                   alignment: Alignment.topCenter,
                                   child: Wrap(
-                                    crossAxisAlignment: WrapCrossAlignment.center,
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.center,
                                     textDirection: TextDirection.rtl,
                                     children: list,
                                   )),
-                            )
+                            ),
                           ],
                         ),
                       ),
