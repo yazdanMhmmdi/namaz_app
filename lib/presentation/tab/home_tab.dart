@@ -245,7 +245,12 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                                         'marjae_id':
                                             state.homeModel.marjae[index].id,
                                         'marjae_name':
-                                            state.homeModel.marjae[index].name
+                                            state.homeModel.marjae[index].name,
+                                        'picture_size_small': state.homeModel
+                                            .marjae[index].pictureSizeSmall
+                                            .replaceAll('\r\n', ''),
+                                        'blurhash': state
+                                            .homeModel.marjae[index].blurhash,
                                       }),
                                   title: state.homeModel.marjae[index].name,
                                   thumbPicture: state
