@@ -151,8 +151,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         FadeInAnimation(
                           0.5,
                           GestureDetector(
-                            onTap: () =>
-                                Navigator.pushNamed(context, "/sign_up"),
+                            onTap: () => Navigator.pushNamedAndRemoveUntil(
+                                context, "/sign_up", (e) => false),
                             child: Text(
                               "${Strings.notAccountSignUp}",
                               style: TextStyle(

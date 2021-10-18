@@ -134,132 +134,134 @@ class _NarrativesScreenState extends State<NarrativesScreen>
     return SingleChildScrollView(
       controller: _controller,
       child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 16, right: 16, left: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  BackButtonWidget(onTap: () => Navigator.pop(context)),
-                  Text(
-                    "${Strings.narratives}",
-                    style: TextStyle(
-                      fontSize: 18 + _fontSize,
-                      fontWeight: FontWeight.w700,
-                      color:
-                          _isDarkMode ? IColors.darkWhite70 : IColors.black70,
-                    ),
-                  ),
-                  ShowcaseHelperWidget(
-                    text: Strings.showcaseNarrtivesSearchGuide,
-                    key: _one,
-                    duration: Duration(
-                        milliseconds: Values.showcaseAnimationTransitionSpeed),
-                    showcaseBackgroundColor: IColors.white85,
-                    fontSize: _fontSize,
-                    child: SearchButtonWidget(
-                        isSearching: isForward,
-                        onTap: !_clickProtectorSearch
-                            ? null
-                            : () {
-                                _clickProtectorSearch = false;
-                                Timer(Duration(milliseconds: 1000), () {
-                                  _clickProtectorSearch = true;
-                                });
-                                setState(() {
-                                  if (!isForward) {
-                                    animationController.forward();
-                                    isForward = true;
-                                  } else {
-                                    animationController.reverse();
-                                    Timer(Duration(milliseconds: 1000), () {
-                                      isForward = false;
-                                      searchTextController.text = "";
-                                      _narrativesBloc.add(SearchNarrativesItems(
-                                          search: searchTextController.text));
-                                    });
-                                  }
-                                });
-                              }),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 8),
-            SearchFieldWidget(
-                isForward: isForward,
-                animation: animation,
-                searchTextController: searchTextController,
-                isDarkMode: _isDarkMode,
-                onChanged: (text) {
-                  print("searched text: ${text}");
-                  _narrativesBloc.add(SearchNarrativesItems(search: text));
-                }),
-            SizedBox(height: 16),
-            !emptyList
-                ? searchLoading
-                    ? Container(
-                        height: MediaQuery.of(context).size.height - 180,
-                        child: LoadingBar(
-                            color: _isDarkMode
-                                ? IColors.darkLightPink
-                                : IColors.purpleCrimson))
-                    : Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: state.narrativesModel.narratives.length,
-                          itemBuilder: (context, index) {
-                            return NarrativesItem(
-                              id: state.narrativesModel.narratives[index].id,
-                              searchedText: searchTextController.text,
-                              onTap: () => Navigator.pushNamed(
-                                  context, '/narratives_show',
-                                  arguments: <String, String>{
-                                    "narratives_id": state
-                                        .narrativesModel.narratives[index].id,
-                                  }),
-                              deleteSlidable: false,
-                              needShowcase: false,
-                              isDarkMode: _isDarkMode,
-                              fontSize: _fontSize,
-                              title: state.narrativesModel.narratives[index]
-                                  .quoteeTranslation,
-                              subTitle: state.narrativesModel.narratives[index]
-                                  .quoteTranslation,
-                              itemIndex: index,
-                            );
-                          },
-                        ),
-                      )
-                : Container(
-                    height: MediaQuery.of(context).size.height - 180,
-                    child: Center(
-                        child: Text(
-                      Strings.noResultFound,
+          textDirection: TextDirection.rtl,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 16, right: 16, left: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    BackButtonWidget(onTap: () => Navigator.pop(context)),
+                    Text(
+                      "${Strings.narratives}",
                       style: TextStyle(
-                          color: _isDarkMode
-                              ? IColors.darkWhite45
-                              : IColors.black45),
-                    ))),
-            SizedBox(
-              height: 8,
-            ),
-            lazyLoading
-                ? LoadingBar(
-                    color: _isDarkMode
-                        ? IColors.darkLightPink
-                        : IColors.purpleCrimson)
-                : Container(),
-            SizedBox(
-              height: 16,
-            ),
-          ],
-        ),
-      ),
+                        fontSize: 18 + _fontSize,
+                        fontWeight: FontWeight.w700,
+                        color:
+                            _isDarkMode ? IColors.darkWhite70 : IColors.black70,
+                      ),
+                    ),
+                    ShowcaseHelperWidget(
+                      text: Strings.showcaseNarrtivesSearchGuide,
+                      key: _one,
+                      duration: Duration(
+                          milliseconds:
+                              Values.showcaseAnimationTransitionSpeed),
+                      showcaseBackgroundColor: IColors.white85,
+                      fontSize: _fontSize,
+                      child: SearchButtonWidget(
+                          isSearching: isForward,
+                          onTap: !_clickProtectorSearch
+                              ? null
+                              : () {
+                                  _clickProtectorSearch = false;
+                                  Timer(Duration(milliseconds: 1000), () {
+                                    _clickProtectorSearch = true;
+                                  });
+                                  setState(() {
+                                    if (!isForward) {
+                                      animationController.forward();
+                                      isForward = true;
+                                    } else {
+                                      animationController.reverse();
+                                      Timer(Duration(milliseconds: 1000), () {
+                                        isForward = false;
+                                        searchTextController.text = "";
+                                        _narrativesBloc.add(
+                                            SearchNarrativesItems(
+                                                search:
+                                                    searchTextController.text));
+                                      });
+                                    }
+                                  });
+                                }),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 8),
+              SearchFieldWidget(
+                  isForward: isForward,
+                  animation: animation,
+                  searchTextController: searchTextController,
+                  isDarkMode: _isDarkMode,
+                  onChanged: (text) {
+                    print("searched text: ${text}");
+                    _narrativesBloc.add(SearchNarrativesItems(search: text));
+                  }),
+              SizedBox(height: 16),
+              !emptyList
+                  ? searchLoading
+                      ? Container(
+                          height: MediaQuery.of(context).size.height - 180,
+                          child: LoadingBar(
+                              color: _isDarkMode
+                                  ? IColors.darkLightPink
+                                  : IColors.purpleCrimson))
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: state.narrativesModel.narratives.length,
+                            itemBuilder: (context, index) {
+                              return NarrativesItem(
+                                id: state.narrativesModel.narratives[index].id,
+                                searchedText: searchTextController.text,
+                                onTap: () => Navigator.pushNamed(
+                                    context, '/narratives_show',
+                                    arguments: <String, String>{
+                                      "narratives_id": state
+                                          .narrativesModel.narratives[index].id,
+                                    }),
+                                deleteSlidable: false,
+                                needShowcase: false,
+                                isDarkMode: _isDarkMode,
+                                fontSize: _fontSize,
+                                title: state.narrativesModel.narratives[index]
+                                    .quoteeTranslation,
+                                subTitle: state.narrativesModel
+                                    .narratives[index].quoteTranslation,
+                                itemIndex: index,
+                              );
+                            },
+                          ),
+                        )
+                  : Container(
+                      height: MediaQuery.of(context).size.height - 180,
+                      child: Center(
+                          child: Text(
+                        Strings.noResultFound,
+                        style: TextStyle(
+                            color: _isDarkMode
+                                ? IColors.darkWhite45
+                                : IColors.black45),
+                      ))),
+              SizedBox(
+                height: 8,
+              ),
+              lazyLoading
+                  ? LoadingBar(
+                      color: _isDarkMode
+                          ? IColors.darkLightPink
+                          : IColors.purpleCrimson)
+                  : Container(),
+              SizedBox(
+                height: 16,
+              ),
+            ],
+          )),
     );
   }
 
