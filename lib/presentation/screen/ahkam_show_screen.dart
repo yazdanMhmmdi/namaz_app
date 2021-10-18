@@ -74,9 +74,7 @@ class _AhkamShowScreenState extends State<AhkamShowScreen> {
             setState(() {
               backgroundColor = Colors.white;
             });
-          } else if (state is AhkamDetailsSuccess) {
-            if (state.featureDiscovery) {}
-          }
+          } else if (state is AhkamDetailsSuccess) {}
         }),
         BlocListener<ThemeBloc, ThemeState>(
           listener: (context, state) {

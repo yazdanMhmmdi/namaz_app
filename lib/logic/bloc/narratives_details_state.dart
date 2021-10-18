@@ -14,13 +14,12 @@ class NarrativesDetailsLoading extends NarrativesDetailsState {}
 class NarrativesDetailsSuccess extends NarrativesDetailsState {
   NarrativesDetailsModel narrativesDetailsModel;
   String liked;
-  bool featureDiscovery;
-  NarrativesDetailsSuccess(
-      {this.narrativesDetailsModel, this.liked, this.featureDiscovery});
+  NarrativesDetailsSuccess({
+    this.narrativesDetailsModel,
+    this.liked,
+  });
   @override
-  // TODO: implement props
-  List<Object> get props =>
-      [this.narrativesDetailsModel, this.liked, this.featureDiscovery];
+  List<Object> get props => [this.narrativesDetailsModel, this.liked];
 }
 
 class NarrativesDetailsFailure extends NarrativesDetailsState {}

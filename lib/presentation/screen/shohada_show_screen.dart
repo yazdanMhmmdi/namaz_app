@@ -76,9 +76,7 @@ class _ShohadaShowScreenState extends State<ShohadaShowScreen>
                 backgroundColor =
                     _isDarkMode ? IColors.darkBackgroundColor : Colors.white;
               });
-            } else if (state is ShohadaDetailsSuccess) {
-              if (state.featureDiscovery) {}
-            }
+            } else if (state is ShohadaDetailsSuccess) {}
           },
         ),
         BlocListener<ThemeBloc, ThemeState>(

@@ -18,8 +18,6 @@ class ShohadaDetailsBloc
   ShohadaDetailsModel _model;
   String liked = "false";
   SharedPreferences prefs;
-  bool featureDiscovery = false;
-  String blurHash;
   @override
   Stream<ShohadaDetailsState> mapEventToState(
     ShohadaDetailsEvent event,
@@ -29,16 +27,12 @@ class ShohadaDetailsBloc
         yield ShohadaDetailsLoading();
         _model = await _repository.getShohadaDetails(
             event.shohada_id, GlobalWidget.user_id);
-        blurHash = await GlobalWidget.blurHashEncode(_model.data.pictureSizeXLarge);
         if (_model.error == "0") {
           liked = _model.data.liked.toString();
-          await experienceFeatureDiscovery();
 
           yield ShohadaDetailsSuccess(
             shohadaDetailsModel: _model,
             liked: liked,
-            featureDiscovery: featureDiscovery,
-            blurHash: blurHash,
           );
         } else {
           yield ShohadaDetailsFailure();
@@ -73,17 +67,4 @@ class ShohadaDetailsBloc
     }
   }
 
-  Future<void> experienceFeatureDiscovery() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    SharedPreferences preferences = prefs;
-
-    if (preferences.getString("fav") == null) {
-      print("not defined");
-      featureDiscovery = true;
-      await prefs.setString("fav", "false");
-    } else {
-      featureDiscovery = false;
-      print("defined");
-    }
-  }
 }

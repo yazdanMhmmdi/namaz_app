@@ -20,7 +20,6 @@ class NarrativesDetailsBloc
   NarrativesDetailsModel _model;
   LikeNarrativesModel _likeNarrativesModel;
   String liked = "false";
-  bool featureDiscovery = false;
 
   @override
   Stream<NarrativesDetailsState> mapEventToState(
@@ -33,11 +32,8 @@ class NarrativesDetailsBloc
             event.narratives_id, GlobalWidget.user_id);
         if (_model.error == "0") {
           liked = _model.data.liked.toString();
-          await experienceFeatureDiscovery();
           yield NarrativesDetailsSuccess(
-              narrativesDetailsModel: _model,
-              liked: liked,
-              featureDiscovery: featureDiscovery);
+              narrativesDetailsModel: _model, liked: liked);
         } else {
           yield NarrativesDetailsFailure();
         }
@@ -75,17 +71,17 @@ class NarrativesDetailsBloc
     }
   }
 
-  Future<void> experienceFeatureDiscovery() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    SharedPreferences preferences = prefs;
+  // Future<void> experienceFeatureDiscovery() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   SharedPreferences preferences = prefs;
 
-    if (preferences.getString("fav") == null) {
-      print("not defined");
-      featureDiscovery = true;
-      await prefs.setString("fav", "false");
-    } else {
-      featureDiscovery = false;
-      print("defined");
-    }
-  }
+  //   if (preferences.getString("fav") == null) {
+  //     print("not defined");
+  //     featureDiscovery = true;
+  //     await prefs.setString("fav", "false");
+  //   } else {
+  //     featureDiscovery = false;
+  //     print("defined");
+  //   }
+  // }
 }

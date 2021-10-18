@@ -17,7 +17,6 @@ class AhkamDetailsBloc extends Bloc<AhkamDetailsEvent, AhkamDetailsState> {
   AhkamDetailsModel _model;
   LikeAhkamModel _likeAhkamModel;
   String liked = "false";
-  bool featureDiscovery = false;
   @override
   Stream<AhkamDetailsState> mapEventToState(
     AhkamDetailsEvent event,
@@ -29,8 +28,7 @@ class AhkamDetailsBloc extends Bloc<AhkamDetailsEvent, AhkamDetailsState> {
             await _repository.getAhkamDetails(event.ahkam_id, event.user_id);
         if (_model.error == "0") {
           liked = _model.data.liked.toString();
-          await experienceFeatureDiscovery();
-          yield AhkamDetailsSuccess(ahkamDetailsModel: _model, liked: liked,featureDiscovery: featureDiscovery);
+          yield AhkamDetailsSuccess(ahkamDetailsModel: _model, liked: liked);
         } else {
           yield AhkamDetailsFailure();
         }
@@ -66,17 +64,17 @@ class AhkamDetailsBloc extends Bloc<AhkamDetailsEvent, AhkamDetailsState> {
     }
   }
 
-    Future<void> experienceFeatureDiscovery() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    SharedPreferences preferences = prefs;
+  //   Future<void> experienceFeatureDiscovery() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   SharedPreferences preferences = prefs;
 
-    if (preferences.getString("fav") == null) {
-      print("not defined");
-      featureDiscovery = true;
-      await prefs.setString("fav", "false");
-    } else {
-      featureDiscovery = false;
-      print("defined");
-    }
-  }
+  //   if (preferences.getString("fav") == null) {
+  //     print("not defined");
+  //     featureDiscovery = true;
+  //     await prefs.setString("fav", "false");
+  //   } else {
+  //     featureDiscovery = false;
+  //     print("defined");
+  //   }
+  // }
 }

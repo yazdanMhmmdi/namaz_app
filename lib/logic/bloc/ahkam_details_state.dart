@@ -14,11 +14,13 @@ class AhkamDetailsLoading extends AhkamDetailsState {}
 class AhkamDetailsSuccess extends AhkamDetailsState {
   AhkamDetailsModel ahkamDetailsModel;
   String liked;
-  bool featureDiscovery;
-  AhkamDetailsSuccess({@required this.ahkamDetailsModel, @required this.liked, this.featureDiscovery});
+  AhkamDetailsSuccess({
+    @required this.ahkamDetailsModel,
+    @required this.liked,
+  });
 
   @override
-  List<Object> get props => [this.ahkamDetailsModel, this.liked,this.featureDiscovery];
+  List<Object> get props => [this.ahkamDetailsModel, this.liked];
 }
 
 class AhkamDetailsFailure extends AhkamDetailsState {}

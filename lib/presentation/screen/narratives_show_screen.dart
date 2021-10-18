@@ -81,9 +81,7 @@ class _NarrativesShowScreenState extends State<NarrativesShowScreen>
                 backgroundColor =
                     _isDarkMode ? IColors.darkBackgroundColor : Colors.white;
               });
-            } else if (state is NarrativesDetailsSuccess) {
-              if (state.featureDiscovery) {}
-            }
+            } else if (state is NarrativesDetailsSuccess) {}
           },
         ),
         BlocListener<ThemeBloc, ThemeState>(
