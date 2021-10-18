@@ -64,13 +64,7 @@ class _NarrativesScreenState extends State<NarrativesScreen>
     return MultiBlocListener(
       listeners: [
         BlocListener<NarrativesBloc, NarrativesState>(
-          listener: (context, state) {
-            if (state is NarrativesLazyLoading) {
-              lazyLoading = true;
-            } else if (state is NarrativesSuccess) {
-              lazyLoading = false;
-            }
-          },
+          listener: (context, state) {},
         ),
         BlocListener<ThemeBloc, ThemeState>(
           listener: (context, state) {
@@ -97,6 +91,7 @@ class _NarrativesScreenState extends State<NarrativesScreen>
                             ? IColors.darkLightPink
                             : IColors.purpleCrimson);
                   } else if (state is NarrativesLazyLoading) {
+                    lazyLoading = true;
                     return narrativesUI(state);
                   } else if (state is NarrativesSuccess) {
                     emptyList = false;
@@ -260,7 +255,7 @@ class _NarrativesScreenState extends State<NarrativesScreen>
                         : IColors.purpleCrimson)
                 : Container(),
             SizedBox(
-              height: 8,
+              height: 16,
             ),
           ],
         ),

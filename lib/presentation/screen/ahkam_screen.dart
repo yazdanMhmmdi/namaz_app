@@ -115,9 +115,10 @@ class _AhkamScreenState extends State<AhkamScreen>
                   } else if (state is AhkamSuccess) {
                     emptyList = false;
                     searchLoading = false;
-                    lazyLoading = false; // new added
+                    // lazyLoading = false; // new added
                     return getAhkamUI(state);
                   } else if (state is AhkamLazyLoading) {
+                    lazyLoading = true;
                     return getAhkamUI(state);
                   } else if (state is AhkamListCompleted) {
                     lazyLoading = false;
@@ -331,7 +332,7 @@ class _AhkamScreenState extends State<AhkamScreen>
                       )
                     : Container(),
                 SizedBox(
-                  height: 8,
+                  height: 16,
                 ),
               ],
             ),
