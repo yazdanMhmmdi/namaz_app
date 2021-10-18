@@ -185,9 +185,7 @@ class _AhkamScreenState extends State<AhkamScreen>
                                 alignment: Alignment.centerRight,
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: _isDarkMode
-                                        ? IColors.purpleCrimson
-                                        : IColors.brown,
+                                    color: IColors.brown,
                                     borderRadius: BorderRadius.only(
                                         bottomLeft: Radius.circular(20),
                                         topLeft: Radius.circular(20)),
@@ -217,13 +215,8 @@ class _AhkamScreenState extends State<AhkamScreen>
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       border: Border.all(
-                                          color: _isDarkMode
-                                              ? IColors.purpleCrimson
-                                              : IColors.brown,
-                                          width: 5),
-                                      color: _isDarkMode
-                                          ? IColors.purpleCrimson
-                                          : IColors.brown),
+                                          color: IColors.brown, width: 5),
+                                      color: IColors.brown),
                                   child: Container(
                                     decoration: BoxDecoration(
                                         shape: BoxShape.circle,
