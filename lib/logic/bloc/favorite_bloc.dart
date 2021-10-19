@@ -110,6 +110,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
                 ahkamNumber: _model.ahkam[index].ahkamNumber,
                 itemIndex: index,
                 needShowcase: true,
+                marjae_name: _model.ahkam[index].marjaeName,
                 onTap: () => Navigator.pushNamed(context, '/ahkam_show',
                     arguments: <String, String>{
                       "ahkam_id": _model.ahkam[index].ahkamId,

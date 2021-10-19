@@ -17,6 +17,7 @@ class AhkamItem extends StatelessWidget {
   FavoriteBloc favoriteBloc;
   String searchedText;
   String ahkamNumber;
+  String marjae_name = "";
   bool isDarkMode = false;
   double fontSize = 0;
   int itemIndex = 0;
@@ -33,6 +34,7 @@ class AhkamItem extends StatelessWidget {
     @required this.fontSize,
     @required this.itemIndex,
     @required this.needShowcase,
+    this.marjae_name,
     this.favoriteBloc,
     this.searchedText,
   });
@@ -76,7 +78,6 @@ class AhkamItem extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 8),
         child: Container(
           width: MediaQuery.of(context).size.width - 32,
-          height: 46,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               color: isDarkMode ? IColors.darkBlack07 : Colors.white),
@@ -89,43 +90,59 @@ class AhkamItem extends StatelessWidget {
                   : IColors.purpleCrimson25,
               borderRadius: BorderRadius.circular(20),
               child: Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Align(
-                        alignment: Alignment.centerRight,
-                        child: Stack(
-                          children: [
-                            Image.asset(Assets.smallShamse),
-                            Container(
-                              width: 30,
-                              height: 30,
-                              child: Center(
-                                child: Text(
-                                  "${ahkamNumber}",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 14 + fontSize,
-                                    fontWeight: FontWeight.w700,
-                                    color: IColors.brown,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Align(
+                            alignment: Alignment.centerRight,
+                            child: Stack(
+                              children: [
+                                Image.asset(Assets.smallShamse),
+                                Container(
+                                  width: 30,
+                                  height: 30,
+                                  child: Center(
+                                    child: Text(
+                                      "${ahkamNumber}",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 14 + fontSize,
+                                        fontWeight: FontWeight.w700,
+                                        color: IColors.brown,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
+                              ],
+                            )),
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8, right: 8),
+                            child: RichText(
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              text: searchMatch('${title}'),
                             ),
-                          ],
-                        )),
-                    Flexible(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8, right: 8),
-                        child: RichText(
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          text: searchMatch('${title}'),
-                        ),
-                      ),
-                    )
+                          ),
+                        )
+                      ],
+                    ),
+                    marjae_name == "" || marjae_name == null
+                        ? Container()
+                        : Padding(
+                            padding: const EdgeInsets.only(right: 38),
+                            child: Text("${marjae_name}",
+                                style: TextStyle(
+                                    fontSize: 14 + fontSize,
+                                    fontWeight: FontWeight.bold,
+                                    color: IColors.purpleCrimson)),
+                          )
                   ],
                 ),
               ),

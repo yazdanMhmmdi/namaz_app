@@ -69,15 +69,23 @@ class Ahkam {
   String ahkamId;
   String userId;
   String title;
+  String marjaeName;
   String ahkamNumber;
 
-  Ahkam({this.id, this.ahkamId, this.userId, this.title, this.ahkamNumber});
+  Ahkam(
+      {this.id,
+      this.ahkamId,
+      this.userId,
+      this.title,
+      this.marjaeName,
+      this.ahkamNumber});
 
   Ahkam.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     ahkamId = json['ahkam_id'];
     userId = json['user_id'];
     title = json['title'];
+    marjaeName = json['marjae_name'];
     ahkamNumber = json['ahkam_number'];
   }
 
@@ -87,6 +95,7 @@ class Ahkam {
     data['ahkam_id'] = this.ahkamId;
     data['user_id'] = this.userId;
     data['title'] = this.title;
+    data['marjae_name'] = this.marjaeName;
     data['ahkam_number'] = this.ahkamNumber;
     return data;
   }
