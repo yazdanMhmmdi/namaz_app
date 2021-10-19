@@ -141,7 +141,9 @@ class AhkamItem extends StatelessWidget {
                                 style: TextStyle(
                                     fontSize: 14 + fontSize,
                                     fontWeight: FontWeight.bold,
-                                    color: IColors.purpleCrimson)),
+                                    color: isDarkMode
+                                        ? IColors.brown
+                                        : IColors.purpleCrimson)),
                           )
                   ],
                 ),
